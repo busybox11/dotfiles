@@ -285,4 +285,3 @@ client.background       $bg
 
 exec --no-startup-id i3-msg 'exec /usr/bin/pulseaudio --start
 exec --no-startup-id $HOME/.config/polybar/launch.sh
-# exec --no-startup-id /home/busybox/cripts/spotify/launchlistener.sh
