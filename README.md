@@ -13,5 +13,7 @@ I featured my desktop [here](https://www.reddit.com/r/i3wm/comments/gntknz/im_on
 - python3 + python3-pip
 - spotipy (pip3)
 - pulseaudio
+- maim
+- xclip
 
 Check [busybox11/spotify-polybar](https://github.com/busybox11/spotify-polybar) to install only my polybar config with my Spotify module.
