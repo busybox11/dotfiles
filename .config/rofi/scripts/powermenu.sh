@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rofi_command="rofi -theme /home/busybox/.config/rofi/themes/powermenu.rasi"
+rofi_command="rofi -theme ~/.config/rofi/themes/powermenu.rasi"
 
 ### Options ###
 power_off=""
