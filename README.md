@@ -10,6 +10,7 @@ I featured my desktop [here](https://www.reddit.com/r/i3wm/comments/gntknz/im_on
 - compton-tryone
 - pywal
 - feh
+- rofi
 - python3 + python3-pip
 - spotipy (pip3)
 - pulseaudio
