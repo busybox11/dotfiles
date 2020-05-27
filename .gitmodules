@@ -1,0 +1,3 @@
+[submodule ".config/polybar"]
+	path = .config/polybar
+	url = https://github.com/busybox11/spotify-polybar
