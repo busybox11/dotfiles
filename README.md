@@ -49,7 +49,7 @@ Run it once to make sure that everything works, if it does, the setup is finishe
 
 ## Credits
 - [Rofi-spotlight](https://github.com/manilarome/rofi-spotlight.git) by [manilarome](https://github.com/manilarome]
-- [Polybar theme template](https://github.com/adi1090x/polybar-themes) by [adi1090x)(https://github.com/adi1090x)
+- [Polybar theme template](https://github.com/adi1090x/polybar-themes) by [adi1090x](https://github.com/adi1090x)
 - [rofi-menus](https://gitlab.com/vahnrr/rofi-menus) by [vahnrr](https://gitlab.com/vahnrr)
 
 Check [busybox11/spotify-polybar](https://github.com/busybox11/spotify-polybar) to install only my polybar config with my Spotify module.
