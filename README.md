@@ -19,6 +19,7 @@ I featured my desktop [here](https://www.reddit.com/r/i3wm/comments/gntknz/im_on
 - maim
 - xclip
 - xdotools
+- kitty
 
 ## **Required modifications for polybar-spotify**
 
