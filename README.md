@@ -5,6 +5,8 @@ I featured my desktop [here](https://www.reddit.com/r/i3wm/comments/gntknz/im_on
 ![Screenshot of my desktop](https://i.redd.it/kr7vp05n53051.png)
 
 ## How to install
+**Recursive clone is needed for polybar config to be installed!**
+
 ### Required packages
 - i3-gaps
 - compton-tryone
