@@ -22,6 +22,7 @@ I featured my desktop [here](https://www.reddit.com/r/i3wm/comments/gntknz/im_on
 - kitty
 - ffmpeg
 - xrandr
+- wget
 
 ## **Required modifications for polybar-spotify**
 
