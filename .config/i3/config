@@ -261,7 +261,7 @@ mode "passthrough" {
 bindsym $mod+Escape mode "passthrough"
 
 # Lock using script
-bindsym $mod+l exec bash ~/i3lock/lock.sh
+bindsym $mod+l exec --no-startup-id bash ~/i3lock/lock.sh
 
 # Set colors from Xresources
 # Change 'color7' and 'color2' to whatever colors you want i3 to use 
