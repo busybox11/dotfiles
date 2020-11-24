@@ -24,6 +24,9 @@ I featured my desktop [here](https://www.reddit.com/r/i3wm/comments/gntknz/im_on
 - xrandr
 - wget
 
+### Recommended packages
+- zsh - ohmyzsh
+
 ## **Required modifications for polybar-spotify**
 
 (If you don't want the Spotify module, remove `spotify sp-previous sp-next` in the `config.ini` file.)
