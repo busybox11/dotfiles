@@ -10,6 +10,7 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod4
+set $alt Mod1
 
 exec --no-startup-id ~/bin/unsplash.sh
 exec --no-startup-id "compton &"
@@ -89,8 +90,10 @@ bindsym $mod+Shift+A kill
 
 # Start rofi
 bindsym ctrl+space exec --no-startup-id ~/.config/rofi/scripts/appsmenu.sh
+# Start rofi app switcher
+bindsym ctrl+$alt+space exec --no-startup-id rofi -no-lazy-grab -show window -theme themes/appsmenu.rasi 
 # Start rofi keybindings cheat sheet
-bindsym $mod+ctrl+space exec --no-startup-id bash ~/.config/rofi/scripts/i3keybindingsmenu.sh
+bindsym $mod+ctrl+space exec --no-startup-id ~/.config/rofi/scripts/i3keybindingsmenu.sh
 # Start alternative rofi
 bindsym ctrl+shift+space exec --no-startup-id rofi -modi "Global Search":"~/.rofi/rofi-spotlight/rofi-spotlight.sh" -show "Global Search" \
 -config ~/.rofi/rofi-spotlight/rofi.rasi
