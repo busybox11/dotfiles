@@ -9,6 +9,7 @@ I featured my desktop [here](https://www.reddit.com/r/i3wm/comments/gntknz/im_on
 
 ### Required packages
 - i3-gaps
+- polybar
 - picom-tryone
 - pywal + colorz (`pip3 install ...`)
 - feh
