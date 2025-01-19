@@ -1,0 +1,4 @@
+#!/bin/sh
+
+swayosd-client --brightness $1
+ddcutil --skip-ddc-checks --sleep-multiplier=0.2 setvcp 10 $1 &

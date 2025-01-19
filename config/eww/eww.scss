@@ -1,0 +1,132 @@
+* {
+  // all: unset; // Unsets everything so you can style everything from scratch
+  font-family: "CaskaydiaCove NF", "CaskaydiaCove Nerd Font", Iosevka,
+    FontAwesome, Noto Sans CJK;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+// Global Styles
+.bar {
+  background: rgba(9, 2, 15, 0.4);
+  border-bottom: 1px solid rgba(158, 75, 231, 0.2);
+
+  color: #e6b9c6;
+  padding: 0 20px 0 12px;
+  min-height: 24px;
+}
+
+// Styles on classes (see eww.yuck for more information)
+
+.workspace-entry {
+  color: rgba(230, 185, 198, 0.5);
+  padding: 0 5px;
+}
+.workspace-entry:hover {
+  color: rgba(230, 185, 198, 0.5);
+  padding: 0 5px;
+}
+.workspace-entry.current {
+  color: rgb(230, 185, 198);
+}
+
+.left_metrics {
+  padding: 0 24px;
+}
+
+slider {
+  all: unset;
+  color: #ffd5cd;
+}
+
+.metric scale {
+  all: unset;
+}
+
+.metric scale trough highlight {
+  all: unset;
+  background-color: rgba(158, 75, 231, 0.8);
+  color: #000000;
+  border-radius: 10px;
+}
+
+.metric scale trough {
+  all: unset;
+  background-color: rgba(42, 42, 42, 0.5);
+  border: 2px solid rgba(42, 42, 42, 0.5);
+  border-radius: 50px;
+  min-height: 3px;
+  min-width: 50px;
+  margin-left: 10px;
+  margin-right: 16px;
+}
+
+.label-ram {
+  font-size: large;
+}
+
+.critical {
+  color: #d35d6e;
+}
+.critical > scale trough highlight {
+  background: #d35d6e;
+}
+.warning {
+  color: #dc8746;
+}
+.warning > scale trough highlight {
+  background: #dc8746;
+}
+
+.workspaces button:hover {
+  color: #d35d6e;
+}
+
+.music_parent:drop(active) {
+  box-shadow: none;
+}
+.music_parent:drop(active) > .music {
+  margin: 3px 0 3px 0;
+  padding: 3px 8px 3px 3px;
+  border-radius: 8px;
+  background-color: rgba(230, 185, 198, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(230, 185, 198, 0.3);
+}
+.music {
+  padding: 6px 10px 6px 4px;
+}
+
+.music.Paused {
+  opacity: 0.75;
+}
+
+.album_art {
+  padding: 13px;
+  background-size: 26px;
+  border-radius: 8px;
+  border: 1px solid rgba(230, 185, 198, 0.1);
+}
+
+.systray {
+  padding: 0 18px 0 0;
+}
+
+.time {
+  font-weight: bolder;
+}
+
+.metric.critical > scale trough highlight {
+  background: #d7144b;
+}
+.metric.battery:not(.critical).Charging > scale trough highlight,
+.metric.battery:not(.critical).charged > scale trough highlight {
+  background: rgb(109, 191, 109);
+}
+.metric:not(.Charging).critical > .label {
+  color: #f582a3;
+}
+.metric.battery.Charging > .label,
+.metric.battery.charged > .label {
+  color: rgb(109, 191, 109);
+}

@@ -1,0 +1,160 @@
+(defwidget bar []
+  (centerbox :orientation "h"
+    (leftstuff)
+    (music)
+    (sidestuff)))
+
+(defwidget sidestuff []
+  (box :class "sidestuff" :orientation "h" :space-evenly false :halign "end"
+    (metric :label "󰃟"
+      :value brightness
+      :tooltip "Brightness: ${brightness}%"
+      :onchange "sh scripts/set_brightness {}"
+    :class "")
+    (metric :label "󰕾"
+      :value volume
+      :tooltip "Volume: ${volume}%"
+      :onchange "amixer -D pulse sset Master {}%"
+    :class "")
+    (metric :label "󰋊"
+      :value {EWW_DISK["/"].used_perc}
+      :tooltip "Disk: ${round(EWW_DISK["/"].used_perc, 0)}%"
+      :onchange ""
+    :class {EWW_DISK["/"].used_perc > 95 ? "critical" : EWW_DISK["/"].used_perc > 90 ? "warning" : ""})
+    (metric :label "${EWW_BATTERY.BAT0.status == 'Charging' ? ' 󱐋' : ''}"
+      :value {EWW_BATTERY.BAT0.capacity}
+      :tooltip "Battery: ${EWW_BATTERY.BAT0.capacity}%"
+      :onchange ""
+    :class "battery ${EWW_BATTERY.BAT0.capacity < 30 ? 'critical' : EWW_BATTERY.BAT0.capacity > 90 ? 'charged' : 'normal'} ${EWW_BATTERY.BAT0.status}")
+    
+    (systray :class "systray" :icon-size 18 :spacing 6)
+    
+    (label :class "time"
+    :text "  ${time}")))
+
+
+(defpoll fanspeed :interval "1s" `sh /home/$USER/.config/eww/scripts/fan_speed`)
+(defpoll fansspeed :interval "1s" `sh /home/$USER/.config/eww/scripts/fans_speed`)
+
+(defwidget leftstuff []
+  (box :class "leftstuff"
+    :orientation "h"
+    :halign "start"
+    :space-evenly false
+    (workspaces)
+    
+    (box :class "left_metrics"
+      :orientation "h"
+      :halign "start"
+      :space-evenly false
+      :spacing 12
+      
+      (metric :label ""
+        :value {EWW_CPU.avg}
+        :tooltip "CPU: ${round(EWW_CPU.avg, 0)}%"
+        :onchange ""
+      :class {EWW_CPU.avg > 90 ? "critical" : ""})
+      
+      (metric :label ""
+        :value {EWW_RAM.used_mem_perc}
+        :tooltip "RAM: ${round(EWW_RAM.used_mem_perc, 0)}%"
+        :onchange ""
+      :class {EWW_RAM.used_mem_perc > 90 ? "critical" : ""})
+      
+      (box :class "left_text_metrics"
+        :spacing 24
+        (box :class "cpu_temp ${EWW_TEMPS.ACPITZ_TEMP1 > 90 ? 'critical' : EWW_TEMPS.ACPITZ_TEMP1 > 75 ? 'warning' : 'normal'}"
+          " ${EWW_TEMPS.ACPITZ_TEMP1}°C"
+        )
+        
+        (box :class "fan_speed ${fanspeed > 5200 ? 'critical' : fanspeed > 4000 ? 'warning' : 'normal'}"
+          :tooltip {fansspeed}
+          "󰈐 ${fanspeed}"
+        )
+      )
+    )
+  )
+)
+
+
+(deflisten workspaces :initial "[]" "bash ~/.config/eww/scripts/get-workspaces")
+(deflisten current_workspace :initial "1" "bash ~/.config/eww/scripts/get-active-workspace")
+(defwidget workspaces []
+  (eventbox :onscroll "bash ~/.config/eww/scripts/change-active-workspace {} ${current_workspace}" :class "workspaces-widget"
+    (box :space-evenly true
+      (label :text "${workspaces}${current_workspace}" :visible false)
+      (for workspace in workspaces
+        (eventbox :onclick "hyprctl dispatch workspace ${workspace.id}" :cursor "pointer"
+          (box :class "workspace-entry ${workspace.windows > 0 ? 'occupied' : 'empty'}"
+            (label :text "${workspace.name}" :class "workspace-entry ${workspace.id == current_workspace ? 'current' : ''}" )
+          )
+        )
+      )
+    )
+  )
+)
+
+
+(defwidget metric [label value tooltip onchange class]
+  (eventbox
+    (box :orientation "h"
+      :class "metric ${class}"
+      :space-evenly false
+      :tooltip {tooltip}
+      (box :class "label" label)
+      (scale :min 0
+        :max 101
+        :active {onchange != ""}
+        :value value
+      :onchange onchange)
+    )
+  )
+)
+
+
+(deflisten music :initial ""
+"playerctl --follow metadata --format '{{ artist }} · {{ title }}' || true")
+(deflisten music_status :initial ""
+"playerctl --follow metadata --format '{{ status }}' || ''")
+(deflisten artwork :initial ""
+"playerctl --follow metadata --format '{{mpris:artUrl}}' || true")
+(defwidget music []
+  (eventbox :cursor "pointer"
+    :onmiddleclick "playerctl play-pause"
+    :onclick "playerctl previous"
+    :onrightclick "playerctl next"
+    :onscroll "bash $HOME/.config/waybar/scripts/playerctl/volume.sh {}"
+    :ondropped "notify-send {}"
+    :class "music_parent"
+    (box :class "music ${music_status}"
+      :orientation "h"
+      :space-evenly false
+      :halign "center"
+      :spacing 12
+      :visible {music_status != ""}
+      (box :class "album_art" :style 'background-image: url("${artwork}")' :visible artwork)
+    {music != "" ? "${music}" : ""})))
+
+
+(defpoll volume :interval "1s"
+"scripts/getvol")
+
+(defpoll brightness :interval "1s"
+  "echo $(brightnessctl info | grep Current | awk '{print $4}' | tr '%' ' ' | tr '(' ' ' | tr ')' ' ')")
+
+(defpoll time :interval "5s"
+"date '+%H:%M'")
+
+(defwindow bar
+  :monitor '[1, 0]'
+  :windowtype "dock"
+  :geometry (geometry :x "0%"
+    :y "0%"
+    :width "100%"
+    :height "40px"
+  :anchor "top center")
+  :reserve (struts :side "top" :distance "4%")
+  :stack "fg"
+  :exclusive true
+  :namespace "eww"
+  (bar))

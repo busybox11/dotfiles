@@ -1,0 +1,6 @@
+#!/bin/sh
+
+cpu_speed=$(cat /sys/class/hwmon/hwmon3/fan1_input)
+gpu_speed=$(cat /sys/class/hwmon/hwmon3/fan2_input)
+
+echo "CPU : ${cpu_speed} | GPU : ${gpu_speed}"

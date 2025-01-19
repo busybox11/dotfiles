@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# Can take either up or down as an argument
+
+if [ "$1" == "up" ]; then
+  playerctl volume 0.05+
+elif [ "$1" == "down" ]; then
+  playerctl volume 0.05-
+fi
