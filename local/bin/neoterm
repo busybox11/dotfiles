@@ -1,0 +1,3 @@
+#!/bin/sh
+
+neovide -- -u ~/.config/neoterm/neoterm.lua
