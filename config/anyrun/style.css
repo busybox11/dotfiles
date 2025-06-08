@@ -1,20 +1,22 @@
+@import "colors.css";
+
 #window {
   background-color: rgba(0, 0, 0, 0);
 }
 
 #entry {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.05);
   border: none;
   box-shadow: none;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 box#main {
   padding: 8px;
-  border-radius: 12px;
-  background-color: rgba(9, 2, 15, 0.4);
-  border: 1px solid rgba(158, 75, 231, 0.4);
+  border-radius: 16px;
+  background-color: alpha(@window_bg_color, 0.4);
+  border: 1px solid alpha(@accent_color, 0.6);
 }
 
 list#main {
@@ -31,9 +33,10 @@ list#plugin {
   padding-bottom: 8px;
 }
 row#plugin:not(:last-child) {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid alpha(@accent_color, 0.1);
   padding: 0;
 }
+
 row#plugin:hover {
   background-color: transparent;
 }
@@ -42,10 +45,12 @@ row#plugin:focused {
   box-shadow: none;
 }
 
+label {
+  color: @view_fg_color;
+}
 label#match-desc {
   font-size: 10px;
 }
-
 label#plugin {
   font-size: 14px;
 }
