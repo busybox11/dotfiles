@@ -1,0 +1,34 @@
+[config]
+
+[templates.hyprland]
+input_path = './templates/hyprland-colors.conf'
+output_path = '~/.config/hypr/colors.conf'
+post_hook = 'hyprctl reload'
+
+[templates.kitty]
+input_path = './templates/kitty-colors.conf'
+output_path = '~/.config/kitty/colors.conf'
+
+[templates.gtk3]
+input_path = './templates/gtk-colors.css'
+output_path = '~/.config/gtk-3.0/colors.css'
+
+[templates.gtk4]
+input_path = './templates/gtk-colors.css'
+output_path = '~/.config/gtk-4.0/colors.css'
+
+[templates.eww]
+input_path = './templates/eww-colors.scss'
+output_path = '~/.config/eww/colors.scss'
+
+[templates.anyrun]
+input_path = './templates/gtk-colors.css'
+output_path = '~/.config/anyrun/colors.css'
+
+[templates.vscode]
+input_path = './templates/hyprlunavsc.json'
+output_path = '~/.vscode/extensions/hyprluna.hyprluna-theme-1.0.2/themes/hyprluna.json'
+
+[templates.cursor]
+input_path = './templates/hyprlunavsc.json'
+output_path = '~/.cursor/extensions/hyprluna.hyprluna-theme-1.0.2/themes/hyprluna.json'
