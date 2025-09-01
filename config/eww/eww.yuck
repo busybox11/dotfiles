@@ -33,6 +33,7 @@
     :text "  ${time}")))
 
 
+(defpoll dgpu_usage :interval "2s" `nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits || echo 'N/A'`)
 (defpoll fanspeed :interval "1s" `sh /home/$USER/.config/eww/scripts/fan_speed`)
 (defpoll fansspeed :interval "1s" `sh /home/$USER/.config/eww/scripts/fans_speed`)
 
@@ -54,6 +55,12 @@
         :tooltip "CPU: ${round(EWW_CPU.avg, 0)}%"
         :onchange ""
       :class {EWW_CPU.avg > 90 ? "critical" : ""})
+      
+      (metric :label "󰍹"
+        :value {dgpu_usage}
+        :tooltip "dGPU: ${round(dgpu_usage, 0)}%"
+        :onchange ""
+      :class {dgpu_usage > 90 ? "critical" : ""})
       
       (metric :label ""
         :value {EWW_RAM.used_mem_perc}
