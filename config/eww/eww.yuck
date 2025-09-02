@@ -33,7 +33,7 @@
     :text "  ${time}")))
 
 
-(defpoll dgpu_usage :interval "2s" `nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits || echo 'N/A'`)
+(deflisten dgpu_usage :initial "0" "bash /home/$USER/.config/eww/scripts/get-gpu-usage")
 (defpoll fanspeed :interval "1s" `sh /home/$USER/.config/eww/scripts/fan_speed`)
 (defpoll fansspeed :interval "1s" `sh /home/$USER/.config/eww/scripts/fans_speed`)
 
@@ -48,20 +48,19 @@
       :orientation "h"
       :halign "start"
       :space-evenly false
-      :spacing 12
-      
+      :spacing 6
       (metric :label ""
         :value {EWW_CPU.avg}
         :tooltip "CPU: ${round(EWW_CPU.avg, 0)}%"
         :onchange ""
       :class {EWW_CPU.avg > 90 ? "critical" : ""})
-      
+
       (metric :label "󰍹"
         :value {dgpu_usage}
         :tooltip "dGPU: ${round(dgpu_usage, 0)}%"
         :onchange ""
       :class {dgpu_usage > 90 ? "critical" : ""})
-      
+
       (metric :label ""
         :value {EWW_RAM.used_mem_perc}
         :tooltip "RAM: ${round(EWW_RAM.used_mem_perc, 0)}%"

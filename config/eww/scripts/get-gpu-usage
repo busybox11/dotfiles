@@ -1,0 +1,5 @@
+#!/bin/sh
+
+echo "0"
+
+intel_gpu_top -c | stdbuf -o0 awk -F',' 'NR>2 && NF>=7 { print $7 }'
