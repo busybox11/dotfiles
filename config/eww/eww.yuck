@@ -129,7 +129,7 @@
     :onmiddleclick "playerctl play-pause"
     :onclick "playerctl previous"
     :onrightclick "playerctl next"
-    :onscroll "bash $HOME/.config/waybar/scripts/playerctl/volume.sh {}"
+    :onscroll "bash $HOME/.config/eww/scripts/player-volume {}"
     :ondropped "notify-send {}"
     :class "music_parent"
     (box :class "music ${music_status}"
