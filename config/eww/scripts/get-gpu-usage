@@ -1,5 +1,9 @@
 #!/bin/sh
 
-echo "0"
-
-intel_gpu_top -c | stdbuf -o0 awk -F',' 'NR>2 && NF>=7 { print $7 }'
+if command -v intel_gpu_top >/dev/null 2>&1; then
+    intel_gpu_top -c | stdbuf -o0 awk -F',' 'NR>2 && NF>=7 { print $7 }'
+elif command -v nvidia-smi >/dev/null 2>&1; then
+    nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits -l=1
+else
+    echo "0"
+fi

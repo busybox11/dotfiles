@@ -26,9 +26,9 @@
       :tooltip "Battery: ${EWW_BATTERY.BAT0.capacity}%"
       :onchange ""
     :class "battery ${EWW_BATTERY.BAT0.capacity < 30 ? 'critical' : EWW_BATTERY.BAT0.capacity > 90 ? 'charged' : 'normal'} ${EWW_BATTERY.BAT0.status}")
-    
+
     (systray :class "systray" :icon-size 18 :spacing 6)
-    
+
     (label :class "time"
     :text "  ${time}")))
 
@@ -43,7 +43,7 @@
     :halign "start"
     :space-evenly false
     (workspaces)
-    
+
     (box :class "left_metrics"
       :orientation "h"
       :halign "start"
@@ -66,13 +66,13 @@
         :tooltip "RAM: ${round(EWW_RAM.used_mem_perc, 0)}%"
         :onchange ""
       :class {EWW_RAM.used_mem_perc > 90 ? "critical" : ""})
-      
+
       (box :class "left_text_metrics"
         :spacing 24
         (box :class "cpu_temp ${EWW_TEMPS.ACPITZ_TEMP1 > 90 ? 'critical' : EWW_TEMPS.ACPITZ_TEMP1 > 75 ? 'warning' : 'normal'}"
           " ${EWW_TEMPS.ACPITZ_TEMP1}°C"
         )
-        
+
         (box :class "fan_speed ${fanspeed > 5200 ? 'critical' : fanspeed > 4000 ? 'warning' : 'normal'}"
           :tooltip {fansspeed}
           "󰈐 ${fanspeed}"
