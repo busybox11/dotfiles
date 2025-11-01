@@ -5,3 +5,5 @@
 <* for name, value in colors *>
 ${{name}}: {{value.default.hex}};
 <* endfor *>
+
+$background: {{colors.background.default.hex | set_lightness: -20.0}}

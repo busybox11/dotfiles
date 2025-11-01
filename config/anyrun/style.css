@@ -1,69 +1,80 @@
-@import "colors.css";
+@import url("colors.css");
 
-#window {
-  background-color: rgba(0, 0, 0, 0);
+window {
+  background-color: transparent;
 }
 
-#entry {
-  background-color: rgba(255, 255, 255, 0.05);
-  border: none;
-  box-shadow: none;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-box#main {
+box.main, text {
   padding: 8px;
   border-radius: 16px;
   background-color: alpha(@window_bg_color, 0.4);
   border: 1px solid alpha(@accent_color, 0.6);
 }
 
-list#main {
+text {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: none;
+  box-shadow: none;
+  border-radius: 8px;
+  margin-bottom: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+list.main {
   background-color: rgba(0, 0, 0, 0);
   border-radius: 10px;
 }
 
-list#main > #plugin:first-child {
+list.main > .plugin:first-child {
   margin: 8px 0;
 }
 
-list#plugin {
+list.plugin {
   background-color: rgba(0, 0, 0, 0);
   padding-bottom: 8px;
 }
-row#plugin:not(:last-child) {
+row.plugin:not(:last-child) {
   border-bottom: 1px solid alpha(@accent_color, 0.1);
   padding: 0;
 }
 
-row#plugin:hover {
+row.plugin:hover {
   background-color: transparent;
 }
-row#plugin:focused {
+row.plugin {
   outline-color: transparent;
   box-shadow: none;
+}
+
+
+box.plugin:first-child {
+  margin-top: 5px;
+}
+
+box.plugin.info {
+  min-width: 200px;
 }
 
 label {
   color: @view_fg_color;
 }
-label#match-desc {
+label.match-desc {
   font-size: 10px;
 }
-label#plugin {
+label.plugin {
   font-size: 14px;
 }
 
-row#match {
+row.match {
   border-radius: 8px;
   border: 1px solid transparent;
 }
-box#match {
+box.match {
   padding: 4px;
 }
-row#match:selected {
-  border-color: rgba(255, 255, 255, 0.15);
+row.match:selected {
+  background-color: alpha(@accent_color, 0.1);
+  border-color: alpha(@accent_color, 0.5);
 }
 
 separator {

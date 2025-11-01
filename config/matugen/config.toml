@@ -32,3 +32,9 @@ output_path = '~/.vscode/extensions/hyprluna.hyprluna-theme-1.0.2/themes/hyprlun
 [templates.cursor]
 input_path = './templates/hyprlunavsc.json'
 output_path = '~/.cursor/extensions/hyprluna.hyprluna-theme-1.0.2/themes/hyprluna.json'
+
+[templates.vicinae]
+input_path = './templates/vicinae.toml'
+output_path = '~/.local/share/vicinae/themes/matugen.toml'
+post_hook = 'vicinae theme set matugen'
+
