@@ -1,0 +1,3 @@
+#!/bin/bash
+grep -E '^\$primary:' ~/.config/eww/colors.scss | sed 's/^\$primary: *//;s/;$//' | tr -d ' '
+
