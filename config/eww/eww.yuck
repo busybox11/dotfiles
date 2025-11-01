@@ -146,7 +146,7 @@
       :halign "center"
       :spacing 12
       :visible {music_status != ""}
-      (box :class "album_art" :style 'background-image: url("${artwork}")' :visible artwork)
+      (box :class "album_art" :style 'background-image: url("${artwork}")' :visible artwork :height "28" :width "28")
       (box :class "music-info"
         :orientation "h"
         :space-evenly false

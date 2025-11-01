@@ -109,7 +109,7 @@ slider {
   box-shadow: inset 0 0 0 1px rgba($primary, 0.3);
 }
 .music {
-  padding: 6px 10px 6px 4px;
+  padding: 5px 10px 6px 4px;
   color: $primary_fixed;
 }
 
@@ -118,8 +118,6 @@ slider {
 }
 
 .album_art {
-  padding: 13px;
-  background-size: 26px;
   border-radius: 8px;
   border: 1px solid rgba(230, 185, 198, 0.1);
 }
