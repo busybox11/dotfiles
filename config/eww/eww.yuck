@@ -1,5 +1,4 @@
-(deflisten primary-color "bash ~/.config/eww/scripts/get-primary-color")
-
+(defpoll primary-color :interval "1s" :enabled {primary-color != ""} "bash ~/.config/eww/scripts/get-primary-color")
 (defwidget bar []
   (centerbox :orientation "h"
     (leftstuff)
