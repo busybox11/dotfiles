@@ -1,5 +1,14 @@
 [config]
 
+[config.custom_colors]
+red = "#ff0000"
+green = "#00ff00"
+yellow = "#ffff00"
+orange = "#ff8000"
+blue = "#0000ff"
+magenta = "#ff00ff"
+cyan = "#00ffff"
+
 [templates.hyprland]
 input_path = './templates/hyprland-colors.conf'
 output_path = '~/.config/hypr/colors.conf'
@@ -37,4 +46,9 @@ output_path = '~/.cursor/extensions/hyprluna.hyprluna-theme-1.0.2/themes/hyprlun
 input_path = './templates/vicinae.toml'
 output_path = '~/.local/share/vicinae/themes/matugen.toml'
 post_hook = 'vicinae theme set matugen'
+
+[templates.ghostty]
+input_path = "./templates/ghostty"
+output_path = "~/.config/ghostty/themes/matugen"
+post_hook = 'pkill -SIGUSR2 ghostty'
 
