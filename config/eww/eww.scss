@@ -2,8 +2,12 @@
 
 * {
   // all: unset; // Unsets everything so you can style everything from scratch
-  font-family: "CaskaydiaCove NF", "CaskaydiaCove Nerd Font", Iosevka,
-    FontAwesome, Noto Sans CJK;
+  font-family:
+    "CaskaydiaCove NF",
+    "CaskaydiaCove Nerd Font",
+    Iosevka,
+    FontAwesome,
+    Noto Sans CJK;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -11,8 +15,8 @@
 
 // Global Styles
 .bar {
-  background: rgba($background, 0.3);
-  border-bottom: 1px solid rgba($primary, 0.5);
+  background: rgba($on_primary, 0.05);
+  border-bottom: 1px solid rgba($primary, 0.25);
 
   color: $primary;
   padding: 0 20px 0 12px;
