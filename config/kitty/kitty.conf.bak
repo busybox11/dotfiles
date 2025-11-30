@@ -1,0 +1,11 @@
+include colors.conf
+
+background_opacity 0.75
+# font_family        Cascadia Code PL
+font_features      "Cascadia Code PL" +ss19
+# font_family        Maple Mono NF CN
+font_size          10.5
+
+repaint_delay      5
+
+cursor_trail 1
