@@ -1,0 +1,32 @@
+@import "colors.css";
+
+window#osd {
+  border: 1px solid alpha(@accent_color, 0.3);
+  background: alpha(@view_bg_color, 0.75);
+
+  font-family: "Cascadia Code NF", monospace;
+}
+
+#container {
+  margin: 12px 20px;
+}
+
+image {
+  -gtk-icon-transform: scale(0.8);
+}
+
+image,
+label {
+  color: @accent_color;
+}
+
+trough,
+segment {
+  background: alpha(@accent_bg_color, 0.25);
+  margin-right: 4px;
+}
+
+progress,
+segment.active {
+  background: @accent_color;
+}
