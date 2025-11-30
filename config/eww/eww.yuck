@@ -29,7 +29,7 @@
 ;      :onchange ""
 ;    :class "battery ${EWW_BATTERY.BAT0.capacity < 30 ? 'critical' : EWW_BATTERY.BAT0.capacity > 90 ? 'charged' : 'normal'} ${EWW_BATTERY.BAT0.status}")
     
-    (systray :class "systray" :icon-size 18 :spacing 6)
+    (systray :class "systray" :icon-size 18 :spacing 6 :prepend-new true)
 
     (label :class "time"
     :text "  ${time}")))
