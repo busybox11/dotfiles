@@ -64,7 +64,12 @@ post_hook = 'pkill -SIGUSR2 ghostty'
 input_path = './templates/nvim.lua'
 output_path = '~/.config/nvim/lua/plugins/matugen.lua'
 
-[templates.vesktop]
-input_path = './templates/midnight-discord.css'
-output_path = '~/.config/vesktop/themes/midnight-discord.css'
+[templates.swaync]
+input_path = './templates/colors.css'
+output_path = '~/.config/swaync/colors.css'
+post_hook = 'if pgrep -x swaync >/dev/null 2>&1;then swaync-client -rs;fi'
 
+[templates.swayosd]
+input_path = './templates/gtk-colors.css'
+output_path = '~/.config/swayosd/colors.css'
+post_hook = 'if pgrep -x swayosd-server >/dev/null 2>&1;then pkill swayosd-server;setsid -f swayosd-server >/dev/null 2>&1;fi'
