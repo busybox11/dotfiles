@@ -1,10 +1,12 @@
-(deflisten colors :initial "{}" "jq -Mcr . ~/.config/colors.json")
+(deflisten colors "jq -Mcr . ~/.config/colors.json")
 
 (defwidget bar []
   (centerbox :orientation "h"
     (leftstuff)
     (music)
     (sidestuff)))
+
+(defvar show-date false)
 
 (defwidget sidestuff []
   (box :class "sidestuff" :orientation "h" :space-evenly false :halign "end"
@@ -32,8 +34,16 @@
     
     (systray :class "systray" :icon-size 18 :spacing 6 :prepend-new true)
 
-    (label :class "time"
-    :text "  ${time}")))
+    (eventbox :onclick "eww update show-date=true" :onhoverlost "eww update show-date=false" :cursor "pointer"
+      (box :class "time-container" :space-evenly false :spacing 20
+        (label :class "time" :text "  ${formattime(EWW_TIME, "%H:%M")}")
+        (revealer :reveal {show-date} :transition "slideleft" 
+          (label :class "date" :text "  ${formattime(EWW_TIME, "%a %b %d")}")
+        )
+      )
+    )
+  )
+)
 
 
 (deflisten dgpu_usage :initial "0" "bash /home/$USER/.config/eww/scripts/get-gpu-usage")
@@ -165,9 +175,6 @@
 
 (defpoll brightness :interval "1s"
   "echo $(brightnessctl info | grep Current | awk '{print $4}' | tr '%' ' ' | tr '(' ' ' | tr ')' ' ')")
-
-(defpoll time :interval "5s"
-"date '+%H:%M'")
 
 (defwindow bar
   :monitor '[0]'
