@@ -1,8 +1,12 @@
 @import "colors.css";
 
 window#osd {
-  border: 1px solid alpha(@accent_color, 0.3);
-  background: alpha(@view_bg_color, 0.75);
+  box-shadow:
+    0 8px 24px 2px #00000030,
+    0 0 0 2px alpha(@accent_fg_color, 0.5) inset,
+    0 0 0 1px alpha(@accent_color, 0.25) inset;
+  margin: 64px;
+  background: alpha(@accent_fg_color, 0.75);
 
   font-family: "Cascadia Code NF", monospace;
 }
@@ -23,10 +27,12 @@ label {
 trough,
 segment {
   background: alpha(@accent_bg_color, 0.25);
+  border: 1px solid alpha(@accent_color, 0.75);
   margin-right: 4px;
 }
 
 progress,
 segment.active {
   background: @accent_color;
+  border-radius: 0px;
 }

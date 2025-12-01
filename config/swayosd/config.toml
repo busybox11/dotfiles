@@ -2,8 +2,7 @@
 style = "~/.config/swayosd/style.css"
 
 ## on which height to show the OSD
-# top_margin = 0.93
-top_margin = 0.90
+top_margin = 0.93
 
 ## show percentage on the right of the OSD
 show_percentage = true
