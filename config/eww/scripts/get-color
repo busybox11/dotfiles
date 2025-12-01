@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# fallback to primary if no target color is provided
+target_color=${1:-primary}
+
+grep -E "^\\\$${target_color}:" ~/.config/eww/colors.scss | sed "s/^\\\$${target_color}: *//;s/;$//" | tr -d ' '

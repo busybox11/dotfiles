@@ -1,0 +1,8 @@
+#!/bin/bash
+
+hyprctl dispatch workspace $1
+
+# $2 tells if it should hide special workspace if it is active
+if [ "$2" = "true" ]; then
+    hyprctl dispatch togglespecialworkspace magic
+fi

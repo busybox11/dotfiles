@@ -2,12 +2,8 @@
 
 * {
   // all: unset; // Unsets everything so you can style everything from scratch
-  font-family:
-    "CaskaydiaCove NF",
-    "CaskaydiaCove Nerd Font",
-    Iosevka,
-    FontAwesome,
-    Noto Sans CJK;
+  font-family: "CaskaydiaCove NF", "CaskaydiaCove Nerd Font", Iosevka,
+    FontAwesome, Noto Sans CJK;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -25,7 +21,7 @@
 
 // Styles on classes (see eww.yuck for more information)
 
-.workspace-entry {
+.workspace-entry:not(.main-workspace-logo) {
   color: rgba($primary, 0.4);
   padding: 0 5px;
 }
@@ -35,9 +31,18 @@
 .workspace-entry.current {
   color: $primary;
 }
+.workspace-entry.bell:not(.current) {
+  color: #dc8746;
+}
+.workspace-entry.urgent:not(.current) {
+  color: #d35d6e;
+}
 
 .main-workspace-logo {
   opacity: 0.4;
+}
+.main-workspace-logo.has-tags {
+  opacity: 0.6;
 }
 .workspace-entry.current > .main-workspace-logo {
   opacity: 1;

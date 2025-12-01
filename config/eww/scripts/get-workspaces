@@ -1,7 +1,37 @@
 #!/bin/sh
 
 spaces() {
-  hyprctl workspaces -j | jq -Mc 'map({id: .id, name: .name, windows: .windows}) | map(select(.id > 0)) | sort_by(.id)'
+  workspaces=$(hyprctl workspaces -j)
+  clients=$(hyprctl clients -j)
+
+  # return a json array of workspaces with the following fields:
+  # id: the workspace id
+  # name: the workspace name
+  # windows: the number of windows in the workspace
+  # tags: an array of tags that clients on the workspace have
+  result=$(
+    jq -Mcn --argjson workspaces "$workspaces" --argjson clients "$clients" '
+      $workspaces
+      | map(select(.id > 0))
+      | map(
+          . as $ws
+          | (
+              $clients
+              | map(select(.workspace.id == $ws.id and .tags != null and .tags != []))
+              | map(.tags[])
+            ) as $tags
+          | {
+              id: $ws.id,
+              name: $ws.name,
+              windows: $ws.windows,
+              tags: $tags,
+              tagsList: ($tags | unique | join(" ") // "")
+            }
+        )
+      | sort_by(.id)
+    '
+  )
+  echo $result
 }
 
 spaces

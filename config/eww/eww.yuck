@@ -1,4 +1,5 @@
-(defpoll primary-color :interval "1s" :enabled {primary-color != ""} "bash ~/.config/eww/scripts/get-primary-color")
+(deflisten colors :initial "{}" "jq -Mcr . ~/.config/colors.json")
+
 (defwidget bar []
   (centerbox :orientation "h"
     (leftstuff)
@@ -87,19 +88,19 @@
 
 (deflisten workspaces :initial "[]" "bash ~/.config/eww/scripts/get-workspaces")
 (deflisten current_workspace :initial "1" "bash ~/.config/eww/scripts/get-active-workspace")
+
 (defwidget workspaces []
   (eventbox :onscroll "bash ~/.config/eww/scripts/change-active-workspace {} ${current_workspace}" :class "workspaces-widget"
     (box :space-evenly false
-      (label :text "${workspaces}${current_workspace}" :visible false)
       (eventbox :onclick "hyprctl dispatch workspace 1" :cursor "pointer"
-        (box :class "workspace-entry ${1 == current_workspace ? 'current' : ''}"
-          (image :class "main-workspace-logo" :path "nina_widget.svg" :fill-svg {primary-color})
+        (box :class "workspace-entry ${1 == current_workspace ? 'current' : ''} ${workspaces[0].tagsList}"
+          (image :class "main-workspace-logo ${arraylength(workspaces[0].tags) > 0 ? 'has-tags' : ''}" :path "nina_widget.svg" :fill-svg {workspaces[0].tagsList =~ 'urgent' ? "#d35d6e" : workspaces[0].tagsList =~ 'bell' ? "#dc8746" : colors.primary})
         )
       )
       (for workspace in workspaces
         (eventbox :onclick "hyprctl dispatch workspace ${workspace.id}" :cursor "pointer" :visible {workspace.id != 1}
           (box :class "workspace-entry ${workspace.windows > 0 ? 'occupied' : 'empty'}"
-            (label :text "${workspace.name}" :class "workspace-entry ${workspace.id == current_workspace ? 'current' : ''}" )
+            (label :text "${workspace.name}" :class "workspace-entry ${workspace.id == current_workspace ? 'current' : ''} ${workspace.tagsList}" )
           )
         )
       )
