@@ -71,6 +71,9 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
+# sudo prompt
+export SUDO_PROMPT="$(tput bel)$(tput setab 1 setaf 7 bold)[sudo]$(tput sgr0) $(tput setaf 6)password for$(tput sgr0) $(tput setaf 5)%p$(tput sgr0): "
+
 # eza
 zstyle ':omz:plugins:eza' 'dirs-first' yes
 zstyle ':omz:plugins:eza' 'git-status' yes
