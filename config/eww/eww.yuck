@@ -1,4 +1,4 @@
-(deflisten colors "jq -Mcr . ~/.config/colors.json")
+(deflisten colors :initial "{}" "jq -Mcr . ~/.config/colors.json")
 
 (defwidget bar []
   (centerbox :orientation "h"
@@ -7,9 +7,14 @@
     (sidestuff)))
 
 (defvar show-date false)
+(defvar notice `{"id":0}`)
 
 (defwidget sidestuff []
   (box :class "sidestuff" :orientation "h" :space-evenly false :halign "end"
+    (revealer :reveal {notice?.id + 3 > EWW_TIME} :transition "slideleft" 
+      (label :class "notice" :text {notice?.text})
+    )
+
     (metric :label "󰃟"
       :value brightness
       :tooltip "Brightness: ${brightness}%"
@@ -86,7 +91,7 @@
           " ${round(EWW_TEMPS.K10TEMP_TCTL, 0)}°C"
         )
 
-        (box :class "fan_speed ${fanspeed > 5200 ? 'critical' : fanspeed > 4000 ? 'warning' : 'normal'}"
+        (box :class "fan_speed ${fanspeed == '' ? '' : fanspeed > 5200 ? 'critical' : fanspeed > 4000 ? 'warning' : 'normal'}"
           :tooltip {fansspeed}
           "󰈐 ${fanspeed}"
         )
@@ -103,14 +108,14 @@
   (eventbox :onscroll "bash ~/.config/eww/scripts/change-active-workspace {} ${current_workspace}" :class "workspaces-widget"
     (box :space-evenly false
       (eventbox :onclick "hyprctl dispatch workspace 1" :cursor "pointer"
-        (box :class "workspace-entry ${1 == current_workspace ? 'current' : ''} ${workspaces[0].tagsList}"
-          (image :class "main-workspace-logo ${arraylength(workspaces[0].tags) > 0 ? 'has-tags' : ''}" :path "nina_widget.svg" :fill-svg {workspaces[0].tagsList =~ 'urgent' ? "#d35d6e" : workspaces[0].tagsList =~ 'bell' ? "#dc8746" : colors.primary})
+        (box :class "workspace-entry ${1 == current_workspace ? 'current' : ''} ${workspaces?.[0]?.tagsList ?: ''}"
+          (image :class "main-workspace-logo ${arraylength(workspaces?.[0]?.tags ?: []) > 0 ? 'has-tags' : ''}" :path "nina_widget.svg" :fill-svg {workspaces?.[0]?.tagsList ?: '' =~ 'urgent' ? "#d35d6e" : workspaces?.[0]?.tagsList ?: '' =~ 'bell' ? "#dc8746" : colors.primary})
         )
       )
       (for workspace in workspaces
         (eventbox :onclick "hyprctl dispatch workspace ${workspace.id}" :cursor "pointer" :visible {workspace.id != 1}
           (box :class "workspace-entry ${workspace.windows > 0 ? 'occupied' : 'empty'}"
-            (label :text "${workspace.name}" :class "workspace-entry ${workspace.id == current_workspace ? 'current' : ''} ${workspace.tagsList}" )
+            (label :text "${workspace.name}" :class "workspace-entry ${workspace.id == current_workspace ? 'current' : ''} ${workspace.tagsList ?: ''}" )
           )
         )
       )
@@ -129,7 +134,7 @@
       (scale :min 0
         :max 101
         :active {onchange != ""}
-        :value value
+        :value {value ?: 0}
       :onchange onchange)
     )
   )
@@ -156,7 +161,7 @@
       :halign "center"
       :spacing 12
       :visible {music_status != ""}
-      (box :class "album_art" :style 'background-image: url("${artwork}")' :visible artwork :height "28" :width "28")
+      (box :class "album_art" :style 'background-image: url("${artwork}")' :visible {artwork != ""} :height "28" :width "28")
       (box :class "music-info"
         :orientation "h"
         :space-evenly false

@@ -2,8 +2,12 @@
 
 * {
   // all: unset; // Unsets everything so you can style everything from scratch
-  font-family: "CaskaydiaCove NF", "CaskaydiaCove Nerd Font", Iosevka,
-    FontAwesome, Noto Sans CJK;
+  font-family:
+    "CaskaydiaCove NF",
+    "CaskaydiaCove Nerd Font",
+    Iosevka,
+    FontAwesome,
+    Noto Sans CJK;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -67,6 +71,10 @@ slider {
 
 .metric scale {
   all: unset;
+}
+
+.notice {
+  padding-right: 8px;
 }
 
 .metric scale trough highlight {
