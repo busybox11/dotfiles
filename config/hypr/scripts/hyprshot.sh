@@ -1,6 +1,6 @@
 #!/bin/bash
 
-baseCmd="hyprshot --output-folder ~/Pictures/hyprshots"
+baseCmd="hyprshot --output-folder /home/$USER/Pictures/hyprshots"
 hyprshotparams="$1"
 
 # command to run if first one succeed
