@@ -1,185 +1,15 @@
-(deflisten colors :initial "{}" "jq -Mcr . ~/.config/colors.json")
+(include "lib.yuck")
+(include "variables.yuck")
+
+(include "modules/system.yuck")
+(include "modules/music.yuck")
+(include "modules/device.yuck")
 
 (defwidget bar []
   (centerbox :orientation "h"
-    (leftstuff)
+    (system)
     (music)
-    (sidestuff)))
-
-(defvar show-date false)
-(defvar notice `{"id":0}`)
-
-(defwidget sidestuff []
-  (box :class "sidestuff" :orientation "h" :space-evenly false :halign "end"
-    (revealer :reveal {notice?.id + 3 > EWW_TIME} :transition "slideleft" 
-      (label :class "notice" :text {notice?.text})
-    )
-
-    (metric :label "󰃟"
-      :value brightness
-      :tooltip "Brightness: ${brightness}%"
-      :onchange "sh scripts/set_brightness {}"
-    :class "")
-    (metric :label "󰕾"
-      :value volume
-      :tooltip "Volume: ${volume}%"
-      :onchange "amixer -D pulse sset Master {}%"
-    :class "")
-    (metric :label "󰋊"
-      :value {EWW_DISK["/"].used_perc}
-      :tooltip "Disk: ${round(EWW_DISK["/"].used_perc, 0)}%"
-      :onchange ""
-    :class {EWW_DISK["/"].used_perc > 95 ? "critical" : EWW_DISK["/"].used_perc > 90 ? "warning" : ""})
-
-;    (metric :label "${EWW_BATTERY.BAT0.status == 'Charging' ? ' 󱐋' : ''}"
-;      :value {EWW_BATTERY.BAT0.capacity}
-;      :tooltip "Battery: ${EWW_BATTERY.BAT0.capacity}%"
-;      :onchange ""
-;    :class "battery ${EWW_BATTERY.BAT0.capacity < 30 ? 'critical' : EWW_BATTERY.BAT0.capacity > 90 ? 'charged' : 'normal'} ${EWW_BATTERY.BAT0.status}")
-    
-    (systray :class "systray" :icon-size 18 :spacing 6 :prepend-new true)
-
-    (eventbox :onclick "eww update show-date=true" :onhoverlost "eww update show-date=false" :cursor "pointer"
-      (box :class "time-container" :space-evenly false :spacing 20
-        (label :class "time" :text "  ${formattime(EWW_TIME, "%H:%M")}")
-        (revealer :reveal {show-date} :transition "slideleft" 
-          (label :class "date" :text "  ${formattime(EWW_TIME, "%a %b %d")}")
-        )
-      )
-    )
-  )
-)
-
-
-(deflisten dgpu_usage :initial "0" "bash /home/$USER/.config/eww/scripts/get-gpu-usage")
-(defpoll fanspeed :interval "1s" `sh /home/$USER/.config/eww/scripts/fan_speed`)
-(defpoll fansspeed :interval "1s" `sh /home/$USER/.config/eww/scripts/fans_speed`)
-
-(defwidget leftstuff []
-  (box :class "leftstuff"
-    :orientation "h"
-    :halign "start"
-    :space-evenly false
-    (workspaces)
-
-    (box :class "left_metrics"
-      :orientation "h"
-      :halign "start"
-      :space-evenly false
-      :spacing 6
-      (metric :label ""
-        :value {EWW_CPU.avg}
-        :tooltip "CPU: ${round(EWW_CPU.avg, 0)}%"
-        :onchange ""
-      :class {EWW_CPU.avg > 90 ? "critical" : ""})
-
-      (metric :label "󰍹"
-        :value {dgpu_usage}
-        :tooltip "dGPU: ${round(dgpu_usage, 0)}%"
-        :onchange ""
-      :class {dgpu_usage > 90 ? "critical" : ""})
-
-      (metric :label ""
-        :value {EWW_RAM.used_mem_perc}
-        :tooltip "RAM: ${round(EWW_RAM.used_mem_perc, 0)}%"
-        :onchange ""
-      :class {EWW_RAM.used_mem_perc > 90 ? "critical" : ""})
-
-      (box :class "left_text_metrics"
-        :spacing 24
-        (box :class "cpu_temp ${EWW_TEMPS.K10TEMP_TCTL > 90 ? 'critical' : EWW_TEMPS.K10TEMP_TCTL > 75 ? 'warning' : 'normal'}"
-          " ${round(EWW_TEMPS.K10TEMP_TCTL, 0)}°C"
-        )
-
-        (box :class "fan_speed ${fanspeed == '' ? '' : fanspeed > 5200 ? 'critical' : fanspeed > 4000 ? 'warning' : 'normal'}"
-          :tooltip {fansspeed}
-          "󰈐 ${fanspeed}"
-        )
-      )
-    )
-  )
-)
-
-
-(deflisten workspaces :initial "[]" "bash ~/.config/eww/scripts/get-workspaces")
-(deflisten current_workspace :initial "1" "bash ~/.config/eww/scripts/get-active-workspace")
-
-(defwidget workspaces []
-  (eventbox :onscroll "bash ~/.config/eww/scripts/change-active-workspace {} ${current_workspace}" :class "workspaces-widget"
-    (box :space-evenly false
-      (eventbox :onclick "hyprctl dispatch workspace 1" :cursor "pointer"
-        (box :class "workspace-entry ${1 == current_workspace ? 'current' : ''} ${workspaces?.[0]?.tagsList ?: ''}"
-          (image :class "main-workspace-logo ${arraylength(workspaces?.[0]?.tags ?: []) > 0 ? 'has-tags' : ''}" :path "nina_widget.svg" :fill-svg {workspaces?.[0]?.tagsList ?: '' =~ 'urgent' ? "#d35d6e" : workspaces?.[0]?.tagsList ?: '' =~ 'bell' ? "#dc8746" : colors.primary})
-        )
-      )
-      (for workspace in workspaces
-        (eventbox :onclick "hyprctl dispatch workspace ${workspace.id}" :cursor "pointer" :visible {workspace.id != 1}
-          (box :class "workspace-entry ${workspace.windows > 0 ? 'occupied' : 'empty'}"
-            (label :text "${workspace.name}" :class "workspace-entry ${workspace.id == current_workspace ? 'current' : ''} ${workspace.tagsList ?: ''}" )
-          )
-        )
-      )
-    )
-  )
-)
-
-
-(defwidget metric [label value tooltip onchange class]
-  (eventbox
-    (box :orientation "h"
-      :class "metric ${class}"
-      :space-evenly false
-      :tooltip {tooltip}
-      (box :class "label" label)
-      (scale :min 0
-        :max 101
-        :active {onchange != ""}
-        :value {value ?: 0}
-      :onchange onchange)
-    )
-  )
-)
-
-
-(deflisten music_artist :initial "" "playerctl --follow metadata artist || true")
-(deflisten music_title :initial "" "playerctl --follow metadata title || true")
-(deflisten music_status :initial ""
-"playerctl --follow metadata --format '{{ status }}' || ''")
-(deflisten artwork :initial ""
-"playerctl --follow metadata --format '{{mpris:artUrl}}' || true")
-(defwidget music []
-  (eventbox :cursor "pointer"
-    :onmiddleclick "playerctl play-pause"
-    :onclick "playerctl previous"
-    :onrightclick "playerctl next"
-    :onscroll "bash $HOME/.config/eww/scripts/player-volume {}"
-    :ondropped "notify-send {}"
-    :class "music_parent"
-    (box :class "music ${music_status}"
-      :orientation "h"
-      :space-evenly false
-      :halign "center"
-      :spacing 12
-      :visible {music_status != ""}
-      (box :class "album_art" :style 'background-image: url("${artwork}")' :visible {artwork != ""} :height "28" :width "28")
-      (box :class "music-info"
-        :orientation "h"
-        :space-evenly false
-        :halign "center"
-        :spacing 12
-        (label :text "${music_title}" :class "music-title")
-        (label :text "${music_artist}" :class "music-artist")
-      )
-    )
-  )
-)
-
-
-(defpoll volume :interval "1s"
-"scripts/getvol")
-
-(defpoll brightness :interval "1s"
-  "echo $(brightnessctl info | grep Current | awk '{print $4}' | tr '%' ' ' | tr '(' ' ' | tr ')' ' ')")
+    (device)))
 
 (defwindow bar
   :monitor '[0]'
@@ -194,3 +24,4 @@
   :exclusive true
   :namespace "eww"
   (bar))
+

@@ -1,0 +1,15 @@
+(defwidget metric [label value tooltip onchange class]
+  (eventbox
+    (box :orientation "h"
+      :class "metric ${class}"
+      :space-evenly false
+      :tooltip {tooltip}
+      (box :class "label" label)
+      (scale :min 0
+        :max 101
+        :active {onchange != ""}
+        :value {value ?: 0}
+      :onchange onchange)
+    )
+  )
+)

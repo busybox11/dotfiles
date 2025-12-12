@@ -52,11 +52,11 @@
   opacity: 1;
 }
 
-.left_metrics {
+.system_metrics {
   padding: 0 8px 0 8px;
 }
 
-.left_text_metrics {
+.system_text_metrics {
   padding: 0 8px;
 }
 
@@ -159,10 +159,6 @@ slider {
 .date {
   font-weight: normal;
   padding-right: 20px;
-}
-
-.sidestuff {
-  padding: 0 4px;
 }
 
 .metric.critical > scale trough highlight {

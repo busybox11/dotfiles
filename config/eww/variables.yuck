@@ -1,0 +1,2 @@
+(deflisten colors :initial "{}" "jq -Mcr . ~/.config/colors.json")
+

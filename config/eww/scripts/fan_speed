@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # TO CHANGE
-cpu_speed=$(cat /sys/class/hwmon/hwmon1/fan1_input)
-gpu_speed=$(cat /sys/class/hwmon/hwmon1/fan2_input)
+cpu_speed=$(cat /sys/class/hwmon/hwmon3/fan1_input)
+gpu_speed=$(cat /sys/class/hwmon/hwmon3/fan2_input)
 
 echo $((cpu_speed > gpu_speed ? cpu_speed : gpu_speed))
