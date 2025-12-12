@@ -1,9 +1,5 @@
-(deflisten music_artist :initial "" "playerctl --follow metadata artist || true")
-(deflisten music_title :initial "" "playerctl --follow metadata title || true")
-(deflisten music_status :initial ""
-"playerctl --follow metadata --format '{{ status }}' || ''")
-(deflisten artwork :initial ""
-"playerctl --follow metadata --format '{{mpris:artUrl}}' || true")
+(deflisten jmpris :initial "{}" "astal-mpris monitor -r")
+
 (defwidget music []
   (eventbox :cursor "pointer"
     :onmiddleclick "playerctl play-pause"
@@ -12,20 +8,22 @@
     :onscroll "bash $HOME/.config/eww/scripts/player-volume {}"
     :ondropped "notify-send {}"
     :class "music_parent"
-    (box :class "music ${music_status}"
+    (box :class "music ${jmpris?.[0]?.playback_status}"
       :orientation "h"
       :space-evenly false
       :halign "center"
       :spacing 12
-      :visible {music_status != ""}
-      (box :class "album_art" :style 'background-image: url("${artwork}")' :visible {artwork != ""} :height "28" :width "28")
+      :visible {!jmpris?.[0]?.metadata}
+
+      (box :class "album_art" :style 'background-image: url("${jmpris[0]?.cover_art}")' :visible {jmpris[0]?.cover_art != ""} :height "28" :width "28")
+
       (box :class "music-info"
         :orientation "h"
         :space-evenly false
         :halign "center"
         :spacing 12
-        (label :text "${music_title}" :class "music-title")
-        (label :text "${music_artist}" :class "music-artist")
+        (label :text {jmpris[0]?.metadata?.['xesam:title']} :class "music-title")
+        (label :text {jmpris[0]?.metadata?.['xesam:artist']?.[0]} :class "music-artist")
       )
     )
   )
