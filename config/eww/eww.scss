@@ -101,13 +101,13 @@ slider {
 .critical {
   color: #d35d6e;
 }
-.critical > scale trough highlight {
+.critical scale trough highlight {
   background: #d35d6e;
 }
 .warning {
   color: #dc8746;
 }
-.warning > scale trough highlight {
+.warning scale trough highlight {
   background: #dc8746;
 }
 
@@ -161,7 +161,7 @@ slider {
   padding-right: 20px;
 }
 
-.metric.critical > scale trough highlight {
+.metric.critical scale trough highlight {
   background: #d7144b;
 }
 .metric.battery.critical {
@@ -170,8 +170,8 @@ slider {
   border-radius: 6px;
   margin: 4px;
 }
-.metric.battery:not(.critical).Charging > scale trough highlight,
-.metric.battery:not(.critical).charged > scale trough highlight {
+.metric.battery:not(.critical).Charging scale trough highlight,
+.metric.battery:not(.critical).charged scale trough highlight {
   background: rgb(109, 191, 109);
 }
 .metric:not(.Charging).critical > .label {

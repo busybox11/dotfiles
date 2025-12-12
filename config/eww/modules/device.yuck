@@ -30,11 +30,14 @@
       :onchange ""
     :class {EWW_DISK["/"].used_perc > 95 ? "critical" : EWW_DISK["/"].used_perc > 90 ? "warning" : ""})
 
-    (metric :label "${EWW_BATTERY.BAT0.status == 'Charging' ? ' 󱐋' : ''}"
+    (metric
+      :label "${EWW_BATTERY.BAT0.capacity > 90 ? "" : ""}${EWW_BATTERY.BAT0.status == 'Charging' ? ' 󱐋' : ' '}"
       :value {EWW_BATTERY.BAT0.capacity}
-      :tooltip "Battery: ${EWW_BATTERY.BAT0.capacity}%"
+      :tooltip "Battery: ${EWW_BATTERY.BAT0.capacity}%, ${EWW_BATTERY.BAT0.status}"
       :onchange ""
-    :class "battery ${EWW_BATTERY.BAT0.capacity < 25 ? 'critical' : EWW_BATTERY.BAT0.capacity < 40 ? 'warning' : EWW_BATTERY.BAT0.capacity > 90 ? 'charged' : 'normal'} ${EWW_BATTERY.BAT0.status}")
+      :showscale {(EWW_BATTERY.BAT0.status != 'Charging') || (EWW_BATTERY.BAT0.capacity < 95)}
+      :class "battery ${EWW_BATTERY.BAT0.capacity < 25 ? 'critical' : EWW_BATTERY.BAT0.capacity < 40 ? 'warning' : EWW_BATTERY.BAT0.capacity > 90 ? 'charged' : 'normal'} ${EWW_BATTERY.BAT0.status}"
+    )
     
     (systray :class "systray" :icon-size 18 :spacing 6 :prepend-new true)
 
