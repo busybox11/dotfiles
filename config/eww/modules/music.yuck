@@ -1,4 +1,4 @@
-(deflisten jmpris :initial "{}" "astal-mpris monitor -r")
+(deflisten jmpris :initial "[]" "astal-mpris monitor -r")
 
 (defwidget music []
   (eventbox :cursor "pointer"
@@ -13,7 +13,7 @@
       :space-evenly false
       :halign "center"
       :spacing 12
-      :visible {!jmpris?.[0]?.metadata}
+      :visible {arraylength(jmpris) > 0}
 
       (box :class "album_art" :style 'background-image: url("${jmpris[0]?.cover_art}")' :visible {jmpris[0]?.cover_art != ""} :height "28" :width "28")
 
