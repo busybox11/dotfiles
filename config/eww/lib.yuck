@@ -1,9 +1,10 @@
-(defwidget metric [label value tooltip onchange class ?showscale]
+(defwidget metric [label value tooltip onchange class ?showscale ?visible]
   (eventbox
     (box :orientation "h"
       :class "metric ${class}"
       :space-evenly false
       :tooltip {tooltip}
+      :visible {visible ?: true}
       (box :class "label" label)
       
       (revealer :reveal {showscale ?: true} :transition "slideleft" 

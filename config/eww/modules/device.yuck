@@ -31,6 +31,7 @@
     :class {EWW_DISK["/"].used_perc > 95 ? "critical" : EWW_DISK["/"].used_perc > 90 ? "warning" : ""})
 
     (metric
+      :visible {EWW_BATTERY?.BAT0 ?: false}
       :label "${EWW_BATTERY.BAT0.capacity > 90 ? "" : ""}${EWW_BATTERY.BAT0.status == 'Charging' ? ' 󱐋' : ' '}"
       :value {EWW_BATTERY.BAT0.capacity}
       :tooltip "Battery: ${EWW_BATTERY.BAT0.capacity}%, ${EWW_BATTERY.BAT0.status}"
