@@ -7,6 +7,7 @@
   "echo $(brightnessctl info | grep Current | awk '{print $4}' | tr '%' ' ' | tr '(' ' ' | tr ')' ' ')")
 
 (defvar show-date false)
+(defvar show-brightness-slider false)
 
 (defwidget device []
   (box :class "device" :orientation "h" :space-evenly false :halign "end"
@@ -14,21 +15,32 @@
       (label :class "notice" :text {notice?.text})
     )
 
-    (metric :label "󰃟"
-      :value brightness
-      :tooltip "Brightness: ${brightness}%"
-      :onchange "sh scripts/set_brightness {}"
-    :class "")
-    (metric :label "󰕾"
+    (eventbox :onhover "eww update show-brightness-slider=true" :onhoverlost "eww update show-brightness-slider=false" :cursor "pointer"
+      (metric
+        :label {brightness < 30 ? "󰃞" : brightness > 70 ? "󰃠" : "󰃟"}
+        :value brightness
+        :tooltip "Brightness: ${brightness}%"
+        :onchange "sh scripts/set_brightness {}"
+        :class "brightness"
+        :showscale {show-brightness-slider}
+      )
+    )
+
+    (metric
+      :label "󰕾"
       :value volume
       :tooltip "Volume: ${volume}%"
       :onchange "amixer -D pulse sset Master {}%"
-    :class "")
-    (metric :label "󰋊"
+      :class ""
+    )
+    
+    (metric
+      :label "󰋊"
       :value {EWW_DISK["/"].used_perc}
       :tooltip "Disk: ${round(EWW_DISK["/"].used_perc, 0)}%"
       :onchange ""
-    :class {EWW_DISK["/"].used_perc > 95 ? "critical" : EWW_DISK["/"].used_perc > 90 ? "warning" : ""})
+      :class {EWW_DISK["/"].used_perc > 95 ? "critical" : EWW_DISK["/"].used_perc > 90 ? "warning" : ""}
+    )
 
     (metric
       :visible {EWW_BATTERY?.BAT0 ?: false}
