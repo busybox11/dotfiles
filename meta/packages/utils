@@ -1,1 +1,4 @@
 kernel-modules-hook
+aur/needrestart
+aur/yaycache
+aur/yaycache-hook
