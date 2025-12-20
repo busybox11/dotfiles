@@ -112,7 +112,7 @@ typeset -g POWERLEVEL9K_TERM_SHELL_INTEGRATION=true
 [ "$TERM" = "xterm-kitty" ] && alias ssh="kitty +kitten ssh"
 
 # bun
-export PATH="/home/rain/.bun/bin:/home/rain/.cache/.bun/bin:$PATH"
+export PATH="$HOME/.bun/bin:$HOME/.cache/.bun/bin:$PATH"
 
 # valdi
 export ANDROID_HOME="$HOME/Android/Sdk"
