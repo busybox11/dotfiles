@@ -48,7 +48,7 @@
       :value {EWW_BATTERY.BAT0.capacity}
       :tooltip "Battery: ${EWW_BATTERY.BAT0.capacity}%, ${EWW_BATTERY.BAT0.status}"
       :onchange ""
-      :showscale {(EWW_BATTERY.BAT0.status != 'Charging') || (EWW_BATTERY.BAT0.capacity < 95)}
+      :showscale {EWW_BATTERY.BAT0.capacity < 95 || EWW_BATTERY.BAT0.status == 'Discharging'}
       :class "battery ${EWW_BATTERY.BAT0.capacity < 25 ? 'critical' : EWW_BATTERY.BAT0.capacity < 40 ? 'warning' : EWW_BATTERY.BAT0.capacity > 90 ? 'charged' : 'normal'} ${EWW_BATTERY.BAT0.status}"
     )
     
