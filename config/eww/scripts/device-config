@@ -1,0 +1,10 @@
+#!/bin/bash
+
+CPU_TEMP_ID="K10TEMP_TCTL"
+
+if sensors | grep "dell_ddv-virtual-0" > /dev/null; then
+    CPU_TEMP_ID="CORETEMP_PACKAGE_ID_0"
+fi
+
+json="{\"CPU_TEMP_ID\": \"$CPU_TEMP_ID\"}"
+echo $json

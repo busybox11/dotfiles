@@ -10,7 +10,7 @@
     :halign "start"
     :space-evenly false
     (workspaces)
-
+    
     (box :class "system_metrics"
       :orientation "h"
       :halign "start"
@@ -21,25 +21,25 @@
         :tooltip "CPU: ${round(EWW_CPU.avg, 0)}%"
         :onchange ""
       :class {EWW_CPU.avg > 90 ? "critical" : ""})
-
+      
       (metric :label "󰍹"
         :value {dgpu_usage}
         :tooltip "dGPU: ${round(dgpu_usage, 0)}%"
         :onchange ""
       :class {dgpu_usage > 90 ? "critical" : ""})
-
+      
       (metric :label ""
         :value {EWW_RAM.used_mem_perc}
         :tooltip "RAM: ${round(EWW_RAM.used_mem_perc, 0)}%"
         :onchange ""
       :class {EWW_RAM.used_mem_perc > 90 ? "critical" : ""})
-
+      
       (box :class "system_text_metrics"
         :spacing 24
-        (box :class "cpu_temp ${EWW_TEMPS.K10TEMP_TCTL > 90 ? 'critical' : EWW_TEMPS.K10TEMP_TCTL > 75 ? 'warning' : 'normal'}"
-          " ${round(EWW_TEMPS.K10TEMP_TCTL, 0)}°C"
+        (box :class "cpu_temp ${EWW_TEMPS[config.CPU_TEMP_ID] > 90 ? 'critical' : EWW_TEMPS[config.CPU_TEMP_ID] > 75 ? 'warning' : 'normal'}"
+          " ${round(EWW_TEMPS[config.CPU_TEMP_ID], 0)}°C"
         )
-
+        
         (box :class "fan_speed ${fanspeed == '' ? '' : fanspeed > 5200 ? 'critical' : fanspeed > 4000 ? 'warning' : 'normal'}"
           :tooltip {fansspeed}
           "󰈐 ${fanspeed}"

@@ -1,0 +1,1 @@
+(deflisten config :initial "{}" "bash ~/.config/eww/scripts/device-config")

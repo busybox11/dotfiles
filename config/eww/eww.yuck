@@ -1,3 +1,4 @@
+(include "config.yuck")
 (include "lib.yuck")
 (include "variables.yuck")
 
@@ -23,5 +24,6 @@
   :stack "fg"
   :exclusive true
   :namespace "eww"
-  (bar))
+  (bar)
+)
 

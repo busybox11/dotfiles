@@ -11,21 +11,22 @@
 
 (defwidget device []
   (box :class "device" :orientation "h" :space-evenly false :halign "end"
-    (revealer :reveal {notice?.id + 3 > EWW_TIME} :transition "slideleft" 
+    (revealer :reveal {notice?.id + 3 > EWW_TIME} :transition "slideleft"
       (label :class "notice" :text {notice?.text})
     )
-
+    
     (eventbox :onhover "eww update show-brightness-slider=true" :onhoverlost "eww update show-brightness-slider=false" :cursor "pointer"
       (metric
-        :label {brightness < 30 ? "󰃞" : brightness > 70 ? "󰃠" : "󰃟"}
-        :value brightness
+        :visible {brightness != ""}
+        :label {brightness != "" ? (brightness < 30 ? "󰃞" : brightness > 70 ? "󰃠" : "󰃟") : ""}
+        :value {brightness != "" ? brightness : 0}
         :tooltip "Brightness: ${brightness}%"
         :onchange "sh scripts/set_brightness {}"
         :class "brightness"
         :showscale {show-brightness-slider}
       )
     )
-
+    
     (metric
       :label "󰕾"
       :value volume
@@ -41,9 +42,9 @@
       :onchange ""
       :class {EWW_DISK["/"].used_perc > 95 ? "critical" : EWW_DISK["/"].used_perc > 90 ? "warning" : ""}
     )
-
+    
     (metric
-      :visible {EWW_BATTERY?.BAT0 ?: false}
+      :visible {EWW_BATTERY?.BAT0?.capacity != ""}
       :label "${EWW_BATTERY.BAT0.capacity > 90 ? "" : ""}${EWW_BATTERY.BAT0.status == 'Charging' ? ' 󱐋' : ' '}"
       :value {EWW_BATTERY.BAT0.capacity}
       :tooltip "Battery: ${EWW_BATTERY.BAT0.capacity}%, ${EWW_BATTERY.BAT0.status}"
@@ -53,11 +54,11 @@
     )
     
     (systray :class "systray" :icon-size 18 :spacing 6 :prepend-new true)
-
+    
     (eventbox :onclick "eww update show-date=true" :onhoverlost "eww update show-date=false" :cursor "pointer"
       (box :class "time-container" :space-evenly false :spacing 20
         (label :class "time" :text "  ${formattime(EWW_TIME, "%H:%M")}")
-        (revealer :reveal {show-date} :transition "slideleft" 
+        (revealer :reveal {show-date} :transition "slideleft"
           (label :class "date" :text "  ${formattime(EWW_TIME, "%a %b %d")}")
         )
       )
