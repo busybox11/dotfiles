@@ -44,7 +44,7 @@
     )
     
     (metric
-      :visible {EWW_BATTERY?.BAT0?.capacity != ""}
+      :visible {EWW_BATTERY != "" && EWW_BATTERY?.BAT0?.capacity != ""}
       :label "${EWW_BATTERY.BAT0.capacity > 90 ? "" : ""}${EWW_BATTERY.BAT0.status == 'Charging' ? ' 󱐋' : ' '}"
       :value {EWW_BATTERY.BAT0.capacity}
       :tooltip "Battery: ${EWW_BATTERY.BAT0.capacity}%, ${EWW_BATTERY.BAT0.status}"
