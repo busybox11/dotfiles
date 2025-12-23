@@ -29,11 +29,8 @@
   color: rgba($primary, 0.4);
   padding: 0 5px;
 }
-.workspace-entry:hover {
-  color: rgba($primary, 0.7);
-}
 .workspace-entry.current {
-  color: $primary;
+  color: $primary_fixed;
 }
 .workspace-entry.bell:not(.current) {
   color: #dc8746;
@@ -50,6 +47,9 @@
 }
 .workspace-entry.current > .main-workspace-logo {
   opacity: 1;
+}
+.workspace-entry.visible {
+  color: rgba($primary, 0.75);
 }
 
 .system_metrics {

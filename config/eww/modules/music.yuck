@@ -1,27 +1,39 @@
 (deflisten jmpris :initial "[]" "astal-mpris monitor -r")
 
 (defwidget music []
-  (eventbox :cursor "pointer"
+  (eventbox
+    :cursor "pointer"
     :onmiddleclick "playerctl play-pause"
     :onclick "playerctl previous"
     :onrightclick "playerctl next"
     :onscroll "bash $HOME/.config/eww/scripts/player-volume {}"
     :ondropped "notify-send {}"
     :class "music_parent"
-    (box :class "music ${jmpris?.[0]?.playback_status}"
+    
+    (box
+      :class "music ${jmpris?.[0]?.playback_status}"
       :orientation "h"
       :space-evenly false
       :halign "center"
       :spacing 12
       :visible {arraylength(jmpris) > 0}
 
-      (box :class "album_art" :style 'background-image: url("${jmpris[0]?.cover_art}")' :visible {jmpris[0]?.cover_art != ""} :height "28" :width "28")
+      (box
+        :class "album_art"
+        :style 'background-image: url("${jmpris[0]?.cover_art}")'
+        :visible {jmpris[0]?.cover_art != ""}
+        :height "28"
+        :width "28"
+        :vexpand true
+      )
 
-      (box :class "music-info"
+      (box
+        :class "music-info"
         :orientation "h"
         :space-evenly false
         :halign "center"
         :spacing 12
+
         (label :text {jmpris[0]?.metadata?.['xesam:title']} :class "music-title")
         (label :text {jmpris[0]?.metadata?.['xesam:artist']?.[0]} :class "music-artist")
       )
