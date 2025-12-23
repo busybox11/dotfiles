@@ -9,45 +9,67 @@
 // Learn more about configuration at https://docs.vicinae.com/config
 
 {
-  "font": {
-    "normal": {
-      "family": "Cascadia Code NF"
-    }
-  },
-  "theme": {
-    "dark": {
-      "name": "matugen"
-    }
-  },
-  "launcher_window": {
-    "opacity": 0.75,
-    "layer_shell": {
-      "enabled": false
-    }
-  },
-  "keybinds": {
-    "toggle-action-panel": "control+K"
-  },
-  "favorites": [
-    "clipboard:history",
-    "@thomaslombart/store.raycast.github:notifications",
-    "@jomifepe/store.raycast.bitwarden:authenticator",
-    "@mattisssa/store.raycast.spotify-player:search",
-    "@jomifepe/store.raycast.bitwarden:search",
-    "@knoopx/store.vicinae.systemd:services",
-    "files:search"
-  ],
-  "providers": {
-    "system": {
-      "entrypoints": {
-        "browse-apps": {
-          "enabled": true,
-          "preferences": {
-            "showHidden": true
-          }
-        }
+   "font": {
+      "normal": {
+         "family": "Cascadia Code NF"
       }
-    }
-  }
+   },
+   "theme": {
+      "dark": {
+         "name": "matugen",
+         "icon_theme": "Papirus-Dark"
+      }
+   },
+   "launcher_window": {
+      "opacity": 0.75,
+      "layer_shell": {
+         "enabled": false
+      }
+   },
+   "keybinds": {
+      "toggle-action-panel": "control+K"
+   },
+   "favorites": [
+      "clipboard:history",
+      "@thomaslombart/store.raycast.github:notifications",
+      "@jomifepe/store.raycast.bitwarden:authenticator",
+      "@mattisssa/store.raycast.spotify-player:search",
+      "@jomifepe/store.raycast.bitwarden:search",
+      "@knoopx/store.vicinae.systemd:services",
+      "files:search"
+   ],
+   "providers": {
+      "@thomaslombart/store.raycast.github": {
+         "entrypoints": {
+            "my-discussions": {
+               "enabled": true
+            },
+            "search-discussions": {
+               "enabled": true
+            }
+         }
+      },
+      "applications": {
+         "preferences": {
+            "launchPrefix": "uwsm app -- "
+         }
+      },
+      "core": {
+         "entrypoints": {
+            "inspect-local-storage": {
+               "enabled": true
+            }
+         }
+      },
+      "system": {
+         "entrypoints": {
+            "browse-apps": {
+               "enabled": true,
+               "preferences": {
+                  "showHidden": true
+               }
+            }
+         }
+      }
+   }
 }
-
