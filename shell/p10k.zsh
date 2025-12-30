@@ -36,7 +36,6 @@
     vcs                     # git status
     # =========================[ Line #2 ]=========================
     newline                 # \n
-    context
     prompt_char             # prompt symbol
   )
 
@@ -55,7 +54,7 @@
     command_execution_time  # duration of the last command
     background_jobs         # presence of background jobs
     direnv                  # direnv status (https://direnv.net/)
-    asdf                    # asdf version manager (https://github.com/asdf-vm/asdf)
+    # asdf                  # asdf version manager (https://github.com/asdf-vm/asdf)
     virtualenv              # python virtual environment (https://docs.python.org/3/library/venv.html)
     anaconda                # conda environment (https://conda.io/)
     pyenv                   # python environment (https://github.com/pyenv/pyenv)
@@ -85,20 +84,20 @@
     terraform               # terraform workspace (https://www.terraform.io)
     # terraform_version     # terraform version (https://www.terraform.io)
     aws                     # aws profile (https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html)
-    aws_eb_env              # aws elastic beanstalk environment (https://aws.amazon.com/elasticbeanstalk/)
-    azure                   # azure account name (https://docs.microsoft.com/en-us/cli/azure)
+    # aws_eb_env            # aws elastic beanstalk environment (https://aws.amazon.com/elasticbeanstalk/)
+    # azure                 # azure account name (https://docs.microsoft.com/en-us/cli/azure)
     gcloud                  # google cloud cli account and project (https://cloud.google.com/)
-    google_app_cred         # google application credentials (https://cloud.google.com/docs/authentication/production)
-    toolbox                 # toolbox name (https://github.com/containers/toolbox)
+    # google_app_cred       # google application credentials (https://cloud.google.com/docs/authentication/production)
+    # toolbox               # toolbox name (https://github.com/containers/toolbox)
     context                 # user@hostname
     # nordvpn               # nordvpn connection status, linux only (https://nordvpn.com/)
-    ranger                  # ranger shell (https://github.com/ranger/ranger)
-    yazi                    # yazi shell (https://github.com/sxyazi/yazi)
-    nnn                     # nnn shell (https://github.com/jarun/nnn)
-    lf                      # lf shell (https://github.com/gokcehan/lf)
-    xplr                    # xplr shell (https://github.com/sayanarijit/xplr)
+    # ranger                # ranger shell (https://github.com/ranger/ranger)
+    # yazi                  # yazi shell (https://github.com/sxyazi/yazi)
+    # nnn                   # nnn shell (https://github.com/jarun/nnn)
+    # lf                    # lf shell (https://github.com/gokcehan/lf)
+    # xplr                  # xplr shell (https://github.com/sayanarijit/xplr)
     vim_shell               # vim shell indicator (:sh)
-    midnight_commander      # midnight commander shell (https://midnight-commander.org/)
+    # midnight_commander    # midnight commander shell (https://midnight-commander.org/)
     nix_shell               # nix shell (https://nixos.org/nixos/nix-pills/developing-with-nix-shell.html)
     # chezmoi_shell         # chezmoi shell (https://www.chezmoi.io/)
     # vpn_ip                # virtual private network indicator
@@ -107,8 +106,8 @@
     # ram                   # free RAM
     # swap                  # used swap
     todo                    # todo items (https://github.com/todotxt/todo.txt-cli)
-    timewarrior             # timewarrior tracking status (https://timewarrior.net/)
-    taskwarrior             # taskwarrior task count (https://taskwarrior.org/)
+    # timewarrior           # timewarrior tracking status (https://timewarrior.net/)
+    # taskwarrior           # taskwarrior task count (https://taskwarrior.org/)
     per_directory_history   # Oh My Zsh per-directory-history local/global indicator
     # cpu_arch              # CPU architecture
     my_time_segment
@@ -197,7 +196,7 @@
   # OS identifier color.
   typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND=8
   # Custom icon.
-  typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='${P9K_CONTENT}  󰏖 '
+  typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='${P9K_CONTENT} 󰏖 '
 
   ################################[ prompt_char: prompt symbol ]################################
   # Green prompt symbol if the last command succeeded.
@@ -357,6 +356,9 @@
   # Branch icon. Set this parameter to '\UE0A0 ' for the popular Powerline branch icon.
   typeset -g POWERLEVEL9K_VCS_BRANCH_ICON='󰊢 '
 
+  # custom github icon
+  typeset -g POWERLEVEL9K_VCS_GIT_GITHUB_ICON=''
+
   # Untracked files icon. It's really a question mark, your font isn't broken.
   # Change the value of this parameter to show a different icon.
   typeset -g POWERLEVEL9K_VCS_UNTRACKED_ICON='?'
@@ -498,10 +500,10 @@
   typeset -g POWERLEVEL9K_VCS_{STAGED,UNSTAGED,UNTRACKED,CONFLICTED,COMMITS_AHEAD,COMMITS_BEHIND}_MAX_NUM=-1
 
   # Icon color.
-  typeset -g POWERLEVEL9K_VCS_VISUAL_IDENTIFIER_COLOR=2
-  typeset -g POWERLEVEL9K_VCS_LOADING_VISUAL_IDENTIFIER_COLOR=
+  # typeset -g POWERLEVEL9K_VCS_VISUAL_IDENTIFIER_COLOR=2
+  # typeset -g POWERLEVEL9K_VCS_LOADING_VISUAL_IDENTIFIER_COLOR=
   # Custom icon.
-  typeset -g POWERLEVEL9K_VCS_VISUAL_IDENTIFIER_EXPANSION=
+  # typeset -g POWERLEVEL9K_VCS_VISUAL_IDENTIFIER_EXPANSION=
   # Custom prefix.
   # typeset -g POWERLEVEL9K_VCS_PREFIX='%fon '
 
@@ -535,7 +537,7 @@
 
   # Status when it's just an error code (e.g., '1'). No need to show it if prompt_char is enabled as
   # it will signify error by turning red.
-  typeset -g POWERLEVEL9K_STATUS_ERROR=false
+  typeset -g POWERLEVEL9K_STATUS_ERROR=true
   typeset -g POWERLEVEL9K_STATUS_ERROR_FOREGROUND=1
   typeset -g POWERLEVEL9K_STATUS_ERROR_VISUAL_IDENTIFIER_EXPANSION='✘'
 
@@ -1563,7 +1565,7 @@
   typeset -g POWERLEVEL9K_VPN_IP_FOREGROUND=3
   # When on VPN, show just an icon without the IP address.
   # Tip: To display the private IP address when on VPN, remove the next line.
-  typeset -g POWERLEVEL9K_VPN_IP_CONTENT_EXPANSION=
+  # typeset -g POWERLEVEL9K_VPN_IP_CONTENT_EXPANSION=
   # Regular expression for the VPN network interface. Run `ifconfig` or `ip -4 a show` while on VPN
   # to see the name of the interface.
   typeset -g POWERLEVEL9K_VPN_IP_INTERFACE='(gpd|wg|(.*tun)|tailscale)[0-9]*|(zt.*)'
