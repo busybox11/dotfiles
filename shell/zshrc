@@ -105,7 +105,6 @@ export ARCHFLAGS="-arch $(uname -m)"
 # source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='󰏖'
 
 # kitty
 typeset -g POWERLEVEL9K_TERM_SHELL_INTEGRATION=true
