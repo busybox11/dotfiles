@@ -1,25 +1,36 @@
 (include "config.yuck")
 (include "lib.yuck")
 (include "variables.yuck")
+(include "state.yuck")
 
 (include "modules/system.yuck")
 (include "modules/music.yuck")
 (include "modules/device.yuck")
 
+(defvar hoverbar false)
 (defwidget bar []
-  (centerbox :orientation "h"
-    (system)
-    (music)
-    (device)))
+  (eventbox
+    :onhover "${EWW_CMD} update hoverbar=true"
+    :onhoverlost "${EWW_CMD} update hoverbar=false"
+    :class "bar-evtbox ${hoverbar ? 'hover' : 'nothover'}"
+
+    (centerbox :orientation "h"
+      (system)
+      (music)
+      (device)
+    )
+  )
+)
 
 (defwindow bar
-  :monitor '[0]'
+  :monitor '["DP-1", "HDMI-A-1", "eDP-1"]'
   :windowtype "dock"
-  :geometry (geometry :x "0%"
+  :geometry (geometry
+    :x "0%"
     :y "0%"
     :width "100%"
-    :height "40px"
-  :anchor "top center")
+    :anchor "top center"
+  )
   :reserve (struts :side "top" :distance "4%")
   :stack "fg"
   :exclusive true

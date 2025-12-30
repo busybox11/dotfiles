@@ -14,16 +14,39 @@
 }
 
 // Global Styles
-.bar {
-  background: rgba($on_primary, 0.1);
-  border-bottom: 1px solid rgba($primary, 0.25);
+.background.bar {
+  background: transparent;
 
   color: $primary;
-  padding: 0 0 0 12px;
-  min-height: 24px;
+  min-height: 20px;
+}
+.bar-evtbox > .horizontal {
+  margin-bottom: -6px;
 }
 
-// Styles on classes (see eww.yuck for more information)
+// i cant figure out why i cant just use simple css selectors
+// gtk is weird
+/*
+.bar-evtbox > .horizontal {
+  background: rgba($on_primary, 0);
+  border-bottom: 1px solid rgba($primary, 0);
+}
+.bar-evtbox.hover > .horizontal {
+  background: rgba($on_primary, 0.1);
+  border-bottom: 1px solid rgba($primary, 0.25);
+}
+*/
+
+.bar-evtbox > .horizontal > *:not(.music_parent) {
+  opacity: 0.6;
+}
+.bar-evtbox.hover > .horizontal > *:not(.music_parent) {
+  opacity: 1;
+}
+
+.bar-evtbox > .horizontal {
+  padding: 0 0 0 12px;
+}
 
 .workspace-entry:not(.main-workspace-logo) {
   color: rgba($primary, 0.4);
