@@ -9,7 +9,7 @@
         :onclick "hyprctl dispatch workspace 1"
         :cursor "pointer"
         (box
-          :class "workspace-entry ${workspaces?.[0]?.focused ? 'current' : ''} ${workspaces?.[0]?.tagsList ?: ''}"
+          :class "workspace-entry ${workspaces?.[0]?.id == 1 ? "${workspaces?.[0]?.focused ? 'current' : ''} ${workspaces?.[0]?.tagsList ?: ''}" : ""}'"
           (image
             :class "main-workspace-logo ${arraylength(workspaces?.[0]?.tags ?: []) > 0 ? 'has-tags' : ''}"
             :path "nina_widget.svg"
