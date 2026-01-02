@@ -128,3 +128,7 @@ export PATH="$PATH:$HOME/go/bin"
 
 # rust
 export PATH="$PATH:$HOME/.cargo/bin"
+
+# home manager
+source $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
+
