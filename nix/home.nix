@@ -1,4 +1,7 @@
 { pkgs, username, ... }:
+let
+  sharedPackages = import ./common-pkgs.nix { inherit pkgs; };
+in
 {
   imports = [
     ./modules/zsh.nix
@@ -8,8 +11,8 @@
     inherit username;
     homeDirectory = "/home/${username}";
 
-    packages = with pkgs; [
-      hello
+    packages = sharedPackages ++ [
+      pkgs.hello
     ];
 
     stateVersion = "25.11";
