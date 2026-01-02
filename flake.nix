@@ -15,13 +15,24 @@
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
+
+      mkHome =
+        user: path:
+        home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+
+          modules = [
+            ./nix/home.nix
+          ];
+          extraSpecialArgs = {
+            username = user;
+            dotfilesPath = path;
+          };
+        };
     in
     {
       homeConfigurations = {
-        rain = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          modules = [ ./home.nix ];
-        };
+        rain = mkHome "rain" "/home/rain/dev/dotfiles";
       };
     };
 }
