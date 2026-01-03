@@ -4,7 +4,7 @@ let
 in
 {
   imports = [
-    ./modules/zsh.nix
+    ./modules
   ];
 
   home = {
