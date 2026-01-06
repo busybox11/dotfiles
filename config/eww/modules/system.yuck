@@ -1,8 +1,6 @@
 (include "modules/workspaces.yuck")
 
 (deflisten dgpu_usage :initial "0" "bash /home/$USER/.config/eww/scripts/get-gpu-usage")
-(defpoll fanspeed :interval "1s" `sh /home/$USER/.config/eww/scripts/fan_speed`)
-(defpoll fansspeed :interval "1s" `sh /home/$USER/.config/eww/scripts/fans_speed`)
 
 (defwidget system []
   (box :class "system"
@@ -54,10 +52,10 @@
         )
         
         (box
-          :class "fan_speed ${fanspeed == '' ? '' : fanspeed > 5200 ? 'critical' : fanspeed > 4000 ? 'warning' : 'normal'}"
-          :tooltip {fansspeed}
+          :class "fan_speed ${fan_speeds.max > 5200 ? 'critical' : fan_speeds.max > 4000 ? 'warning' : 'normal'}"
+          :tooltip {fan_speeds.formatted}
 
-          "󰈐 ${fanspeed}"
+          "󰈐 ${fan_speeds.max}"
         )
       )
     )

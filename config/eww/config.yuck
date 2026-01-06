@@ -1,1 +1,3 @@
 (deflisten config :initial "{}" "bash ~/.config/eww/scripts/device-config")
+
+(defpoll fan_speeds :interval "1s" "bash ~/.config/eww/scripts/fan_speeds")

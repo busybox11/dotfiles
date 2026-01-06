@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# default paths
+CPU_FAN_PATH="/sys/class/hwmon/hwmon3/fan1_input"
+GPU_FAN_PATH="/sys/class/hwmon/hwmon3/fan2_input"
+
+if sensors | grep "dell_ddv-virtual-0" > /dev/null; then
+    CPU_FAN_PATH="/sys/class/hwmon/hwmon1/fan1_input"
+    GPU_FAN_PATH="/sys/class/hwmon/hwmon1/fan1_input"
+fi
+
+cpu_speed=$(cat "$CPU_FAN_PATH" 2>/dev/null || echo "0")
+gpu_speed=$(cat "$GPU_FAN_PATH" 2>/dev/null || echo "0")
+
+max_speed=$((cpu_speed > gpu_speed ? cpu_speed : gpu_speed))
+
+json="{\"cpu\": $cpu_speed, \"gpu\": $gpu_speed, \"max\": $max_speed, \"formatted\": \"CPU : ${cpu_speed} | GPU : ${gpu_speed}\"}"
+echo "$json"
