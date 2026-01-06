@@ -11,7 +11,7 @@
   };
 
   outputs =
-    { nixpkgs, home-manager, ... }:
+    { nixpkgs, home-manager, self, ... }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
@@ -25,6 +25,7 @@
             ./nix/home.nix
           ];
           extraSpecialArgs = {
+            inherit self;
             username = user;
             dotfilesPath = path;
           };
