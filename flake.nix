@@ -33,6 +33,7 @@
     {
       homeConfigurations = {
         rain = mkHome "rain" "/home/rain/dev/dotfiles";
+        busybox = mkHome "busybox" "/home/busybox/dev/dotfiles";
       };
     };
 }
