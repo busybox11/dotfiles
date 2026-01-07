@@ -79,6 +79,14 @@
         source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
         source ${../../shell/p10k.zsh}
       '')
+      (lib.mkBefore ''
+        hmu() {
+          cd ${dotfilesPath} &&
+          nix flake update --commit-lock-file &&
+          home-manager switch --flake ${dotfilesPath}#$USER &&
+          cd -
+        }
+      '')
       (lib.mkOrder 1500 ''
         # bun
         export PATH="$HOME/.bun/bin:$HOME/.cache/.bun/bin:$PATH"
