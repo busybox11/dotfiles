@@ -10,4 +10,7 @@ with pkgs;
   eza
   tree
   tmux
+
+  # fonts
+  cascadia-code
 ]
