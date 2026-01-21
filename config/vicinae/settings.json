@@ -9,9 +9,10 @@
 // Learn more about configuration at https://docs.vicinae.com/config
 
 {
+   "$schema": "https://vicinae.com/schemas/config.json",
    "font": {
       "normal": {
-         "family": "Cascadia Code NF"
+         "family": "CaskaydiaCove Nerd Font"
       }
    },
    "theme": {
@@ -39,6 +40,32 @@
       "files:search"
    ],
    "providers": {
+      "@ShyAssassin/store.vicinae.vscode-recents": {
+         "preferences": {
+            "vscodeFlavour": "Cursor"
+         }
+      },
+      "@degouville/store.raycast.cursor-recent-projects": {
+         "preferences": {
+            "terminalApp": "kitty"
+         }
+      },
+      "@sovereign/store.vicinae.hypr-keybinds": {
+         "preferences": {
+            "keybindsConfigPath": "~/.config/hypr"
+         }
+      },
+      "@thomas/store.raycast.visual-studio-code": {
+         "preferences": {
+            "build": "Cursor",
+            "terminalApp": "kitty"
+         },
+         "entrypoints": {
+            "commandpalette": {
+               "enabled": false
+            }
+         }
+      },
       "@thomaslombart/store.raycast.github": {
          "entrypoints": {
             "my-discussions": {
@@ -51,7 +78,13 @@
       },
       "applications": {
          "preferences": {
-            "launchPrefix": "uwsm app -- "
+            "launchPrefix": "uwsm app -- ",
+            "paths": [
+               "/home/rain/.local/share/applications",
+               "/var/lib/flatpak/exports/share/applications",
+               "/usr/share/applications",
+               "/home/rain/.nix-profile/share/applications"
+            ]
          }
       },
       "core": {
