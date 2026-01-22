@@ -40,7 +40,7 @@
 
   # custom time
   prompt_my_time_segment() {
-    p10k segment -f 11 -i $'󱑎' -t "$(print -nP "%D{%a %d %H:%M:%S}" | tr '[:upper:]' '[:lower:]')"
+    p10k segment -f 245 -i $'' -t "$(print -nP "%D{%a %d %H:%M:%S}" | tr '[:upper:]' '[:lower:]')"
   }
 
   # The list of segments shown on the right. Fill it with less important segments.
