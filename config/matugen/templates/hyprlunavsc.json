@@ -116,7 +116,7 @@
       "name": "Text",
       "scope": "variable.parameter.function",
       "settings": {
-        "foreground": "{{colors.on_background.default.hex}}"
+        "foreground": "{{colors.on_primary_container.default.hex}}"
       }
     },
     {
@@ -200,7 +200,7 @@
       "name": "js/ts variable.other.constant",
       "scope": "variable.other.constant",
       "settings": {
-        "foreground": "{{colors.secondary.default.hex}}"
+        "foreground": "{{colors.secondary_fixed.default.hex}}"
       }
     },
     {
@@ -378,28 +378,28 @@
       "name": "Constant other symbol",
       "scope": "constant.other.symbol",
       "settings": {
-        "foreground": "{{colors.primary.default.hex}}"
+        "foreground": "{{colors.primary.default.hex | auto_lightness: -5.0}}"
       }
     },
     {
       "name": "Integers",
       "scope": "constant.numeric",
       "settings": {
-        "foreground": "{{colors.tertiary.default.hex}}"
+        "foreground": "{{colors.tertiary.default.hex | auto_lightness: -5.0}}"
       }
     },
     {
       "name": "Constants",
       "scope": "constant",
       "settings": {
-        "foreground": "{{colors.tertiary.default.hex}}"
+        "foreground": "{{colors.tertiary.default.hex | auto_lightness: -5.0}}"
       }
     },
     {
       "name": "Constants",
       "scope": "punctuation.definition.constant",
       "settings": {
-        "foreground": "{{colors.tertiary.default.hex}}"
+        "foreground": "{{colors.tertiary.default.hex | auto_lightness: -5.0}}"
       }
     },
     {
@@ -411,9 +411,9 @@
     },
     {
       "name": "Attributes",
-      "scope": "entity.other.attribute-name",
+      "scope": "entity.other.attribute,entity.other.attribute-name",
       "settings": {
-        "foreground": "{{colors.tertiary.default.hex}}"
+        "foreground": "{{colors.tertiary.default.hex | auto_lightness: 5.0}}"
       }
     },
     {
@@ -679,7 +679,7 @@
       "name": "ts primitive/builtin types",
       "scope": "support.type.primitive.ts,support.type.builtin.ts,support.type.primitive.tsx,support.type.builtin.tsx",
       "settings": {
-        "foreground": "{{colors.secondary.default.hex}}"
+        "foreground": "{{colors.secondary_fixed.default.hex}}"
       }
     },
     {
@@ -892,6 +892,13 @@
       }
     },
     {
+      "name": "css selector",
+      "scope": "support.selector.css,source.scss,source.css.scss",
+      "settings": {
+        "foreground": "{{colors.primary.default.hex}}"
+      }
+    },
+    {
       "name": "css comma",
       "scope": "punctuation.separator.list.comma.css",
       "settings": {
@@ -1081,28 +1088,28 @@
         "variable.function"
       ],
       "settings": {
-        "foreground": "{{colors.primary.default.hex}}"
+        "foreground": "{{colors.tertiary.default.hex}}"
       }
     },
     {
       "name": "Classes",
       "scope": "entity.name.type.namespace",
       "settings": {
-        "foreground": "{{colors.secondary.default.hex}}"
+        "foreground": "{{colors.error.default.hex}}"
       }
     },
     {
       "name": "Classes",
       "scope": "support.class, entity.name.type.class",
       "settings": {
-        "foreground": "{{colors.secondary.default.hex}}"
+        "foreground": "{{colors.tertiary.default.hex}}"
       }
     },
     {
       "name": "Class name",
       "scope": "entity.name.class.identifier.namespace.type",
       "settings": {
-        "foreground": "{{colors.secondary.default.hex}}"
+        "foreground": "{{colors.tertiary.default.hex}}"
       }
     },
     {
@@ -1231,7 +1238,7 @@
       "name": "[VSCODE-CUSTOM] JSON Punctuation for Property Name",
       "scope": "support.type.property-name.json punctuation",
       "settings": {
-        "foreground": "{{colors.error.default.hex}}"
+        "foreground": "{{colors.error.default.hex | auto_lightness: -10.0}}"
       }
     },
     {
@@ -1516,14 +1523,14 @@
       "name": "Type Name",
       "scope": "entity.name.type",
       "settings": {
-        "foreground": "{{colors.secondary.default.hex}}"
+        "foreground": "{{colors.tertiary.default.hex}}"
       }
     },
     {
       "name": "Keyword Control",
       "scope": "keyword.control",
       "settings": {
-        "foreground": "{{colors.primary.default.hex}}"
+        "foreground": "{{colors.primary.default.hex | auto_lightness: 5.0}}"
       }
     },
     {
@@ -1711,7 +1718,7 @@
     "list.hoverForeground": "{{colors.on_surface_variant.default.hex}}",
     "list.activeSelectionBackground": "{{colors.primary.default.hex}}40",
     "list.activeSelectionForeground": "{{colors.on_surface.default.hex}}",
-    "tree.indentGuidesStroke": "{{colors.outline.default.hex}}",
+    "tree.indentGuidesStroke": "{{colors.outline_variant.default.hex}}",
     "list.dropBackground": "{{colors.primary_container.default.hex}}40",
     "list.highlightForeground": "{{colors.primary.default.hex}}",
     "list.focusBackground": "{{colors.primary.default.hex}}30",
@@ -1728,11 +1735,11 @@
     "statusBar.debuggingForeground": "{{colors.on_tertiary.default.hex}}",
     "statusBar.noFolderBackground": "{{colors.surface.default.hex}}",
     "statusBar.noFolderForeground": "{{colors.on_surface.default.hex}}",
-    "statusBarItem.remoteBackground": "{{colors.primary.default.hex}}",
-    "statusBarItem.remoteForeground": "{{colors.on_primary.default.hex}}",
+    "statusBarItem.remoteBackground": "{{colors.primary_container.default.hex}}",
+    "statusBarItem.remoteForeground": "{{colors.on_primary_container.default.hex}}",
     "titleBar.activeBackground": "{{colors.surface.default.hex}}",
     "titleBar.activeForeground": "{{colors.on_surface.default.hex}}",
-    "titleBar.inactiveBackground": "{{colors.surface_variant.default.hex}}",
+    "titleBar.inactiveBackground": "{{colors.surface_container_low.default.hex}}",
     "titleBar.inactiveForeground": "{{colors.on_surface_variant.default.hex}}",
     "titleBar.border": "{{colors.outline.default.hex}}25",
     "menubar.selectionForeground": "{{colors.on_surface.default.hex}}",
@@ -1804,9 +1811,9 @@
     "editorBracketHighlight.foreground1": "{{colors.primary.default.hex}}",
     "editorBracketHighlight.foreground2": "{{colors.secondary.default.hex}}",
     "editorBracketHighlight.foreground3": "{{colors.tertiary.default.hex}}",
-    "editorBracketHighlight.foreground4": "{{colors.primary.default.hex | set_lightness: 70.0}}",
-    "editorBracketHighlight.foreground5": "{{colors.secondary.default.hex | set_lightness: 70.0}}",
-    "editorBracketHighlight.foreground6": "{{colors.tertiary.default.hex | set_lightness: 70.0}}",
+    "editorBracketHighlight.foreground4": "{{colors.primary.default.hex | set_hue: 15.0 | auto_lightness: 10.0}}",
+    "editorBracketHighlight.foreground5": "{{colors.secondary.default.hex | set_hue: 15.0 | auto_lightness: 10.0}}",
+    "editorBracketHighlight.foreground6": "{{colors.tertiary.default.hex | set_hue: 15.0 | auto_lightness: 10.0}}",
     "editorBracketHighlight.unexpectedBracket.foreground": "{{colors.error.default.hex}}",
     "editorOverviewRuler.border": "{{colors.outline.default.hex}}00",
     "editorOverviewRuler.findMatchForeground": "{{colors.tertiary.default.hex}}",
@@ -1927,7 +1934,6 @@
     "debugToolBar.border": "{{colors.outline.default.hex}}80",
     "welcomePage.buttonBackground": "{{colors.surface_variant.default.hex}}",
     "welcomePage.buttonHoverBackground": "{{colors.primary.default.hex}}20",
-    "walkThrough.embeddedEditorBackground": "{{colors.surface.default.hex}}",
     "gitDecoration.modifiedResourceForeground": "{{colors.primary.default.hex}}c0",
     "gitDecoration.deletedResourceForeground": "{{colors.error.default.hex}}c0",
     "gitDecoration.untrackedResourceForeground": "{{colors.secondary.default.hex}}c0",
@@ -1974,18 +1980,6 @@
     "statusBarItem.activeBackground": "{{colors.primary.default.hex}}25",
     "settings.focusedRowBackground": "{{colors.surface_variant.default.hex}}50",
     "walkThrough.embeddedEditorBackground": "{{colors.surface.default.hex}}50",
-    "editorOverviewRuler.border": "{{colors.outline.default.hex}}",
-    "editorOverviewRuler.findMatchForeground": "{{colors.primary.default.hex}}",
-    "editorOverviewRuler.rangeHighlightForeground": "{{colors.primary.default.hex}}",
-    "editorOverviewRuler.selectionHighlightForeground": "{{colors.primary.default.hex}}",
-    "editorOverviewRuler.wordHighlightForeground": "{{colors.secondary.default.hex}}",
-    "editorOverviewRuler.wordHighlightStrongForeground": "{{colors.secondary.default.hex}}",
-    "editorOverviewRuler.modifiedForeground": "{{colors.primary.default.hex}}80",
-    "editorOverviewRuler.addedForeground": "{{colors.secondary.default.hex}}80",
-    "editorOverviewRuler.deletedForeground": "{{colors.error.default.hex}}80",
-    "editorOverviewRuler.errorForeground": "{{colors.error.default.hex}}",
-    "editorOverviewRuler.warningForeground": "{{colors.secondary.default.hex}}",
-    "editorOverviewRuler.infoForeground": "{{colors.tertiary.default.hex}}",
     "editorGutter.foldingControlForeground": "{{colors.on_surface_variant.default.hex}}",
     "editor.foldBackground": "{{colors.primary.default.hex}}4d",
     "editorError.foreground": "{{colors.error.default.hex}}",
@@ -1999,9 +1993,7 @@
     "editorInfo.border": "{{colors.outline.default.hex}}00",
     "editorWhitespace.foreground": "{{colors.outline.default.hex}}29",
     "widget.shadow": "{{colors.background.default.hex}}5c",
-    "editorWidget.resizeBorder": "{{colors.outline.default.hex}}",
     "peekViewEditorGutter.background": "{{colors.surface.default.hex}}",
-    "peekViewEditor.matchHighlightBackground": "{{colors.tertiary.default.hex}}99",
     "peekViewEditor.matchHighlightBorder": "{{colors.tertiary.default.hex}}",
     "input.border": "{{colors.outline.default.hex}}25",
     "widget.border": "{{colors.outline.default.hex}}25",
