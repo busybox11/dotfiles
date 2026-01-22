@@ -4,7 +4,12 @@
 CPU_FAN_PATH="/sys/class/hwmon/hwmon3/fan1_input"
 GPU_FAN_PATH="/sys/class/hwmon/hwmon3/fan2_input"
 
-if sensors | grep "dell_ddv-virtual-0" > /dev/null; then
+if sensors | grep "dell_ddv-virtual-0" >/dev/null; then
+    CPU_FAN_PATH="/sys/class/hwmon/hwmon1/fan1_input"
+    GPU_FAN_PATH="/sys/class/hwmon/hwmon1/fan1_input"
+fi
+
+if [ "$(cat /etc/hostname)" == "realbox" ]; then
     CPU_FAN_PATH="/sys/class/hwmon/hwmon1/fan1_input"
     GPU_FAN_PATH="/sys/class/hwmon/hwmon1/fan1_input"
 fi
