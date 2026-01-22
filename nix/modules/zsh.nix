@@ -40,7 +40,7 @@
 
     shellAliases = {
       cdot = "cd ${dotfilesPath}";
-      hmdot-upd = "home-manager switch --flake ${dotfilesPath}#$USER";
+      hmdot-upd = "home-manager switch --flake ${dotfilesPath}#$(cat /etc/hostname)";
 
       n = "nvim";
       z = "nocorrect z";

@@ -33,8 +33,8 @@
     in
     {
       homeConfigurations = {
-        rain = mkHome "rain" "/home/rain/dev/dotfiles";
-        busybox = mkHome "busybox" "/home/busybox/dev/dotfiles";
+        realbox = mkHome "rain" "/home/rain/dev/dotfiles";
+        powerbox = mkHome "busybox" "/home/busybox/dev/dotfiles";
       };
     };
 }
