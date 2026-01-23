@@ -7,22 +7,22 @@ return {
 		config = function()
 			require("mini.base16").setup({
 				palette = {
-					base00 = "#121318",
-					base01 = "#0d0e13",
-					base02 = "#1a1b21",
-					base03 = "#45464f",
-					base04 = "#c6c5d0",
-					base05 = "#e3e1e9",
-					base06 = "#2f3036",
-					base07 = "#38393f",
+					base00 = "#15130c",
+					base01 = "#100e07",
+					base02 = "#1d1c13",
+					base03 = "#4a4739",
+					base04 = "#ccc6b5",
+					base05 = "#e8e2d5",
+					base06 = "#333027",
+					base07 = "#3b3930",
 
 					base08 = "#ff7666",
-					base09 = "#d392c5",
-					base0A = "#9da2c8",
-					base0B = "#6683ff",
-					base0C = "#c2a3be",
-					base0D = "#95a2d0",
-					base0E = "#a7abbe",
+					base09 = "#9bcaac",
+					base0A = "#cbc29a",
+					base0B = "#ddd188",
+					base0C = "#9bcab1",
+					base0D = "#ffee66",
+					base0E = "#c8c19d",
 					base0F = "#ff6670",
 				},
 
@@ -30,13 +30,13 @@ return {
 			})
 
 			vim.api.nvim_set_hl(0, "NeoTreeTabInactive", {
-				bg = "#121318",
-				fg = "#ada7be",
+				bg = "#15130c",
+				fg = "#c9bb9c",
 			})
 
 			vim.api.nvim_set_hl(0, "NeoTreeTabActive", {
-				bg = "#0d0e13",
-				fg = "#6683ff",
+				bg = "#100e07",
+				fg = "#ddd188",
 			})
 		end,
 	},
