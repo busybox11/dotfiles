@@ -25,6 +25,7 @@ output_path = '~/.config/kitty/colors.conf'
 [templates.gtk3]
 input_path = './templates/gtk-colors.css'
 output_path = '~/.config/gtk-3.0/colors.css'
+post_hook = 'gsettings set org.gnome.desktop.interface gtk-theme ""; gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3-{{mode}}'
 
 [templates.gtk4]
 input_path = './templates/gtk-colors.css'
@@ -58,11 +59,6 @@ output_path = '~/.cursor/extensions/hyprluna.hyprluna-theme-1.0.2/themes/hyprlun
 input_path = './templates/vicinae.toml'
 output_path = '~/.local/share/vicinae/themes/matugen.toml'
 post_hook = 'vicinae theme set matugen'
-
-[templates.ghostty]
-input_path = "./templates/ghostty"
-output_path = "~/.config/ghostty/themes/matugen"
-post_hook = 'pkill -SIGUSR2 ghostty'
 
 [templates.nvim]
 input_path = './templates/nvim.lua'

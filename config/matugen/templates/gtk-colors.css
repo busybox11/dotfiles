@@ -20,4 +20,10 @@
 @define-color sidebar_fg_color @window_fg_color;
 @define-color sidebar_border_color @window_bg_color;
 @define-color sidebar_backdrop_color @window_bg_color;
+@define-color outline_color {{colors.outline.default.hex}};
 
+popover contents {
+  border: 1pt solid @outline_color;
+  border-radius: 12pt;
+  box-shadow: 0pt 0pt 64pt {{colors.surface.default.hex}};
+}
