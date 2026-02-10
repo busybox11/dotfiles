@@ -6,11 +6,6 @@ echo "Setting night mode"
 script_dir=$(dirname "$0")
 night_script="$script_dir/../ddc/control.sh"
 
-# hyprsunset
-(
-  hyprctl hyprsunset temperature 3500
-) &
-
 # turn monitor brightness all the way down
 echo "Setting monitors brightness to 0"
 (
