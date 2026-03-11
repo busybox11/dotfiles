@@ -28,10 +28,11 @@
     )
     
     (metric
-      :label "󰕾"
+      :label {volume == "null" ? "󰝟 " : "󰕾"}
       :value volume
       :tooltip "Volume: ${volume}%"
       :onchange "amixer -D pulse sset Master {}%"
+      :showscale {volume != "null"}
       :class ""
     )
     

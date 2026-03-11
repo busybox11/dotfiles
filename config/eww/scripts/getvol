@@ -2,7 +2,7 @@
 
 if command -v pamixer &>/dev/null; then
     if [ true == $(pamixer --get-mute) ]; then
-        echo 0
+        echo null
         exit
     else
         pamixer --get-volume
