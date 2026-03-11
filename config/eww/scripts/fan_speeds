@@ -1,23 +1,30 @@
 #!/bin/bash
 
-# default paths
-CPU_FAN_PATH="/sys/class/hwmon/hwmon3/fan1_input"
-GPU_FAN_PATH="/sys/class/hwmon/hwmon3/fan2_input"
+hostname=$(cat /etc/hostname)
 
-if sensors | grep "dell_ddv-virtual-0" >/dev/null; then
-    CPU_FAN_PATH="/sys/class/hwmon/hwmon1/fan1_input"
-    GPU_FAN_PATH="/sys/class/hwmon/hwmon1/fan1_input"
+# default fan paths
+cpu_path="/sys/class/hwmon/hwmon3/fan1_input"
+gpu_path="/sys/class/hwmon/hwmon3/fan2_input"
+
+if [ "$hostname" = "workbox" ] || sensors | grep -q "dell_ddv-virtual-0"; then
+  cpu_path="/sys/class/hwmon/hwmon1/fan1_input"
+  gpu_path="/sys/class/hwmon/hwmon1/fan1_input"
+elif [ "$hostname" = "realbox" ]; then
+  cpu_path="/sys/class/hwmon/hwmon1/fan1_input"
+  gpu_path="/sys/class/hwmon/hwmon1/fan1_input"
+elif [ "$hostname" = "powerbox" ]; then
+  cpu_path="/sys/devices/platform/asus-nb-wmi/hwmon/hwmon4/fan1_input"
+  gpu_path="/sys/devices/platform/asus-nb-wmi/hwmon/hwmon4/fan2_input"
 fi
 
-if [ "$(cat /etc/hostname)" == "realbox" ]; then
-    CPU_FAN_PATH="/sys/class/hwmon/hwmon1/fan1_input"
-    GPU_FAN_PATH="/sys/class/hwmon/hwmon1/fan1_input"
+cpu_speed=$(cat "$cpu_path" 2>/dev/null || echo 0)
+gpu_speed=$(cat "$gpu_path" 2>/dev/null || echo 0)
+
+if [ "$cpu_speed" -gt "$gpu_speed" ]; then
+  max_speed=$cpu_speed
+else
+  max_speed=$gpu_speed
 fi
 
-cpu_speed=$(cat "$CPU_FAN_PATH" 2>/dev/null || echo "0")
-gpu_speed=$(cat "$GPU_FAN_PATH" 2>/dev/null || echo "0")
-
-max_speed=$((cpu_speed > gpu_speed ? cpu_speed : gpu_speed))
-
-json="{\"cpu\": $cpu_speed, \"gpu\": $gpu_speed, \"max\": $max_speed, \"formatted\": \"CPU : ${cpu_speed} | GPU : ${gpu_speed}\"}"
-echo "$json"
+formatted="CPU : $cpu_speed | GPU : $gpu_speed"
+printf '{"cpu":%s,"gpu":%s,"max":%s,"formatted":"%s"}\n' "$cpu_speed" "$gpu_speed" "$max_speed" "$formatted"
