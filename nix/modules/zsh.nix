@@ -88,6 +88,8 @@
         }
       '')
       (lib.mkOrder 1500 ''
+        export PATH="$PATH:$HOME/.local/bin"
+        
         # bun
         export PATH="$HOME/.bun/bin:$HOME/.cache/.bun/bin:$PATH"
 
