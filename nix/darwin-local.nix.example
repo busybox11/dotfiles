@@ -1,0 +1,9 @@
+# Copy to darwin-local.nix (gitignored). Use a path flake so it is visible to Nix:
+#   home-manager switch --flake "path:$HOME/dev/dotfiles#darwin"
+# (git+file: excludes gitignored files from the flake tree.)
+{
+  system = "aarch64-darwin";
+  username = "you";
+  homeDirectory = "/Users/you";
+  dotfilesPath = "/Users/you/dev/dotfiles";
+}

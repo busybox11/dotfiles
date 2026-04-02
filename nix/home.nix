@@ -1,4 +1,4 @@
-{ pkgs, username, ... }:
+{ pkgs, username, homeDirectory, ... }:
 let
   sharedPackages = import ./common-pkgs.nix { inherit pkgs; };
 in
@@ -8,8 +8,7 @@ in
   ];
 
   home = {
-    inherit username;
-    homeDirectory = "/home/${username}";
+    inherit username homeDirectory;
 
     packages = sharedPackages ++ [
       pkgs.hello

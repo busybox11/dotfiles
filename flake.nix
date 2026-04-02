@@ -13,28 +13,64 @@
   outputs =
     { nixpkgs, home-manager, self, ... }:
     let
-      system = "x86_64-linux";
-      pkgs = import nixpkgs { inherit system; };
+      lib = nixpkgs.lib;
 
       mkHome =
-        user: path:
+        {
+          system,
+          username,
+          homeDirectory,
+          dotfilesPath,
+          flakeHost,
+        }:
         home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
+          pkgs = import nixpkgs { inherit system; };
 
           modules = [
             ./nix/home.nix
           ];
           extraSpecialArgs = {
-            inherit self;
-            username = user;
-            dotfilesPath = path;
+            inherit self username homeDirectory dotfilesPath flakeHost;
           };
         };
+
+      # builtins.currentSystem is unset under flake eval — system comes from darwin-local.nix
+      homeConfigurationsDarwin =
+        let
+          localPath = ./nix/darwin-local.nix;
+        in
+        if builtins.pathExists localPath then
+          let
+            l = import localPath;
+          in
+          lib.optionalAttrs (lib.hasSuffix "-darwin" l.system) {
+            darwin = mkHome {
+              system = l.system;
+              username = l.username;
+              homeDirectory = l.homeDirectory;
+              dotfilesPath = l.dotfilesPath;
+              flakeHost = "darwin";
+            };
+          }
+        else
+          { };
     in
     {
       homeConfigurations = {
-        realbox = mkHome "rain" "/home/rain/dev/dotfiles";
-        powerbox = mkHome "busybox" "/home/busybox/dev/dotfiles";
-      };
+        realbox = mkHome {
+          system = "x86_64-linux";
+          username = "rain";
+          homeDirectory = "/home/rain";
+          dotfilesPath = "/home/rain/dev/dotfiles";
+          flakeHost = "realbox";
+        };
+        powerbox = mkHome {
+          system = "x86_64-linux";
+          username = "busybox";
+          homeDirectory = "/home/busybox";
+          dotfilesPath = "/home/busybox/dev/dotfiles";
+          flakeHost = "powerbox";
+        };
+      } // homeConfigurationsDarwin;
     };
 }

@@ -2,6 +2,7 @@
   lib,
   pkgs,
   dotfilesPath,
+  flakeHost,
   ...
 }:
 
@@ -40,7 +41,8 @@
 
     shellAliases = {
       cdot = "cd ${dotfilesPath}";
-      hmdot-upd = "home-manager switch --flake ${dotfilesPath}#$(cat /etc/hostname)";
+      # path:… so gitignored nix/darwin-local.nix is visible (git+file: flakes omit it)
+      hmdot-upd = "home-manager switch --flake path:${dotfilesPath}#${flakeHost}";
 
       n = "nvim";
       z = "nocorrect z";
@@ -83,7 +85,7 @@
         hmu() {
           cd ${dotfilesPath} &&
           nix flake update --commit-lock-file &&
-          home-manager switch --flake ${dotfilesPath}#$USER &&
+          home-manager switch --flake path:${dotfilesPath}#${flakeHost} &&
           cd -
         }
       '')
