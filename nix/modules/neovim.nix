@@ -1,9 +1,7 @@
-{ pkgs, self, ... }:
+{ pkgs, config, dotfilesPath, ... }:
 {
-  home.file.".config/nvim" = {
-    source = "${self}/config/nvim";
-    recursive = true;
-  };
+  # Symlink to the repo checkout so lazy.nvim can write lazy-lock.json (HM store paths are read-only).
+  home.file.".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/config/nvim";
 
   programs.neovim = {
     enable = true;
