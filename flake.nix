@@ -22,13 +22,14 @@
           homeDirectory,
           dotfilesPath,
           flakeHost,
+          extraModules ? [ ],
         }:
         home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs { inherit system; };
 
           modules = [
             ./nix/home.nix
-          ];
+          ] ++ extraModules;
           extraSpecialArgs = {
             inherit self username homeDirectory dotfilesPath flakeHost;
           };
@@ -50,6 +51,9 @@
               homeDirectory = l.homeDirectory;
               dotfilesPath = l.dotfilesPath;
               flakeHost = "darwin";
+              extraModules = [
+                ./nix/profiles/darwin.nix
+              ];
             };
           }
         else

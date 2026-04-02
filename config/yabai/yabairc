@@ -1,0 +1,35 @@
+#!/usr/bin/env sh
+# Linked at ~/.config/yabai/yabairc (XDG). Helpers live next to this file:
+#   scripts/*.sh
+#   scripts/*.applescript
+
+YABAI_SCRIPTS="${0%/*}/scripts"
+export YABAI_SCRIPTS
+
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
+
+yabai -m config layout bsp
+
+vpad=8
+
+yabai -m config top_padding    $vpad
+yabai -m config bottom_padding $vpad
+yabai -m config left_padding   $vpad
+yabai -m config right_padding  $vpad
+yabai -m config window_gap     $vpad
+
+yabai -m config focus_follows_mouse autoraise
+yabai -m config mouse_follows_focus on
+
+yabai -m config window_shadow float
+
+
+# spaces
+
+yabai -m space 1 --label web
+yabai -m space 2 --label music
+yabai -m space 3 --label code
+yabai -m space 4 --label terminal
+
+true
