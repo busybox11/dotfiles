@@ -1,9 +1,10 @@
 # Loaded only via profiles/darwin.nix
+# Config paths are flake-relative (../../config/...) so HM copies into the store;
+# use `onChange` to restart daemons after `home-manager switch`.
 {
   config,
   lib,
   pkgs,
-  dotfilesPath,
   ...
 }:
 
@@ -34,8 +35,24 @@ in
     pkgs.skhd
   ];
 
-  xdg.configFile."yabai".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/config/yabai";
-  xdg.configFile."skhd".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/config/skhd";
+  xdg.configFile = {
+    "yabai/yabairc" = {
+      source = ../../config/yabai/yabairc;
+      executable = true;
+      onChange = ''
+        /bin/launchctl kickstart -k "gui/$(id -u)/org.nix-community.home.yabai" || true
+      '';
+    };
+    "yabai/scripts/launchers/ghostty.applescript" = {
+      source = ../../config/yabai/scripts/launchers/ghostty.applescript;
+    };
+    "skhd/skhdrc" = {
+      source = ../../config/skhd/skhdrc;
+      onChange = ''
+        /bin/launchctl kickstart -k "gui/$(id -u)/org.nix-community.home.skhd" || true
+      '';
+    };
+  };
 
   launchd.agents.yabai = {
     enable = true;
