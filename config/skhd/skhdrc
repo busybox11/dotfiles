@@ -1,2 +1,0 @@
-cmd - return : osascript ~/.config/yabai/scripts/launchers/ghostty.applescript
-cmd + ctrl - z : open -na /Applications/Twilight.app

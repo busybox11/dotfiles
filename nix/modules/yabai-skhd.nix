@@ -10,6 +10,41 @@
 
 let
   logDir = "${config.home.homeDirectory}/Library/Logs";
+
+  # skhd has no nix options here; we generate ~/.config/skhd/skhdrc.
+  mkActivateApp =
+    app:
+    pkgs.writeShellScript "activate-app-${lib.replaceStrings [ " " ] [ "-" ] app}" ''
+      exec osascript -e ${lib.escapeShellArg "tell application \"${app}\" to activate"}
+    '';
+
+  activateBindings = [
+    {
+      key = "cmd + ctrl - z";
+      app = "Twilight";
+    }
+    {
+      key = "cmd + ctrl - d";
+      app = "Equibop";
+    }
+    {
+      key = "cmd + ctrl - c";
+      app = "Cursor";
+    }
+    {
+      key = "cmd + ctrl - s";
+      app = "Spotify";
+    }
+  ];
+
+  ghosttyLauncher = "${config.xdg.configHome}/yabai/scripts/launchers/ghostty.applescript";
+  skhdrcText =
+    lib.concatStringsSep "\n" (
+      [ "cmd - return : osascript ${lib.escapeShellArg ghosttyLauncher}" ]
+      ++ map (b: "${b.key} : ${mkActivateApp b.app}") activateBindings
+    )
+    + "\n";
+
   envPath = lib.concatStringsSep ":" [
     (lib.makeBinPath [
       pkgs.yabai
@@ -47,7 +82,7 @@ in
       source = ../../config/yabai/scripts/launchers/ghostty.applescript;
     };
     "skhd/skhdrc" = {
-      source = ../../config/skhd/skhdrc;
+      text = skhdrcText;
       onChange = ''
         /bin/launchctl kickstart -k "gui/$(id -u)/org.nix-community.home.skhd" || true
       '';

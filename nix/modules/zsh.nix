@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   pkgs,
   dotfilesPath,
@@ -10,6 +11,9 @@
   home.packages = with pkgs; [ zsh-powerlevel10k ];
 
   programs.zsh = {
+    # Lock legacy dotfile location until home.stateVersion >= 26.05 (HM warning).
+    dotDir = config.home.homeDirectory;
+
     enable = true;
     enableCompletion = true;
 
