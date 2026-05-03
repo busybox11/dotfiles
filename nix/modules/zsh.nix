@@ -8,7 +8,11 @@
 }:
 
 {
-  home.packages = with pkgs; [ zsh-powerlevel10k ];
+  home.packages = with pkgs; [
+    zsh-powerlevel10k
+    zoxide
+    eza
+  ];
 
   programs.zsh = {
     # Lock legacy dotfile location until home.stateVersion >= 26.05 (HM warning).
