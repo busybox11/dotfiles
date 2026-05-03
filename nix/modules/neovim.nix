@@ -12,6 +12,8 @@
 
     withPython3 = true;
     withNodeJs = true;
+    
+    withRuby = false;
 
     extraPackages = with pkgs; [
       # Language servers
@@ -31,8 +33,8 @@
       ripgrep
       fd
       fzf
-      nodePackages.prettier
-      nodePackages.eslint
+      prettier
+      eslint
       stylua
       beautysh
       shfmt

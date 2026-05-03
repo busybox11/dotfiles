@@ -12,6 +12,7 @@
       "powersupplyclass"
       "thermal_zone"
       "cpufreq"
+      "tailscale"
     ];
     port = 9100;
   };
