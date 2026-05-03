@@ -44,6 +44,11 @@
       isort
       alejandra
 
+      # nvim-treesitter complains about not having a compiler
+      # i hate this
+      # i should really use a nix-native neovim config
+      gcc
+
       # Formatters/Linters
       nodejs
       python3
