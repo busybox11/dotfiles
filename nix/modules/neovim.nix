@@ -15,6 +15,8 @@
     
     withRuby = false;
 
+    sideloadInitLua = true;
+
     extraPackages = with pkgs; [
       # Language servers
       lua-language-server
