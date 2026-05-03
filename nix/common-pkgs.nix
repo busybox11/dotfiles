@@ -13,4 +13,7 @@ with pkgs;
 
   # fonts
   cascadia-code
+
+  # code
+  nixfmt
 ]
