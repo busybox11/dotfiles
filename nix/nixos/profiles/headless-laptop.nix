@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
   boot.kernelParams = [ "consoleblank=300" ];
 
@@ -10,4 +11,8 @@
   networking.networkmanager.enable = true;
   
   services.logind.lidSwitch = "ignore";
+
+  environment.systemPackages = with pkgs; [
+    lm_sensors
+  ];
 }
