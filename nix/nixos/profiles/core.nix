@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 {
   imports = [
     ../modules/tailscale.nix
@@ -19,6 +19,19 @@
     LC_TELEPHONE = "fr_FR.UTF-8";
     LC_TIME = "fr_FR.UTF-8";
   };
+
+  environment.systemPackages = with pkgs; [
+    vim
+    neovim
+    wget
+    git
+    htop
+    tree
+    tmux
+    wol
+    fastfetch
+    hyfetch
+  ];
 
   services.openssh.enable = lib.mkDefault true;
   
