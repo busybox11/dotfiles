@@ -1,0 +1,5 @@
+{
+  prometheus = {
+    url = "http://prometheus.infra.local:8428/api/v1/write";
+  };
+}
