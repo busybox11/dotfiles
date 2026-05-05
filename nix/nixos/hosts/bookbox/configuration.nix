@@ -9,9 +9,10 @@ in
 {
   imports = [
     ./hardware-configuration.nix
-    ../../nix/nixos/profiles/core.nix
-    ../../nix/nixos/profiles/headless-laptop.nix
-    (import ../../nix/nixos/personal-machine.nix machine)
+    ../../profiles/core.nix
+    ../../profiles/headless-laptop.nix
+    
+    (import ../../profiles/personal-machine.nix machine)
   ];
 
   networking.useDHCP = lib.mkDefault true;

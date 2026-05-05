@@ -20,5 +20,5 @@
     flakeHost = hostName;
   };
 
-  home-manager.users.${username}.imports = [ ../hm/default.nix ];
+  home-manager.users.${username}.imports = [ ../../hm/default.nix ];
 }

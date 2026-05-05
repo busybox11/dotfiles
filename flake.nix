@@ -19,7 +19,7 @@
     { nixpkgs, home-manager, deploy-rs, self, ... }:
     let
       lib = nixpkgs.lib;
-      hosts = import ./nix/hosts.nix;
+      hosts = import ./nix/nixos/hosts/map.nix;
 
       infraPath = ./nix/infra.nix;
       infra =
@@ -91,7 +91,7 @@
         specialArgs = { inherit self hosts infra; };
         modules = [
           home-manager.nixosModules.home-manager
-          ./hosts/bookbox/configuration.nix
+          ./nix/nixos/hosts/bookbox/configuration.nix
         ];
       };
 
