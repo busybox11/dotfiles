@@ -72,14 +72,14 @@ in
 
   xdg.configFile = {
     "yabai/yabairc" = {
-      source = ../../config/yabai/yabairc;
+      source = ../../../config/yabai/yabairc;
       executable = true;
       onChange = ''
         /bin/launchctl kickstart -k "gui/$(id -u)/org.nix-community.home.yabai" || true
       '';
     };
     "yabai/scripts/launchers/ghostty.applescript" = {
-      source = ../../config/yabai/scripts/launchers/ghostty.applescript;
+      source = ../../../config/yabai/scripts/launchers/ghostty.applescript;
     };
     "skhd/skhdrc" = {
       text = skhdrcText;

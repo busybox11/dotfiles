@@ -40,7 +40,7 @@
           pkgs = import nixpkgs { inherit system; };
 
           modules = [
-            ./nix/home.nix
+            ./nix/hm/default.nix
           ] ++ extraModules;
           extraSpecialArgs = {
             inherit self username homeDirectory dotfilesPath flakeHost;
@@ -50,7 +50,7 @@
       # builtins.currentSystem is unset under flake eval — system comes from darwin-local.nix
       homeConfigurationsDarwin =
         let
-          localPath = ./nix/darwin-local.nix;
+          localPath = ./nix/hm/darwin-local.nix;
         in
         if builtins.pathExists localPath then
           let
@@ -64,7 +64,7 @@
               dotfilesPath = l.dotfilesPath;
               flakeHost = "darwin";
               extraModules = [
-                ./nix/profiles/darwin.nix
+                ./nix/hm/profiles/darwin.nix
               ];
             };
           }
