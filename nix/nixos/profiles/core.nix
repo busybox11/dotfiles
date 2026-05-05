@@ -31,7 +31,12 @@
     wol
     fastfetch
     hyfetch
+    ncurses
+    ghostty.terminfo
   ];
+
+  programs.zsh.enable = true;
+  users.defaultUserShell = pkgs.zsh;
 
   services.openssh.enable = lib.mkDefault true;
   
