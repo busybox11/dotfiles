@@ -10,7 +10,7 @@
 
   networking.networkmanager.enable = true;
   
-  services.logind.lidSwitch = "ignore";
+  services.logind.settings.Login.HandleLidSwitch = "ignore";
 
   environment.systemPackages = with pkgs; [
     lm_sensors
