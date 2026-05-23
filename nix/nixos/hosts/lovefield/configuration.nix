@@ -11,7 +11,6 @@ in
     ./hardware-configuration.nix
     ../../profiles/core.nix
     ../../profiles/headless-laptop.nix
-    
     (import ../../profiles/personal-machine.nix machine)
   ];
 

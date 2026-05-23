@@ -7,6 +7,10 @@
 }:
 { self, hosts, ... }:
 {
+  imports = [
+    (import ../modules/superbird.nix username)
+  ];
+
   networking.hostName = hostName;
 
   users.users.${username} = {
