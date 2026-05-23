@@ -1,5 +1,5 @@
 {
-  bookbox = {
+  lovefield = {
     ethernet = {
       ipv4 = "192.168.1.20";
       prefixLength = 24;

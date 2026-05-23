@@ -72,12 +72,12 @@
           { };
     in
     {
-      deploy.nodes.bookbox = {
-        hostname = hosts.bookbox.ethernet.ipv4;
+      deploy.nodes.lovefield = {
+        hostname = hosts.lovefield.ethernet.ipv4;
         sshUser = "root";
         profiles.system = {
           user = "root";
-          path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.bookbox;
+          path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.lovefield;
         };
         remoteBuild = true;
       };
@@ -86,12 +86,12 @@
       # x86_64-linux builds under `nix flake check` on Darwin. Re-enable selectively if you want.
       # checks.x86_64-linux = deploy-rs.lib.x86_64-linux.deployChecks self.deploy;
 
-      nixosConfigurations.bookbox = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.lovefield = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit self hosts infra; };
         modules = [
           home-manager.nixosModules.home-manager
-          ./nix/nixos/hosts/bookbox/configuration.nix
+          ./nix/nixos/hosts/lovefield/configuration.nix
         ];
       };
 
