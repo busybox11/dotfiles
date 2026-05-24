@@ -39,4 +39,19 @@
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+  # Intel Iris Xe (Tiger Lake) — VA-API + Quick Sync Video
+  hardware.graphics = {
+    enable = lib.mkDefault true;
+    extraPackages = with pkgs; [
+      intel-media-driver
+      vpl-gpu-rt
+    ];
+  };
+
+  environment.sessionVariables = lib.mkDefault {
+    LIBVA_DRIVER_NAME = "iHD";
+  };
+
+  boot.kernelParams = [ "i915.enable_guc=3" ];
 }
