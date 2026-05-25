@@ -16,4 +16,5 @@ with pkgs;
 
   # code
   nixfmt
+  nixd
 ]
