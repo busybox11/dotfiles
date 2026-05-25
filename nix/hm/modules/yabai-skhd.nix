@@ -39,7 +39,13 @@ let
 
   ghosttyLauncher = "${config.xdg.configHome}/yabai/scripts/launchers/ghostty.applescript";
   skhdrcText =
-    lib.concatStringsSep "\n" (
+    ''
+      .blacklist [
+        "Moonlight"
+      ]
+
+    ''
+    + lib.concatStringsSep "\n" (
       [ "cmd - return : osascript ${lib.escapeShellArg ghosttyLauncher}" ]
       ++ map (b: "${b.key} : ${mkActivateApp b.app}") activateBindings
     )
