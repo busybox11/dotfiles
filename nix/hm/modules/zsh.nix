@@ -67,6 +67,19 @@
     };
 
     initContent = lib.mkMerge [
+      (lib.mkOrder 50 ''
+        # gitstatus needs job control; without it init fails and leaves $?=1 (red prompt).
+        if [[ -o interactive ]] && ! setopt monitor 2>/dev/null; then
+          typeset -g _p9k_no_gitstatus=1
+          typeset -g POWERLEVEL9K_DISABLE_GITSTATUS=1
+          typeset -g POWERLEVEL9K_VCS_BACKENDS=()
+          # Stale p10k-dump can still call gitstatus_start from a previous config.
+          rm -f "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-dump-''${(%):-%n}.zsh" \
+                "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-dump-''${(%):-%n}.zsh.zwc" \
+                "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" \
+                "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh.zwc" 2>/dev/null
+        fi
+      '')
       (lib.mkOrder 100 ''
         # styles
         zstyle ':omz:plugins:eza' 'header' no
@@ -112,6 +125,12 @@
         # kitty
         typeset -g POWERLEVEL9K_TERM_SHELL_INTEGRATION=true
         [ "$TERM" = "xterm-kitty" ] && alias ssh="kitty +kitten ssh"
+      '')
+      (lib.mkOrder 2000 ''
+        # Clear spurious non-zero status when gitstatus failed during p10k init.
+        if (( ! ''${+_GITSTATUS_STATE_POWERLEVEL9K} || _GITSTATUS_STATE_POWERLEVEL9K != 2 )); then
+          true
+        fi
       '')
     ];
   };
