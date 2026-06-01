@@ -12,6 +12,7 @@ in
     ../../profiles/core.nix
     ../../profiles/headless-laptop.nix
     (import ../../profiles/personal-machine.nix machine)
+    (import ../../modules/music-stack.nix machine.username)
   ];
 
   networking.useDHCP = lib.mkDefault true;
@@ -20,6 +21,9 @@ in
 
   # lovefield is an intel laptop (ew)
   services.thermald.enable = true;
+
+  # custom internal services
+  services.musicStack.enable = true;
 
   system.stateVersion = "25.05";
 }
