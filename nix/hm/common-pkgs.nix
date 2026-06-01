@@ -17,4 +17,7 @@ with pkgs;
   # code
   nixfmt
   nixd
+
+  # android platform tools (adb, fastboot)
+  android-tools
 ]
