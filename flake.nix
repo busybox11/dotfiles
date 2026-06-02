@@ -27,6 +27,8 @@
         then import infraPath
         else import ./nix/infra.nix.example;
 
+      local = import ./nix/local.nix;
+
       mkHome =
         {
           system,
@@ -41,9 +43,10 @@
 
           modules = [
             ./nix/hm/default.nix
+            ./nix/hm/from-flake-local.nix
           ] ++ extraModules;
           extraSpecialArgs = {
-            inherit self username homeDirectory dotfilesPath flakeHost;
+            inherit self username homeDirectory dotfilesPath flakeHost local;
           };
         };
 

@@ -1,0 +1,7 @@
+# Matugen config for macOS (home-manager runs: matugen image <wallpaper> -c darwin.toml).
+[config]
+
+[templates.ghostty]
+input_path = './templates/ghostty'
+output_path = '~/.config/ghostty/themes/Matugen'
+post_hook = 'pkill -SIGUSR2 ghostty 2>/dev/null || true'

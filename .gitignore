@@ -2,7 +2,7 @@ scripts/modes/hooks/*
 
 result
 
-# macOS HM: copy from nix/darwin-local.nix.example
-nix/darwin-local.nix
+# macOS HM: copy from nix/hm/darwin-local.nix.example
+nix/hm/darwin-local.nix
 
 nix/infra.nix
