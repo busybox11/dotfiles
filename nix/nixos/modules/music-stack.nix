@@ -5,7 +5,7 @@ let
 in
 {
   options.services.musicStack = {
-    enable = lib.mkEnableOption "music library stack (Lidarr and optional download clients)";
+    enable = lib.mkEnableOption "music library stack (Lidarr, Navidrome, and optional download clients)";
 
     libraryPath = lib.mkOption {
       type = lib.types.str;
@@ -29,7 +29,7 @@ in
       type = lib.types.str;
       default = "0.0.0.0";
       description = ''
-        Bind address for Lidarr, Prowlarr, and qBittorrent web UIs.
+        Bind address for Lidarr, Navidrome, Prowlarr, and qBittorrent web UIs.
         Use Tailscale or SSH tunnels; firewall stays closed by default.
       '';
     };
@@ -84,6 +84,16 @@ in
     };
 
     systemd.services.lidarr.serviceConfig.SupplementaryGroups = [ cfg.mediaGroup ];
+
+    services.navidrome = {
+      enable = true;
+      group = cfg.mediaGroup;
+      settings = {
+        Address = cfg.listenAddress;
+        Port = 4533;
+        MusicFolder = cfg.libraryPath;
+      };
+    };
 
     services.prowlarr = lib.mkIf cfg.torrent.enable {
       enable = true;
