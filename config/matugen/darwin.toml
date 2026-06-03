@@ -9,3 +9,11 @@ post_hook = 'pkill -SIGUSR2 ghostty 2>/dev/null || true'
 [templates.nvim]
 input_path = './templates/nvim.lua'
 output_path = '~/.config/nvim/lua/plugins/matugen.lua'
+
+[templates.vscode-raw]
+input_path = './templates/vscode-colors'
+output_path = '~/.cache/matugen/vscode-colors'
+
+[templates.vscode-json]
+input_path = './templates/vscode-colors.json'
+output_path = '~/.cache/matugen/vscode-colors.json'
