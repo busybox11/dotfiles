@@ -13,7 +13,7 @@ yabai -m config layout bsp
 
 vpad=8
 
-yabai -m config top_padding    $vpad
+yabai -m config top_padding    $((vpad / 2))
 yabai -m config bottom_padding $vpad
 yabai -m config left_padding   $vpad
 yabai -m config right_padding  $vpad
