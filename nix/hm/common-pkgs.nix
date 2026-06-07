@@ -11,6 +11,8 @@ with pkgs;
   tree
   tmux
 
+  ookla-speedtest
+
   # fonts
   cascadia-code
 
