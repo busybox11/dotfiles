@@ -5,7 +5,7 @@
   dotfilesPath ? "/home/${username}/dev/dotfiles",
   homeDirectory ? "/home/${username}",
 }:
-{ self, hosts, ... }:
+{ self, hosts, pkgs, ... }:
 {
   imports = [
     (import ../modules/superbird.nix username)
@@ -24,5 +24,8 @@
     flakeHost = hostName;
   };
 
-  home-manager.users.${username}.imports = [ ../../hm/default.nix ];
+  home-manager.users.${username} = {
+    imports = [ ../../hm/default.nix ];
+    home.packages = [ pkgs.home-manager ];
+  };
 }
