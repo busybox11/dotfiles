@@ -99,6 +99,13 @@
       };
 
       homeConfigurations = {
+        lovefield = mkHome {
+          system = "x86_64-linux";
+          username = "rain";
+          homeDirectory = "/home/rain";
+          dotfilesPath = "/home/rain/build/dotfiles";
+          flakeHost = "lovefield";
+        };
         realbox = mkHome {
           system = "x86_64-linux";
           username = "rain";
