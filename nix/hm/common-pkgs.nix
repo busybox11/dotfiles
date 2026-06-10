@@ -18,6 +18,7 @@ with pkgs;
 
   # code
   nixfmt
+  statix
   nixd
 
   # android platform tools (adb, fastboot)
