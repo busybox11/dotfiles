@@ -22,4 +22,6 @@ with pkgs;
 
   # android platform tools (adb, fastboot)
   android-tools
+
+  graphite-cli
 ]
