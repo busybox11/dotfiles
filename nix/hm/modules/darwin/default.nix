@@ -4,5 +4,6 @@
   imports = [
     ./screencapture.nix
     ./yabai-skhd.nix
+    ./bluetooth.nix
   ];
 }
