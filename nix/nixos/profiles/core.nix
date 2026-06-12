@@ -43,6 +43,9 @@
   # Key-only root SSH (no root password auth). Pair with users.users.root.openssh.authorizedKeys.* on each host.
   services.openssh.settings.PermitRootLogin = lib.mkDefault "prohibit-password";
 
+  # universal kitty and ghostty terminfo handling
+  environment.enableAllTerminfo = true;
+
   nixpkgs.config.allowUnfree = lib.mkDefault true;
   nix.settings.experimental-features = lib.mkDefault [
     "nix-command"
