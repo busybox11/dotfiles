@@ -80,7 +80,11 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 # sudo prompt
-export SUDO_PROMPT="$(tput bel)$(tput setab 1 setaf 7 bold)[sudo]$(tput sgr0) $(tput setaf 6)password for$(tput sgr0) $(tput setaf 5)%p$(tput sgr0): "
+if [[ -n "$TERM" ]] && command -v tput &>/dev/null; then
+  export SUDO_PROMPT="$(tput bel)$(tput setab 1 setaf 7 bold)[sudo]$(tput sgr0) $(tput setaf 6)password for$(tput sgr0) $(tput setaf 5)%p$(tput sgr0): "
+else
+  export SUDO_PROMPT="[sudo] password for %p: "
+fi
 
 # export MANPATH="/usr/local/man:$MANPATH"
 

@@ -62,11 +62,17 @@
 
       EDITOR = "nvim"; # maybe set in nvim nix module later on / handle ssh sessions
 
-      SUDO_PROMPT = "$(tput bel)$(tput setab 1 setaf 7 bold)[sudo]$(tput sgr0) $(tput setaf 6)password for$(tput sgr0) $(tput setaf 5)%p$(tput sgr0): ";
       COMPLETION_WAITING_DOTS = "true";
     };
 
     initContent = lib.mkMerge [
+      (lib.mkOrder 1 ''
+        if [[ -n "$TERM" ]] && command -v tput &>/dev/null; then
+          export SUDO_PROMPT="$(tput bel)$(tput setab 1 setaf 7 bold)[sudo]$(tput sgr0) $(tput setaf 6)password for$(tput sgr0) $(tput setaf 5)%p$(tput sgr0): "
+        else
+          export SUDO_PROMPT="[sudo] password for %p: "
+        fi
+      '')
       (lib.mkOrder 50 ''
         # gitstatus needs job control; without it init fails and leaves $?=1 (red prompt).
         if [[ -o interactive ]] && ! setopt monitor 2>/dev/null; then
