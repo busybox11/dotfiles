@@ -78,3 +78,7 @@ post_hook = 'if pgrep -x swaync >/dev/null 2>&1;then swaync-client -rs;fi'
 input_path = './templates/gtk-colors.css'
 output_path = '~/.config/swayosd/colors.css'
 post_hook = 'if pgrep -x swayosd-server >/dev/null 2>&1;then pkill swayosd-server;setsid -f swayosd-server >/dev/null 2>&1;fi'
+
+[templates.zed]
+input_path = "~/.config/matugen/templates/zed.json"
+output_path = "~/.config/zed/themes/matugen-theme.json"

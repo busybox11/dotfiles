@@ -1,0 +1,908 @@
+// NOTE: This file uses JSONC-style inline comments for readability.
+{
+  "$schema": "https://zed.dev/schema/themes/v0.2.0.json",
+  "name": "Matugen Theme",
+  "author": "svturnring",
+  "themes": [
+    {
+      "name": "Matugen Dark",
+      "appearance": "dark",
+      // "style" groups tokens the Zed theme engine consumes. Sections
+      // below divide keys by their semantic purpose (accents, surfaces,
+      // controls, editor, terminal, VC statuses, syntax, etc.).
+      "style": {
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Accents
+        // Main accent palette used for emphasis and CTAs
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "accents": [
+          "{{colors.primary.dark.hex}}",
+          "{{colors.secondary.dark.hex}}",
+          "{{colors.tertiary.dark.hex}}"
+        ],
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Backgrounds & Surfaces
+        // Base background and surface layers
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "background.appearance": "opaque",
+        "elevated_surface.background": "{{colors.surface_container_high.dark.hex}}",
+        "surface.background": "{{colors.surface.dark.hex}}",
+        "background": "{{colors.background.dark.hex | saturate:2,hsl | lighten:3,hsl}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Text & Iconography
+        // Text colors for normal, muted, disabled, and accent states
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "text": "{{colors.on_surface.dark.hex}}",
+        "text.muted": "{{colors.on_surface_variant.dark.hex}}",
+        "text.placeholder": "{{colors.on_surface_variant.dark.hex}}99",
+        "text.disabled": "{{colors.on_surface.dark.hex}}60",
+        "text.accent": "{{colors.primary.dark.hex}}",
+        "icon": "{{colors.on_surface.dark.hex}}",
+        "icon.muted": "{{colors.on_surface_variant.dark.hex}}",
+        "icon.disabled": "{{colors.on_surface.dark.hex}}60",
+        "icon.placeholder": "{{colors.on_surface_variant.dark.hex}}80",
+        "icon.accent": "{{colors.primary.dark.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Syntax Highlighting
+        // Mapping of token types to colors and text styles
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "syntax": {
+          // Function and method names (definitions and calls)
+          "function": {
+            "color": "{{colors.primary.dark.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Language keywords (if, for, return, class, etc.)
+          "keyword": {
+            "color": "{{colors.secondary.dark.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Variable names and identifiers
+          "variable": {
+            "color": "{{colors.on_surface.dark.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // String literals ("text", 'text', `text`)
+          "string": {
+            "color": "{{colors.tertiary.dark.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Numeric literals (integers, floats, hex, binary)
+          "number": {
+            "color": "{{colors.tertiary_fixed.dark.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Primitive values: true, false, null, undefined
+          "boolean": {
+            "color": "{{colors.tertiary.dark.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Type annotations and declarations (int, string, MyClass, etc.)
+          "type": {
+            "color": "{{colors.primary_fixed.dark.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Object properties and struct fields
+          "property": {
+            "color": "{{colors.on_surface.dark.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Constants and immutable values (SCREAMING_SNAKE_CASE, const)
+          "constant": {
+            "color": "{{colors.tertiary.dark.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Single-line and block comments
+          "comment": {
+            "color": "{{colors.on_surface_variant.dark.hex}}",
+            "font_style": "italic",
+            "font_weight": null
+          },
+          // Documentation comments (JSDoc, docstrings, etc.)
+          "comment.doc": {
+            "color": "{{colors.on_surface_variant.dark.hex}}",
+            "font_style": "italic",
+            "font_weight": null
+          },
+          // Operators (+, -, *, /, ==, &&, etc.)
+          "operator": {
+            "color": "{{colors.on_surface_variant.dark.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // General punctuation (commas, semicolons, etc.)
+          "punctuation": {
+            "color": "{{colors.on_surface_variant.dark.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Brackets and braces: (), {}, []
+          "punctuation.bracket": {
+            "color": "{{colors.secondary_fixed.dark.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Delimiters: commas, semicolons, colons
+          "punctuation.delimiter": {
+            "color": "{{colors.on_surface_variant.dark.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Special punctuation (template string delimiters, etc.)
+          "punctuation.special": {
+            "color": "{{colors.secondary.dark.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Escape sequences in strings (\n, \t, \", \\, etc.)
+          "string.escape": {
+            "color": "{{colors.tertiary_fixed_dim.dark.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Regular expression patterns
+          "string.regex": {
+            "color": "{{colors.tertiary_fixed.dark.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Special string types (raw strings, format strings, etc.)
+          "string.special": {
+            "color": "{{colors.on_tertiary_container.dark.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Class constructors and initializers
+          "constructor": {
+            "color": "{{colors.secondary.dark.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // HTML/XML tags (<div>, </span>, etc.)
+          "tag": {
+            "color": "{{colors.secondary.dark.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Italic text in Markdown/docs (emphasis, *text*)
+          "emphasis": {
+            "color": "{{colors.primary.dark.hex}}",
+            "font_style": "italic",
+            "font_weight": null
+          },
+          // Bold text in Markdown/docs (strong emphasis, **text**)
+          "emphasis.strong": {
+            "color": "{{colors.primary.dark.hex}}",
+            "font_style": null,
+            "font_weight": 700
+          },
+          // Markdown list markers (-, *, 1., etc.)
+          "punctuation.list_marker": {
+            "color": "{{colors.on_surface_variant.dark.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Plain text in structured documents (Markdown content, etc.)
+          "text.literal": {
+            "color": "{{colors.tertiary.dark.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Special variables (this, self, super, etc.)
+          "variable.special": {
+            "color": "{{colors.primary.dark.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Symbols in Lisp/Ruby (:symbol, 'symbol)
+          "string.special.symbol": {
+            "color": "{{colors.tertiary.dark.hex}}",
+            "font_style": null,
+            "font_weight": null
+          }
+        },
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Editor UI
+        // Gutter, guides, active/highlighted lines, and document highlights
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "editor.foreground": "{{colors.on_surface.dark.hex}}",
+        "editor.background": "{{colors.background.dark.hex | saturate:2,hsl | lighten:3,hsl}}",
+        "editor.gutter.background": "{{colors.background.dark.hex | saturate:2,hsl | lighten:3,hsl}}",
+        "editor.subheader.background": "{{colors.surface_container.dark.hex}}",
+        "editor.indent_guide": "{{colors.outline_variant.dark.hex}}60",
+        "editor.indent_guide_active": "{{colors.outline_variant.dark.hex}}70",
+        "editor.active_line.background": "{{colors.surface_container_high.dark.hex | saturate:2,hsl}}60",
+        "editor.highlighted_line.background": "{{colors.surface_container_high.dark.hex}}60",
+        "editor.line_number": "{{colors.on_surface_variant.dark.hex}}",
+        "editor.active_line_number": "{{colors.primary.dark.hex}}",
+        "editor.invisible": "{{colors.outline_variant.dark.hex}}80",
+        "editor.wrap_guide": "{{colors.outline_variant.dark.hex}}40",
+        "editor.active_wrap_guide": "{{colors.outline_variant.dark.hex}}80",
+        "editor.document_highlight.read_background": "{{colors.primary_container.dark.hex}}60",
+        "editor.document_highlight.write_background": "{{colors.secondary_container.dark.hex}}80",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Element States
+        // Normal / hover / active / selected / disabled variants
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "element.background": "{{colors.surface_container.dark.hex}}",
+        "element.hover": "{{colors.background.dark.hex | saturate:2,hsl | lighten:3,hsl}}",
+        "element.active": "{{colors.surface_container_highest.dark.hex}}",
+        "element.selected": "{{colors.background.dark.hex | saturate:2,hsl | lighten:6,hsl}}",
+        "element.disabled": "{{colors.surface_variant.dark.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Borders & Focus Visuals
+        // Border states for focused, selected, and disabled elements
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "border": "{{colors.outline_variant.dark.hex}}70",
+        "border.variant": "{{colors.outline_variant.dark.hex}}70",
+        "border.focused": "{{colors.primary.dark.hex}}",
+        "border.selected": "{{colors.primary.dark.hex}}",
+        "border.transparent": "{{colors.outline_variant.dark.hex}}40",
+        "border.disabled": "{{colors.outline_variant.dark.hex}}60",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Status Indicators: Error
+        // Colors for error states and notifications
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "error": "{{colors.error.dark.hex}}",
+        "error.background": "{{colors.error_container.dark.hex}}",
+        "error.border": "{{colors.on_error_container.dark.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Status Indicators: Warning
+        // Colors for warning states and notifications
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "warning": "{{colors.tertiary_fixed_dim.dark.hex}}",
+        "warning.background": "{{colors.tertiary_container.dark.hex}}80",
+        "warning.border": "{{colors.on_tertiary_container.dark.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Status Indicators: Success
+        // Colors for success states and notifications
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "success": "{{colors.tertiary.dark.hex}}",
+        "success.background": "{{colors.tertiary_container.dark.hex}}80",
+        "success.border": "{{colors.on_tertiary_container.dark.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Status Indicators: Hint
+        // Colors for hint states and inline suggestions
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "hint": "{{colors.primary.dark.hex}}",
+        "hint.background": "{{colors.primary_container.dark.hex}}80",
+        "hint.border": "{{colors.on_primary_container.dark.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Status Indicators: Info
+        // Colors for informational states and notifications
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "info": "{{colors.primary.dark.hex}}",
+        "info.background": "{{colors.primary_container.dark.hex}}80",
+        "info.border": "{{colors.on_primary_container.dark.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Diff Highlights
+        // Colors used by diff views: inline hunk highlights, background overlays
+        // and conflict markers. Background values commonly include an alpha
+        // suffix (e.g. `...hex}}80`) to produce semi-transparent overlays.
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "conflict": "{{colors.error.dark.hex}}",
+        "conflict.background": "{{colors.error_container.dark.hex}}80",
+        "conflict.border": "{{colors.on_error_container.dark.hex}}",
+        "deleted": "{{colors.error.dark.hex}}",
+        "deleted.background": "{{colors.error_container.dark.hex}}80",
+        "deleted.border": "{{colors.on_error_container.dark.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Version Control: Created/Added
+        // Colors for newly created or added files/lines in VC systems
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "created": "{{colors.tertiary.dark.hex}}",
+        "created.background": "{{colors.tertiary_container.dark.hex}}80",
+        "created.border": "{{colors.on_tertiary_container.dark.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Version Control: Modified
+        // Colors for modified files/lines in VC systems
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "modified": "{{colors.primary.dark.hex}}",
+        "modified.background": "{{colors.secondary_container.dark.hex}}80",
+        "modified.border": "{{colors.on_secondary_container.dark.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Version Control: Renamed
+        // Colors for renamed files/paths in VC systems
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "renamed": "{{colors.secondary.dark.hex}}",
+        "renamed.border": "{{colors.on_secondary_container.dark.hex}}",
+        "renamed.background": "{{colors.secondary_container.dark.hex}}80",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Version Control: Ignored/Unreachable/Hidden
+        // Colors for ignored, unreachable, or hidden files/entries
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "ignored": "{{colors.on_surface_variant.dark.hex}}60",
+        "ignored.background": "{{colors.surface_variant.dark.hex}}40",
+        "ignored.border": "{{colors.outline_variant.dark.hex}}40",
+        "unreachable": "{{colors.on_surface_variant.dark.hex}}60",
+        "unreachable.background": "{{colors.surface_variant.dark.hex}}40",
+        "unreachable.border": "{{colors.outline_variant.dark.hex}}60",
+        "hidden": "{{colors.outline_variant.dark.hex}}70",
+        "hidden.border": "{{colors.outline_variant.dark.hex}}60",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Terminal Colors
+        // Background, foreground, and ANSI color mapping
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "terminal.background": "{{colors.background.dark.hex | saturate:2,hsl | lighten:3,hsl}}",
+        "terminal.foreground": "{{colors.on_surface.dark.hex}}",
+        "terminal.bright_foreground": "{{colors.on_surface.dark.hex}}",
+        "terminal.dim_foreground": "{{colors.on_surface_variant.dark.hex}}",
+        "terminal.ansi.black": "{{colors.surface_dim.dark.hex}}",
+        "terminal.ansi.bright_black": "{{colors.surface_container_high.dark.hex}}",
+        "terminal.ansi.dim_black": "{{colors.surface.dark.hex}}",
+        "terminal.ansi.red": "{{colors.error.dark.hex}}",
+        "terminal.ansi.bright_red": "{{colors.error.dark.hex}}",
+        "terminal.ansi.dim_red": "{{colors.on_error_container.dark.hex}}",
+        "terminal.ansi.green": "{{colors.tertiary.dark.hex}}",
+        "terminal.ansi.bright_green": "{{colors.tertiary.dark.hex}}",
+        "terminal.ansi.dim_green": "{{colors.on_tertiary_container.dark.hex}}",
+        "terminal.ansi.yellow": "{{colors.tertiary_fixed_dim.dark.hex}}",
+        "terminal.ansi.bright_yellow": "{{colors.tertiary_fixed.dark.hex}}",
+        "terminal.ansi.dim_yellow": "{{colors.on_tertiary_fixed.dark.hex}}",
+        "terminal.ansi.blue": "{{colors.primary.dark.hex}}",
+        "terminal.ansi.bright_blue": "{{colors.primary.dark.hex}}",
+        "terminal.ansi.dim_blue": "{{colors.on_primary_container.dark.hex}}",
+        "terminal.ansi.magenta": "{{colors.secondary.dark.hex}}",
+        "terminal.ansi.bright_magenta": "{{colors.secondary.dark.hex}}",
+        "terminal.ansi.dim_magenta": "{{colors.on_secondary_container.dark.hex}}",
+        "terminal.ansi.cyan": "{{colors.primary_fixed_dim.dark.hex}}",
+        "terminal.ansi.bright_cyan": "{{colors.primary_fixed.dark.hex}}",
+        "terminal.ansi.dim_cyan": "{{colors.on_primary_fixed_variant.dark.hex}}",
+        "terminal.ansi.white": "{{colors.on_surface.dark.hex}}",
+        "terminal.ansi.bright_white": "{{colors.on_surface.dark.hex}}",
+        "terminal.ansi.dim_white": "{{colors.on_surface_variant.dark.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // App Chrome
+        // Status bar, title bar, toolbar, and tab styling
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "status_bar.background": "{{colors.surface.dark.hex}}",
+        "title_bar.background": "{{colors.surface.dark.hex}}",
+        "title_bar.inactive_background": "{{colors.surface_dim.dark.hex}}",
+        "toolbar.background": "{{colors.background.dark.hex | saturate:2,hsl | lighten:3,hsl}}",
+        "tab_bar.background": "{{colors.background.dark.hex | saturate:2,hsl}}",
+        "tab.inactive_background": "{{colors.background.dark.hex | saturate:2,hsl | lighten:3,hsl}}",
+        "tab.active_background": "{{colors.background.dark.hex | saturate:2,hsl | lighten:3,hsl}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Search, Panels & Panes
+        // Search highlight and side panel styling
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "search.match_background": "{{colors.tertiary_container.dark.hex}}80",
+        "panel.background": "{{colors.background.dark.hex | saturate:2,hsl}}",
+        "panel.focused_border": "{{colors.primary.dark.hex}}",
+        "pane.focused_border": "{{colors.primary.dark.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Scrollbars
+        // Thumb, hover, and track colors for scrollbars
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "scrollbar.thumb.background": "{{colors.surface_container_highest.dark.hex | saturate:2,hsl}}80",
+        "scrollbar.thumb.hover_background": "{{colors.surface_container_highest.dark.hex | saturate:2,hsl}}",
+        "scrollbar.thumb.border": "{{colors.outline_variant.dark.hex}}40",
+        "scrollbar.track.background": "{{colors.background.dark.hex | saturate:2,hsl | lighten:3,hsl}}",
+        "scrollbar.track.border": "{{colors.outline_variant.dark.hex}}50",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Ghost Elements & Drop Targets
+        // Transparent/subtle elements and drag-drop indicators
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "drop_target.background": "{{colors.primary_container.dark.hex}}80",
+        "ghost_element.background": null,
+        "ghost_element.hover": "{{colors.surface_container_high.dark.hex | saturate:2,hsl}}",
+        "ghost_element.active": "{{colors.primary.dark.hex}}",
+        "ghost_element.selected": "{{colors.secondary_container.dark.hex}}80",
+        "ghost_element.disabled": "{{colors.surface_variant.dark.hex}}60",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Links
+        // Hover/focus state for inline links, reference previews and clickable items.
+        // Use a high-contrast accent color (primary) so links remain visible on
+        // varying surface layers and editor backgrounds.
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "link_text.hover": "{{colors.primary.dark.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Collaborative Player Cursors & Selections
+        // Colors for multi-user cursors and selections in collaborative editing
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "players": [
+          {
+            "cursor": "{{colors.primary.dark.hex}}",
+            "background": "{{colors.primary_container.dark.hex}}80",
+            "selection": "{{colors.primary_container.dark.hex}}60"
+          },
+          {
+            "cursor": "{{colors.secondary.dark.hex}}",
+            "background": "{{colors.secondary_container.dark.hex}}80",
+            "selection": "{{colors.secondary_container.dark.hex}}60"
+          }
+        ],
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Predictive/AI Markers
+        // Colors for AI-generated or predictive code suggestions
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "predictive": "{{colors.on_surface_variant.dark.hex}}80",
+        "predictive.border": "{{colors.outline_variant.dark.hex}}70",
+        "predictive.background": "{{colors.surface_container_highest.dark.hex}}80"
+      }
+    },
+    {
+      "name": "Matugen Light",
+      "appearance": "light",
+      // "style" groups tokens the Zed theme engine consumes. Sections
+      // below divide keys by their semantic purpose (accents, surfaces,
+      // controls, editor, terminal, VC statuses, syntax, etc.).
+      "style": {
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Accents
+        // Main accent palette used for emphasis and CTAs
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "accents": [
+          "{{colors.primary.light.hex}}",
+          "{{colors.secondary.light.hex}}",
+          "{{colors.tertiary.light.hex}}"
+        ],
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Backgrounds & Surfaces
+        // Base background and surface layers
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "background.appearance": "opaque",
+        "elevated_surface.background": "{{colors.surface_container_high.light.hex}}",
+        "surface.background": "{{colors.surface.light.hex}}",
+        "background": "{{colors.surface_container_low.light.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Text & Iconography
+        // Text colors for normal, muted, disabled, and accent states
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "text": "{{colors.on_surface.light.hex}}",
+        "text.muted": "{{colors.on_surface_variant.light.hex}}",
+        "text.placeholder": "{{colors.on_surface_variant.light.hex}}99",
+        "text.disabled": "{{colors.on_surface.light.hex}}60",
+        "text.accent": "{{colors.primary.light.hex}}",
+        "icon": "{{colors.on_surface.light.hex}}",
+        "icon.muted": "{{colors.on_surface_variant.light.hex}}",
+        "icon.disabled": "{{colors.on_surface.light.hex}}60",
+        "icon.placeholder": "{{colors.on_surface_variant.light.hex}}80",
+        "icon.accent": "{{colors.primary.light.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Syntax Highlighting
+        // Mapping of token types to colors and text styles
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "syntax": {
+          // Function and method names (definitions and calls)
+          "function": {
+            "color": "{{colors.primary.light.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Language keywords (if, for, return, class, etc.)
+          "keyword": {
+            "color": "{{colors.secondary.light.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Variable names and identifiers
+          "variable": {
+            "color": "{{colors.on_surface.light.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // String literals ("text", 'text', `text`)
+          "string": {
+            "color": "{{colors.tertiary.light.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Numeric literals (integers, floats, hex, binary)
+          "number": {
+            "color": "{{colors.tertiary_fixed.light.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Primitive values: true, false, null, undefined
+          "boolean": {
+            "color": "{{colors.tertiary.light.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Type annotations and declarations (int, string, MyClass, etc.)
+          "type": {
+            "color": "{{colors.primary_fixed.light.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Object properties and struct fields
+          "property": {
+            "color": "{{colors.on_surface.light.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Constants and immutable values (SCREAMING_SNAKE_CASE, const)
+          "constant": {
+            "color": "{{colors.tertiary.light.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Single-line and block comments
+          "comment": {
+            "color": "{{colors.on_surface_variant.light.hex}}",
+            "font_style": "italic",
+            "font_weight": null
+          },
+          // Documentation comments (JSDoc, docstrings, etc.)
+          "comment.doc": {
+            "color": "{{colors.on_surface_variant.light.hex}}",
+            "font_style": "italic",
+            "font_weight": null
+          },
+          // Operators (+, -, *, /, ==, &&, etc.)
+          "operator": {
+            "color": "{{colors.on_surface_variant.light.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // General punctuation (commas, semicolons, etc.)
+          "punctuation": {
+            "color": "{{colors.on_surface_variant.light.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Brackets and braces: (), {}, []
+          "punctuation.bracket": {
+            "color": "{{colors.secondary_fixed.light.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Delimiters: commas, semicolons, colons
+          "punctuation.delimiter": {
+            "color": "{{colors.on_surface_variant.light.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Special punctuation (template string delimiters, etc.)
+          "punctuation.special": {
+            "color": "{{colors.secondary.light.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Escape sequences in strings (\n, \t, \", \\, etc.)
+          "string.escape": {
+            "color": "{{colors.tertiary_fixed_dim.light.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Regular expression patterns
+          "string.regex": {
+            "color": "{{colors.tertiary_fixed.light.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Special string types (raw strings, format strings, etc.)
+          "string.special": {
+            "color": "{{colors.on_tertiary_container.light.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Class constructors and initializers
+          "constructor": {
+            "color": "{{colors.secondary.light.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // HTML/XML tags (<div>, </span>, etc.)
+          "tag": {
+            "color": "{{colors.secondary.light.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Italic text in Markdown/docs (emphasis, *text*)
+          "emphasis": {
+            "color": "{{colors.primary.light.hex}}",
+            "font_style": "italic",
+            "font_weight": null
+          },
+          // Bold text in Markdown/docs (strong emphasis, **text**)
+          "emphasis.strong": {
+            "color": "{{colors.primary.light.hex}}",
+            "font_style": null,
+            "font_weight": 700
+          },
+          // Markdown list markers (-, *, 1., etc.)
+          "punctuation.list_marker": {
+            "color": "{{colors.on_surface_variant.light.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Plain text in structured documents (Markdown content, etc.)
+          "text.literal": {
+            "color": "{{colors.tertiary.light.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Special variables (this, self, super, etc.)
+          "variable.special": {
+            "color": "{{colors.primary.light.hex}}",
+            "font_style": null,
+            "font_weight": null
+          },
+          // Symbols in Lisp/Ruby (:symbol, 'symbol)
+          "string.special.symbol": {
+            "color": "{{colors.tertiary.light.hex}}",
+            "font_style": null,
+            "font_weight": null
+          }
+        },
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Editor UI
+        // Gutter, guides, active/highlighted lines, and document highlights
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "editor.foreground": "{{colors.on_surface.light.hex}}",
+        "editor.background": "{{colors.surface_container_low.light.hex}}",
+        "editor.gutter.background": "{{colors.surface_container_low.light.hex}}",
+        "editor.subheader.background": "{{colors.surface_container.light.hex}}",
+        "editor.indent_guide": "{{colors.outline_variant.light.hex}}60",
+        "editor.indent_guide_active": "{{colors.outline_variant.light.hex}}",
+        "editor.active_line.background": "{{colors.surface_container_high.light.hex}}80",
+        "editor.highlighted_line.background": "{{colors.surface_container_high.light.hex}}60",
+        "editor.line_number": "{{colors.on_surface_variant.light.hex}}",
+        "editor.active_line_number": "{{colors.primary.light.hex}}",
+        "editor.invisible": "{{colors.outline_variant.light.hex}}80",
+        "editor.wrap_guide": "{{colors.outline_variant.light.hex}}40",
+        "editor.active_wrap_guide": "{{colors.outline_variant.light.hex}}80",
+        "editor.document_highlight.read_background": "{{colors.primary_container.light.hex}}60",
+        "editor.document_highlight.write_background": "{{colors.secondary_container.light.hex}}80",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Element States
+        // Normal / hover / active / selected / disabled variants
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "element.background": "{{colors.surface_container.light.hex}}",
+        "element.hover": "{{colors.surface_container_high.light.hex}}",
+        "element.active": "{{colors.surface_container_highest.light.hex}}",
+        "element.selected": "{{colors.secondary_container.light.hex}}",
+        "element.disabled": "{{colors.surface_variant.light.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Borders & Focus Visuals
+        // Border states for focused, selected, and disabled elements
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "border": "{{colors.outline_variant.light.hex}}",
+        "border.variant": "{{colors.outline_variant.light.hex}}",
+        "border.focused": "{{colors.primary.light.hex}}",
+        "border.selected": "{{colors.primary.light.hex}}",
+        "border.transparent": "{{colors.outline_variant.light.hex}}40",
+        "border.disabled": "{{colors.outline_variant.light.hex}}60",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Status Indicators: Error
+        // Colors for error states and notifications
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "error": "{{colors.error.light.hex}}",
+        "error.background": "{{colors.error_container.light.hex}}",
+        "error.border": "{{colors.on_error_container.light.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Status Indicators: Warning
+        // Colors for warning states and notifications
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "warning": "{{colors.tertiary_fixed_dim.light.hex}}",
+        "warning.background": "{{colors.tertiary_container.light.hex}}80",
+        "warning.border": "{{colors.on_tertiary_container.light.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Status Indicators: Success
+        // Colors for success states and notifications
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "success": "{{colors.tertiary.light.hex}}",
+        "success.background": "{{colors.tertiary_container.light.hex}}80",
+        "success.border": "{{colors.on_tertiary_container.light.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Status Indicators: Hint
+        // Colors for hint states and inline suggestions
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "hint": "{{colors.primary.light.hex}}",
+        "hint.background": "{{colors.primary_container.light.hex}}80",
+        "hint.border": "{{colors.on_primary_container.light.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Status Indicators: Info
+        // Colors for informational states and notifications
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "info": "{{colors.primary.light.hex}}",
+        "info.background": "{{colors.primary_container.light.hex}}80",
+        "info.border": "{{colors.on_primary_container.light.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Diff Highlights
+        // Colors used by diff views: inline hunk highlights, background overlays
+        // and conflict markers. Background values commonly include an alpha
+        // suffix (e.g. `...hex}}80`) to produce semi-transparent overlays.
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "conflict": "{{colors.error.light.hex}}",
+        "conflict.background": "{{colors.error_container.light.hex}}80",
+        "conflict.border": "{{colors.on_error_container.light.hex}}",
+        "deleted": "{{colors.error.light.hex}}",
+        "deleted.background": "{{colors.error_container.light.hex}}80",
+        "deleted.border": "{{colors.on_error_container.light.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Version Control: Created/Added
+        // Colors for newly created or added files/lines in VC systems
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "created": "{{colors.tertiary.light.hex}}",
+        "created.background": "{{colors.tertiary_container.light.hex}}80",
+        "created.border": "{{colors.on_tertiary_container.light.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Version Control: Modified
+        // Colors for modified files/lines in VC systems
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "modified": "{{colors.secondary.light.hex}}",
+        "modified.background": "{{colors.secondary_container.light.hex}}80",
+        "modified.border": "{{colors.on_secondary_container.light.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Version Control: Renamed
+        // Colors for renamed files/paths in VC systems
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "renamed": "{{colors.secondary.light.hex}}",
+        "renamed.border": "{{colors.on_secondary_container.light.hex}}",
+        "renamed.background": "{{colors.secondary_container.light.hex}}80",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Version Control: Ignored/Unreachable/Hidden
+        // Colors for ignored, unreachable, or hidden files/entries
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "ignored": "{{colors.on_surface_variant.light.hex}}60",
+        "ignored.background": "{{colors.surface_variant.light.hex}}40",
+        "ignored.border": "{{colors.outline_variant.light.hex}}40",
+        "unreachable": "{{colors.on_surface_variant.light.hex}}60",
+        "unreachable.background": "{{colors.surface_variant.light.hex}}40",
+        "unreachable.border": "{{colors.outline_variant.light.hex}}60",
+        "hidden": "{{colors.outline_variant.light.hex}}",
+        "hidden.border": "{{colors.outline_variant.light.hex}}60",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Terminal Colors
+        // Background, foreground, and ANSI color mapping
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "terminal.background": "{{colors.surface_container_low.light.hex}}",
+        "terminal.foreground": "{{colors.on_surface.light.hex}}",
+        "terminal.bright_foreground": "{{colors.on_surface.light.hex}}",
+        "terminal.dim_foreground": "{{colors.on_surface_variant.light.hex}}",
+        "terminal.ansi.black": "{{colors.surface_dim.light.hex}}",
+        "terminal.ansi.bright_black": "{{colors.surface_container_high.light.hex}}",
+        "terminal.ansi.dim_black": "{{colors.surface.light.hex}}",
+        "terminal.ansi.red": "{{colors.error.light.hex}}",
+        "terminal.ansi.bright_red": "{{colors.error.light.hex}}",
+        "terminal.ansi.dim_red": "{{colors.on_error_container.light.hex}}",
+        "terminal.ansi.green": "{{colors.tertiary.light.hex}}",
+        "terminal.ansi.bright_green": "{{colors.tertiary.light.hex}}",
+        "terminal.ansi.dim_green": "{{colors.on_tertiary_container.light.hex}}",
+        "terminal.ansi.yellow": "{{colors.tertiary_fixed_dim.light.hex}}",
+        "terminal.ansi.bright_yellow": "{{colors.tertiary_fixed.light.hex}}",
+        "terminal.ansi.dim_yellow": "{{colors.on_tertiary_fixed.light.hex}}",
+        "terminal.ansi.blue": "{{colors.primary.light.hex}}",
+        "terminal.ansi.bright_blue": "{{colors.primary.light.hex}}",
+        "terminal.ansi.dim_blue": "{{colors.on_primary_container.light.hex}}",
+        "terminal.ansi.magenta": "{{colors.secondary.light.hex}}",
+        "terminal.ansi.bright_magenta": "{{colors.secondary.light.hex}}",
+        "terminal.ansi.dim_magenta": "{{colors.on_secondary_container.light.hex}}",
+        "terminal.ansi.cyan": "{{colors.primary_fixed_dim.light.hex}}",
+        "terminal.ansi.bright_cyan": "{{colors.primary_fixed.light.hex}}",
+        "terminal.ansi.dim_cyan": "{{colors.on_primary_fixed_variant.light.hex}}",
+        "terminal.ansi.white": "{{colors.on_surface.light.hex}}",
+        "terminal.ansi.bright_white": "{{colors.on_surface.light.hex}}",
+        "terminal.ansi.dim_white": "{{colors.on_surface_variant.light.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // App Chrome
+        // Status bar, title bar, toolbar, and tab styling
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "status_bar.background": "{{colors.surface.light.hex}}",
+        "title_bar.background": "{{colors.surface.light.hex}}",
+        "title_bar.inactive_background": "{{colors.surface_dim.light.hex}}",
+        "toolbar.background": "{{colors.surface_container_low.light.hex}}",
+        "tab_bar.background": "{{colors.surface_container.light.hex}}",
+        "tab.inactive_background": "{{colors.surface_container_low.light.hex}}",
+        "tab.active_background": "{{colors.surface_container_high.light.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Search, Panels & Panes
+        // Search highlight and side panel styling
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "search.match_background": "{{colors.tertiary_container.light.hex}}80",
+        "panel.background": "{{colors.surface_container_low.light.hex}}",
+        "panel.focused_border": "{{colors.primary.light.hex}}",
+        "pane.focused_border": "{{colors.primary.light.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Scrollbars
+        // Thumb, hover, and track colors for scrollbars
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "scrollbar.thumb.background": "{{colors.on_surface_variant.light.hex}}80",
+        "scrollbar.thumb.hover_background": "{{colors.on_surface_variant.light.hex}}c0",
+        "scrollbar.thumb.border": "{{colors.outline_variant.light.hex}}40",
+        "scrollbar.track.background": "{{colors.surface_container.light.hex}}",
+        "scrollbar.track.border": "{{colors.outline_variant.light.hex}}20",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Ghost Elements & Drop Targets
+        // Transparent/subtle elements and drag-drop indicators
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "drop_target.background": "{{colors.primary_container.light.hex}}80",
+        "ghost_element.background": null,
+        "ghost_element.hover": "{{colors.surface_container.light.hex}}80",
+        "ghost_element.active": "{{colors.surface_container_high.light.hex}}",
+        "ghost_element.selected": "{{colors.secondary_container.light.hex}}80",
+        "ghost_element.disabled": "{{colors.surface_variant.light.hex}}60",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Links
+        // Hover/focus state for inline links, reference previews and clickable items.
+        // Use a high-contrast accent color (primary) so links remain visible on
+        // varying surface layers and editor backgrounds.
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "link_text.hover": "{{colors.primary.light.hex}}",
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Collaborative Player Cursors & Selections
+        // Colors for multi-user cursors and selections in collaborative editing
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "players": [
+          {
+            "cursor": "{{colors.primary.light.hex}}",
+            "background": "{{colors.primary_container.light.hex}}80",
+            "selection": "{{colors.primary_container.light.hex}}60"
+          },
+          {
+            "cursor": "{{colors.secondary.light.hex}}",
+            "background": "{{colors.secondary_container.light.hex}}80",
+            "selection": "{{colors.secondary_container.light.hex}}60"
+          }
+        ],
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // Predictive/AI Markers
+        // Colors for AI-generated or predictive code suggestions
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        "predictive": "{{colors.on_surface_variant.light.hex}}80",
+        "predictive.border": "{{colors.outline_variant.light.hex}}",
+        "predictive.background": "{{colors.surface_container_highest.light.hex}}80"
+      }
+    }
+  ]
+}

@@ -11,8 +11,9 @@
 {
    "$schema": "https://vicinae.com/schemas/config.json",
    "font": {
+      "rendering": "native",
       "normal": {
-         "family": "CaskaydiaCove Nerd Font"
+         "family": "Cascadia Code NF"
       }
    },
    "theme": {
@@ -32,6 +33,7 @@
    },
    "favorites": [
       "clipboard:history",
+      "@rastsislaux/store.vicinae.pulseaudio:pulseaudio",
       "@thomaslombart/store.raycast.github:notifications",
       "@jomifepe/store.raycast.bitwarden:authenticator",
       "@mattisssa/store.raycast.spotify-player:search",
