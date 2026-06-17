@@ -38,7 +38,8 @@
 */
 
 .bar-evtbox > .horizontal > *:not(.music_parent) {
-  opacity: 0.6;
+  opacity: 0.75;
+  background-blend-mode: soft-light;
 }
 .bar-evtbox.hover > .horizontal > *:not(.music_parent) {
   opacity: 1;
