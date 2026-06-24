@@ -90,7 +90,9 @@ in
               exit 1
             fi
             mkdir -p "''${HOME}/.config/ghostty/themes"
-            ${lib.getExe pkgs.matugen} image "$wallpaper" -c "$config" -m ${matugenMode} -q --source-color-index 0
+            if ! timeout 60 ${lib.getExe pkgs.matugen} image "$wallpaper" -c "$config" -m ${matugenMode} -q --source-color-index 0; then
+              echo "appearance: matugen timed out or failed" >&2
+            fi
           ''}
         ''
     );
