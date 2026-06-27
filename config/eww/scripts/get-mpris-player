@@ -1,0 +1,11 @@
+#!/bin/sh
+
+FILTER='sort_by([if .playback_status == "Playing" then 0 else 1 end, if .entry == "spotify" then 0 elif .entry == "mpv" then 1 else 2 end]) | .[0] // {}'
+
+astal-mpris watch | {
+  IFS= read -r first || exit 0
+  printf '%s\n' "$first" | jq -c "$FILTER"
+  while IFS= read -r line; do
+    printf '%s\n' "$line" | jq -c "$FILTER"
+  done
+}

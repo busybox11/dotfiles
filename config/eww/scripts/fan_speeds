@@ -2,23 +2,23 @@
 
 hostname=$(cat /etc/hostname)
 
-# default fan paths
-cpu_path="/sys/class/hwmon/hwmon3/fan1_input"
-gpu_path="/sys/class/hwmon/hwmon3/fan2_input"
-
 if [ "$hostname" = "workbox" ] || sensors | grep -q "dell_ddv-virtual-0"; then
   cpu_path="/sys/class/hwmon/hwmon1/fan1_input"
   gpu_path="/sys/class/hwmon/hwmon1/fan1_input"
 elif [ "$hostname" = "realbox" ]; then
-  cpu_path="/sys/class/hwmon/hwmon1/fan1_input"
-  gpu_path="/sys/class/hwmon/hwmon1/fan1_input"
+  cpu_path=$(echo /sys/devices/platform/it87.2624/hwmon/hwmon*/fan1_input)
+  gpu_path="nvidia-smi"
 elif [ "$hostname" = "powerbox" ]; then
   cpu_path="/sys/devices/platform/asus-nb-wmi/hwmon/hwmon4/fan1_input"
   gpu_path="/sys/devices/platform/asus-nb-wmi/hwmon/hwmon4/fan2_input"
 fi
 
-cpu_speed=$(cat "$cpu_path" 2>/dev/null || echo 0)
-gpu_speed=$(cat "$gpu_path" 2>/dev/null || echo 0)
+cpu_speed=$(cat "${cpu_path:-}" 2>/dev/null || echo 0)
+if [ "$gpu_path" = "nvidia-smi" ]; then
+  gpu_speed=$(nvidia-smi --query-gpu=fan.speed --format=csv,noheader 2>/dev/null | grep -oP '\d+' || echo 0)
+else
+  gpu_speed=$(cat "$gpu_path" 2>/dev/null || echo 0)
+fi
 
 if [ "$cpu_speed" -gt "$gpu_speed" ]; then
   max_speed=$cpu_speed
