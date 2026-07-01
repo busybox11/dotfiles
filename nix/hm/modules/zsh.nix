@@ -12,6 +12,7 @@
     zsh-powerlevel10k
     zoxide
     eza
+    direnv
   ];
 
   programs.zsh = {
@@ -44,6 +45,7 @@
         "tailscale"
         "nvm"
         "command-not-found"
+        "direnv"
       ];
     };
 
