@@ -13,113 +13,28 @@
       url = "github:serokell/deploy-rs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
+
+    apple-fonts = {
+      url = "github:Lyndeno/apple-fonts.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    code-cursor-nix = {
+      url = "github:jacopone/code-cursor-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs =
-    { nixpkgs, home-manager, deploy-rs, self, ... }:
-    let
-      lib = nixpkgs.lib;
-      hosts = import ./nix/nixos/hosts/map.nix;
-
-      infraPath = ./nix/infra.nix;
-      infra =
-        if builtins.pathExists infraPath
-        then import infraPath
-        else import ./nix/infra.nix.example;
-
-      local = import ./nix/local.nix;
-
-      mkHome =
-        {
-          system,
-          username,
-          homeDirectory,
-          dotfilesPath,
-          flakeHost,
-          extraModules ? [ ],
-        }:
-        home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs { inherit system; };
-
-          modules = [
-            ./nix/hm/default.nix
-            ./nix/hm/from-flake-local.nix
-          ] ++ extraModules;
-          extraSpecialArgs = {
-            inherit self username homeDirectory dotfilesPath flakeHost local;
-          };
-        };
-
-      # builtins.currentSystem is unset under flake eval — system comes from darwin-local.nix
-      homeConfigurationsDarwin =
-        let
-          localPath = ./nix/hm/darwin-local.nix;
-        in
-        if builtins.pathExists localPath then
-          let
-            l = import localPath;
-          in
-          lib.optionalAttrs (lib.hasSuffix "-darwin" l.system) {
-            darwin = mkHome {
-              system = l.system;
-              username = l.username;
-              homeDirectory = l.homeDirectory;
-              dotfilesPath = l.dotfilesPath;
-              flakeHost = "darwin";
-              extraModules = [
-                ./nix/hm/profiles/darwin.nix
-              ];
-            };
-          }
-        else
-          { };
-    in
-    {
-      deploy.nodes.lovefield = {
-        hostname = hosts.lovefield.ethernet.ipv4;
-        sshUser = "root";
-        profiles.system = {
-          user = "root";
-          path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.lovefield;
-        };
-        remoteBuild = true;
-      };
-
-      # deploy-rs README suggests deployChecks for all deploy-rs.lib systems; that pulls
-      # x86_64-linux builds under `nix flake check` on Darwin. Re-enable selectively if you want.
-      # checks.x86_64-linux = deploy-rs.lib.x86_64-linux.deployChecks self.deploy;
-
-      nixosConfigurations.lovefield = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit self hosts infra; };
-        modules = [
-          home-manager.nixosModules.home-manager
-          ./nix/nixos/hosts/lovefield/configuration.nix
-        ];
-      };
-
-      homeConfigurations = {
-        lovefield = mkHome {
-          system = "x86_64-linux";
-          username = "rain";
-          homeDirectory = "/home/rain";
-          dotfilesPath = "/home/rain/build/dotfiles";
-          flakeHost = "lovefield";
-        };
-        realbox = mkHome {
-          system = "x86_64-linux";
-          username = "rain";
-          homeDirectory = "/home/rain";
-          dotfilesPath = "/home/rain/dev/dotfiles";
-          flakeHost = "realbox";
-        };
-        powerbox = mkHome {
-          system = "x86_64-linux";
-          username = "busybox";
-          homeDirectory = "/home/busybox";
-          dotfilesPath = "/home/busybox/dev/dotfiles";
-          flakeHost = "powerbox";
-        };
-      } // homeConfigurationsDarwin;
-    };
+  outputs = inputs: import ./nix/flake/outputs.nix inputs;
 }
