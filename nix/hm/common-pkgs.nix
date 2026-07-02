@@ -13,13 +13,11 @@ with pkgs;
 
   ookla-speedtest
 
-  # fonts
-  cascadia-code
-
   # code
   nixfmt
   statix
   nixd
+  opencode
 
   # android platform tools (adb, fastboot)
   android-tools

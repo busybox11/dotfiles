@@ -2,9 +2,17 @@
   imports = [
     ./appearance.nix
     ./ghostty.nix
+    ./gui.nix
     ./home-workspace.nix
+    ./hyprland.nix
+    ./kitty.nix
     ./neovim.nix
     ./zsh.nix
     ./git.nix
+    ./vscode.nix
+    ./cursor.nix
+    ./zen.nix
+    ./discord.nix
+    ./fonts.nix
   ];
 }
