@@ -1,11 +1,20 @@
 { lib, pkgs, ... }:
 {
+  nixpkgs.overlays = [ (final: prev: {
+    inherit (prev.lixPackageSets.stable)
+      nixpkgs-review
+      nix-eval-jobs
+      nix-fast-build
+      colmena;
+  }) ];
+  nix.package = pkgs.lixPackageSets.stable.lix;
+
   imports = [
     ../modules/tailscale.nix
     ../modules/monitoring.nix
   ];
 
-  time.timeZone = lib.mkDefault "UTC";
+  time.timeZone = lib.mkDefault "Europe/Paris";
   i18n.defaultLocale = lib.mkDefault "en_US.UTF-8";
 
   i18n.extraLocaleSettings = lib.mkDefault {
@@ -20,11 +29,12 @@
     LC_TIME = "fr_FR.UTF-8";
   };
 
+  programs.git.enable = true;
+
   environment.systemPackages = with pkgs; [
     vim
     neovim
     wget
-    git
     htop
     tree
     tmux
@@ -32,6 +42,7 @@
     fastfetch
     hyfetch
     ncurses
+    xeyes
     ghostty.terminfo
   ];
 

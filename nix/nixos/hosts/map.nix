@@ -9,4 +9,8 @@
       prefixLength = 24;
     };
   };
+  voidroid = {
+    ethernet = builtins.throw "voidroid eth IP not set yet";
+    wifi = builtins.throw "voidroid wifi IP not set yet";
+  };
 }

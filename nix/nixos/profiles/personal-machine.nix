@@ -5,16 +5,12 @@
   dotfilesPath ? "/home/${username}/dev/dotfiles",
   homeDirectory ? "/home/${username}",
 }:
-{
-  self,
-  hosts,
-  pkgs,
-  ...
-}:
+{ self, hosts, pkgs, zen-browser, ... }:
 {
   imports = [
-    ../modules/hyprland-desktop.nix
+    ../modules/fonts.nix
     (import ../modules/superbird.nix username)
+    (import ../modules/docker.nix username)
   ];
 
   networking.hostName = hostName;
@@ -22,22 +18,16 @@
   users.users.${username} = {
     isNormalUser = true;
     home = homeDirectory;
-    extraGroups = [
-      "sudo"
-      "wheel"
-      "networkmanager"
-    ];
+    extraGroups = [ "sudo" "wheel" "networkmanager" "video" "audio" ];
   };
 
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+
   home-manager.extraSpecialArgs = {
-    inherit
-      hosts
-      self
-      username
-      homeDirectory
-      dotfilesPath
-      ;
+    inherit hosts self username homeDirectory dotfilesPath zen-browser;
     flakeHost = hostName;
+    fontsManagedByNixOS = builtins.hasAttr hostName hosts;
   };
 
   home-manager.users.${username} = {
