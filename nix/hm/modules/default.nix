@@ -10,6 +10,7 @@
     ./zsh.nix
     ./git.nix
     ./vscode.nix
+    ./vscode-matugen-theme.nix
     ./cursor.nix
     ./zen.nix
     ./discord.nix

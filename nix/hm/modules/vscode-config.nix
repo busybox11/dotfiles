@@ -1,6 +1,27 @@
 { pkgs }:
 let
-  sharedExtensions = with pkgs.vscode-extensions; [
+  # Writes generated themes at runtime; installed as a mutable copy (see vscode-matugen-theme.nix).
+  # Not yet in pkgs.vscode-marketplace; switch to buildVscodeMarketplaceExtension from there once indexed.
+  matugenThemeExtension = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
+    mktplcRef = {
+      publisher = "haikalllp";
+      name = "matugen-theme";
+      version = "1.0.2";
+      sha256 = "1xnbv9wll67dnk749vv53af4d1ihvl9whkfssxx1irhkqdxzwbbz";
+    };
+  };
+
+  matugenThemeExtensionUniqueId = matugenThemeExtension.passthru.vscodeExtUniqueId;
+
+  matugenThemeExtensionPath =
+    "${matugenThemeExtension}/share/vscode/extensions/${matugenThemeExtension.passthru.vscodeExtUniqueId}";
+
+  # pkgs.vscode-marketplace.* — versions track nix-vscode-extensions on flake update.
+  vscodeMarketplaceExtensions = with pkgs.vscode-marketplace; [
+    # haikalllp.matugen-theme  # once indexed, move matugenThemeExtension here and drop mutable install
+  ];
+
+  sharedExtensions = (with pkgs.vscode-extensions; [
     catppuccin.catppuccin-vsc-icons
     bbenoist.nix
     yoavbls.pretty-ts-errors
@@ -15,7 +36,7 @@ let
     docker.docker
     ms-azuretools.vscode-containers
     ms-vscode-remote.remote-containers
-  ];
+  ]) ++ vscodeMarketplaceExtensions;
 
   sharedSettings = {
     "editor.fontFamily" = "'Cascadia Code NF', 'Google Sans Code NF', 'Droid Sans Mono', 'monospace', monospace";
@@ -38,6 +59,7 @@ let
 
     "workbench.activityBar.orientation" = "vertical";
     "workbench.iconTheme" = "catppuccin-mocha";
+    "workbench.preferredDarkColorTheme" = "Matugen Bordered";
     "workbench.list.smoothScrolling" = true;
     "workbench.editor.closeEmptyGroups" = false;
     "workbench.editor.enablePreviewFromCodeNavigation" = true;
@@ -153,4 +175,12 @@ let
     };
   };
 in
-  { inherit sharedExtensions sharedSettings; }
+  {
+    inherit
+      sharedExtensions
+      sharedSettings
+      matugenThemeExtension
+      matugenThemeExtensionUniqueId
+      matugenThemeExtensionPath
+      ;
+  }

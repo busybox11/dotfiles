@@ -16,10 +16,6 @@ output_path = '~/.config/colors.json'
 [templates.hyprland]
 input_path = './templates/hyprland-colors.conf'
 output_path = '~/.config/hypr/colors.conf'
-
-[templates.hyprland_lua]
-input_path = './templates/hyprland-colors.lua'
-output_path = '~/.config/hypr/lua/colors.lua'
 post_hook = 'hyprctl reload'
 
 [templates.kitty]
@@ -48,15 +44,6 @@ output_path = '~/.config/qt5ct/colors/matugen.conf'
 input_path = './templates/qtct-colors.conf'
 output_path = '~/.config/qt6ct/colors/matugen.conf'
 
-[templates.kvantum_kvconfig]
-input_path = './templates/kvantum/MaterialAdw.kvconfig'
-output_path = '~/.config/Kvantum/MaterialAdw/MaterialAdw.kvconfig'
-post_hook = 'kvantummanager --set MaterialAdw 2>/dev/null || true'
-
-[templates.kvantum_svg]
-input_path = './templates/kvantum/MaterialAdw.svg'
-output_path = '~/.config/Kvantum/MaterialAdw/MaterialAdw.svg'
-
 [templates.eww]
 input_path = './templates/eww-colors.scss'
 output_path = '~/.config/eww/colors.scss'
@@ -65,15 +52,11 @@ output_path = '~/.config/eww/colors.scss'
 input_path = './templates/gtk-colors.css'
 output_path = '~/.config/anyrun/colors.css'
 
-[templates.vscode]
+[templates.vscode-hyprluna]
 input_path = './templates/hyprlunavsc.json'
 output_path = '~/.vscode/extensions/hyprluna.hyprluna-theme-1.0.2/themes/hyprluna.json'
 
-[templates.vscode_insiders]
-input_path = './templates/hyprlunavsc.json'
-output_path = '~/.vscode-insiders/extensions/hyprluna.hyprluna-theme-1.0.2/themes/hyprluna.json'
-
-[templates.cursor]
+[templates.cursor-hyprluna]
 input_path = './templates/hyprlunavsc.json'
 output_path = '~/.cursor/extensions/hyprluna.hyprluna-theme-1.0.2/themes/hyprluna.json'
 
@@ -99,3 +82,11 @@ post_hook = 'if pgrep -x swayosd-server >/dev/null 2>&1;then pkill swayosd-serve
 [templates.zed]
 input_path = "~/.config/matugen/templates/zed.json"
 output_path = "~/.config/zed/themes/matugen-theme.json"
+
+[templates.vscode-raw]
+input_path = './templates/vscode-colors'
+output_path = '~/.cache/matugen/vscode-colors'
+
+[templates.vscode-json]
+input_path = './templates/vscode-colors.json'
+output_path = '~/.cache/matugen/vscode-colors.json'
