@@ -5,12 +5,13 @@
   local,
 }:
 let
-  inherit (inputs) nixpkgs home-manager self zen-browser nur apple-fonts;
+  inherit (inputs) nixpkgs home-manager self zen-browser nur apple-fonts nix-vscode-extensions;
   lib = nixpkgs.lib;
 
   overlays = [
     apple-fonts.overlays.default
     nur.overlays.default
+    nix-vscode-extensions.overlays.default
   ];
 
   pkgsFor = system: import nixpkgs {
@@ -45,7 +46,7 @@ let
     nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = {
-        inherit self hosts infra zen-browser;
+        inherit self hosts infra local zen-browser;
       };
       modules = [
         home-manager.nixosModules.home-manager

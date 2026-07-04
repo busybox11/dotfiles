@@ -5,7 +5,7 @@
   dotfilesPath ? "/home/${username}/dev/dotfiles",
   homeDirectory ? "/home/${username}",
 }:
-{ self, hosts, pkgs, zen-browser, ... }:
+{ self, hosts, local, pkgs, zen-browser, ... }:
 {
   imports = [
     ../modules/fonts.nix
@@ -25,13 +25,16 @@
   home-manager.useUserPackages = true;
 
   home-manager.extraSpecialArgs = {
-    inherit hosts self username homeDirectory dotfilesPath zen-browser;
+    inherit hosts local self username homeDirectory dotfilesPath zen-browser;
     flakeHost = hostName;
     fontsManagedByNixOS = builtins.hasAttr hostName hosts;
   };
 
   home-manager.users.${username} = {
-    imports = [ ../../hm/default.nix ];
+    imports = [
+      ../../hm/default.nix
+      ../../hm/from-flake-local.nix
+    ];
     home.packages = [ pkgs.home-manager ];
   };
 }
