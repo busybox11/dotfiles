@@ -5,7 +5,7 @@ in
 {
   programs.cursor = {
     enable = true;
-    package = pkgs.cursor;
+    package = pkgs.code-cursor;
 
     profiles.default = {
       userSettings = vscodeConfig.sharedSettings;

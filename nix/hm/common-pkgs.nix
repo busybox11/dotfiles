@@ -2,6 +2,10 @@
 with pkgs;
 [
   htop
+  btop
+  usbtop
+  powertop
+
   eza
   bat
   ripgrep
@@ -10,6 +14,8 @@ with pkgs;
   eza
   tree
   tmux
+  
+  coreutils
 
   ookla-speedtest
 

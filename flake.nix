@@ -29,11 +29,6 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    code-cursor-nix = {
-      url = "github:jacopone/code-cursor-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = inputs: import ./nix/flake/outputs.nix inputs;
