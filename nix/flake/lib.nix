@@ -5,13 +5,12 @@
   local,
 }:
 let
-  inherit (inputs) nixpkgs home-manager self zen-browser nur apple-fonts code-cursor-nix;
+  inherit (inputs) nixpkgs home-manager self zen-browser nur apple-fonts;
   lib = nixpkgs.lib;
 
   overlays = [
     apple-fonts.overlays.default
     nur.overlays.default
-    code-cursor-nix.overlays.default
   ];
 
   pkgsFor = system: import nixpkgs {
