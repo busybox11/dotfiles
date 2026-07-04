@@ -8,6 +8,7 @@ let
     gruntfuggly.todo-tree
     bradlc.vscode-tailwindcss
     esbenp.prettier-vscode
+    biomejs.biome
     lokalise.i18n-ally
     dbaeumer.vscode-eslint
     aaron-bond.better-comments
@@ -17,21 +18,47 @@ let
   ];
 
   sharedSettings = {
-    "editor.fontFamily" = "'Cascadia Code NF', 'Cascadia Code', 'Droid Sans Mono', 'monospace', monospace";
+    "editor.fontFamily" = "'Cascadia Code NF', 'Google Sans Code NF', 'Droid Sans Mono', 'monospace', monospace";
     "editor.fontWeight" = "400";
     "editor.fontLigatures" = "'ss01', 'ss02', 'ss19', 'ss20', 'zero'";
     "editor.smoothScrolling" = true;
-    "editor.inertialScroll" = true;
     "editor.cursorSmoothCaretAnimation" = "on";
     "editor.showFoldingControls" = "always";
     "editor.stickyScroll.enabled" = true;
-    "editor.brackerPairColorization.enabled" = true;
-    "editor.brackerPairColorization.independentColorPoolPerBracketType" = true;
+    "editor.formatOnSave" = true;
+    "editor.defaultFormatter" = "biomejs.biome";
+    "editor.minimap.enabled" = true;
+    "editor.minimap.renderCharacters" = false;
+    "editor.bracketPairColorization.enabled" = true;
+    "editor.bracketPairColorization.independentColorPoolPerBracketType" = true;
     "editor.tabSize" = 2;
     "editor.hover.delay" = 800;
+    "editor.tabCompletion" = "on";
+    "editor.suggest.localityBonus" = true;
 
     "workbench.activityBar.orientation" = "vertical";
     "workbench.iconTheme" = "catppuccin-mocha";
+    "workbench.list.smoothScrolling" = true;
+    "workbench.editor.closeEmptyGroups" = false;
+    "workbench.editor.enablePreviewFromCodeNavigation" = true;
+    "workbench.editor.enablePreviewFromQuickOpen" = true;
+    "workbench.editor.enablePreview" = false;
+    "workbench.editor.openPositioning" = "left";
+    "workbench.experimental.share.enabled" = true;
+    "workbench.editor.alwaysShowEditorActions" = true;
+    "workbench.editor.highlightModifiedTabs" = true;
+    "workbench.editor.autoLockGroups" = {
+      "mainThreadWebview-markdown.preview" = true;
+      "workbench.input.externalTerminal" = true;
+    };
+    "workbench.view.alwaysShowHeaderActions" = true;
+    "workbench.agentsWindowButton.enabled" = false;
+    "workbench.layoutControl.enabled" = false;
+
+    "editor.codeActionsOnSave" = {
+      "source.fixAll" = "explicit";
+      "source.organizeImports" = "explicit";
+    };
 
     "editor.tokenColorCustomizations" = {
       "comments" = {
@@ -40,6 +67,89 @@ let
       "strings" = {
         "fontStyle" = "italic";
       };
+    };
+
+    "terminal.integrated.smoothScrolling" = true;
+    "terminal.integrated.fontLigatures.enabled" = true;
+    "terminal.integrated.fontFamily" = "'CaskaydiaCove NF', 'Cascadia Code NF', 'Google Sans Code NF', 'Droid Sans Mono', 'monospace', monospace";
+    "terminal.external.linuxExec" = "kitty";
+    "terminal.integrated.cursorBlinking" = true;
+    "terminal.integrated.enableVisualBell" = true;
+    "terminal.integrated.shellIntegration.environmentReporting" = true;
+    "terminal.integrated.stickyScroll.enabled" = true;
+    "terminal.integrated.suggest.enabled" = true;
+    "terminal.integrated.defaultLocation" = "editor";
+
+    "debug.console.fontFamily" = "'Cascadia Code NF', 'Google Sans Code NF', 'Droid Sans Mono', 'monospace', monospace";
+
+    "scm.defaultViewMode" = "tree";
+    "search.defaultViewMode" = "tree";
+    "search.showLineNumbers" = true;
+    "search.quickOpen.includeSymbols" = true;
+
+    "git.terminalGitEditor" = true;
+    "git.blame.editorDecoration.enabled" = true;
+    "git.showCursorWorktrees" = true;
+    "git.enableCommitSigning" = true;
+
+    "window.dialogStyle" = "custom";
+    "window.confirmBeforeClose" = "always";
+    "window.customTitleBarVisibility" = "auto";
+    "window.controlsStyle" = "native";
+    "window.commandCenter" = false;
+    "window.titleBarStyle" = "native";
+    "window.menuBarVisibility" = "hidden";
+    "window.autoDetectColorScheme" = true;
+
+    "typescript.preferences.importModuleSpecifier" = "non-relative";
+    "typescript.suggest.autoImports" = true;
+    "typescript.tsserver.log" = "off";
+    "javascript.preferences.importModuleSpecifier" = "non-relative";
+    "javascript.suggest.autoImports" = true;
+
+    "tsEssentialPlugins.patchOutline" = true;
+    "tsEssentialPlugins.displayAdditionalInfoInCompletions" = true;
+    "tsEssentialPlugins.enableFileDefinitions" = true;
+    "tsEssentialPlugins.enableVueSupport" = true;
+
+    "typescriptExplorer.typeTree.meta.typeArguments.includeInFunctions" = true;
+    "typescriptExplorer.typeTree.readonly.enable" = true;
+    "typescriptExplorer.errorMessages.showDialogue" = true;
+
+    "remote.autoForwardPortsSource" = "hybrid";
+
+    "update.releaseTrack" = "prerelease";
+    "database-client.autoSync" = true;
+    "makefile.configureOnOpen" = true;
+    "json.schemaDownload.enable" = true;
+    "diffEditor.ignoreTrimWhitespace" = false;
+    "shellformat.useEditorConfig" = true;
+
+    "todo-tree.highlights.customHighlight" = {
+      "TODO" = {
+        icon = "check";
+        type = "whole-line";
+        background = "#99500080";
+        color = "orange";
+      };
+    };
+
+    "cursor.composer.shouldChimeAfterChatFinishes" = true;
+    "cursor.composer.shouldAllowCustomModes" = true;
+    "cursor.composer.queueMessageDefaultBehavior" = "stop-and-send";
+    "cursor.composer.usageSummaryDisplay" = "always";
+    "cursor.composer.suggestNextPrompt" = true;
+    "cursor.cpp.disabledLanguages" = [ "plaintext" ];
+    "cursor.cpp.enablePartialAccepts" = true;
+    "cursor.semanticSearch.includeCommitsWithFiles" = true;
+    "cursor.terminal.usePreviewBox" = true;
+    "cursor.general.glassShowWarningNotifications" = true;
+    "cursor.general.emailPrivacyEnabled" = true;
+
+    "containers.contexts.showInStatusBar" = true;
+
+    "[dotenv]" = {
+      "editor.formatOnSave" = false;
     };
   };
 in
