@@ -1,5 +1,11 @@
 { lib, pkgs, ... }:
 {
+  imports = [
+    ../../common/nix-settings.nix
+    ../modules/tailscale.nix
+    ../modules/monitoring.nix
+  ];
+
   nixpkgs.overlays = [ (final: prev: {
     inherit (prev.lixPackageSets.stable)
       nixpkgs-review
@@ -8,11 +14,6 @@
       colmena;
   }) ];
   nix.package = pkgs.lixPackageSets.stable.lix;
-
-  imports = [
-    ../modules/tailscale.nix
-    ../modules/monitoring.nix
-  ];
 
   time.timeZone = lib.mkDefault "Europe/Paris";
   i18n.defaultLocale = lib.mkDefault "en_US.UTF-8";
@@ -33,6 +34,8 @@
 
   environment.systemPackages = with pkgs; [
     vim
+    pciutils
+    usbutils
     neovim
     wget
     htop
@@ -46,6 +49,9 @@
     ghostty.terminfo
   ];
 
+  # universal kitty and ghostty terminfo handling
+  environment.enableAllTerminfo = true;
+
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
 
@@ -54,14 +60,7 @@
   # Key-only root SSH (no root password auth). Pair with users.users.root.openssh.authorizedKeys.* on each host.
   services.openssh.settings.PermitRootLogin = lib.mkDefault "prohibit-password";
 
-  # universal kitty and ghostty terminfo handling
-  environment.enableAllTerminfo = true;
-
-  nixpkgs.config.allowUnfree = lib.mkDefault true;
-  nix.settings.experimental-features = lib.mkDefault [
-    "nix-command"
-    "flakes"
-  ];
+  boot.supportedFilesystems = [ "ntfs" ];
 
   nix.gc = {
     automatic = true;

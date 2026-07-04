@@ -1,8 +1,7 @@
 { ... }:
 {
   imports = [
+    ../../common/nix-settings.nix
     ../modules
   ];
-
-  nixpkgs.config.allowUnfree = true;
 }
