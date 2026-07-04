@@ -15,7 +15,7 @@ with pkgs;
   tree
   tmux
   
-  coreutils
+  coreutils-full
 
   ookla-speedtest
 
