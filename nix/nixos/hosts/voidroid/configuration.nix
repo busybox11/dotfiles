@@ -5,6 +5,12 @@ let
     username = "rain";
     dotfilesPath = "/home/${username}/.dotfiles";
   };
+
+  wifiPowersave = pkgs.writeShellScript "wifi-powersave" ''
+    for iface in $(${pkgs.iw}/bin/iw dev 2>/dev/null | ${pkgs.gnused}/bin/sed -n 's/^[[:space:]]*Interface //p'); do
+      ${pkgs.iw}/bin/iw dev "$iface" set power_save "$1"
+    done
+  '';
 in
 {
   imports = [
@@ -23,4 +29,9 @@ in
   users.users.root.openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEXbYlSOvJuaxsDejRybBkLQwbA18fhTE3j1oIb1cR4K" ];
 
   system.stateVersion = "26.05";
+
+  services.udev.extraRules = ''
+    ACTION=="change", SUBSYSTEM=="power_supply", ATTR{online}=="1", RUN+="${wifiPowersave} off"
+    ACTION=="change", SUBSYSTEM=="power_supply", ATTR{online}=="0", RUN+="${wifiPowersave} on"
+  '';
 }
