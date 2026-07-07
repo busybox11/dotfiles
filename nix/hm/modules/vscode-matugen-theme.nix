@@ -34,6 +34,6 @@ let
 in
 lib.mkIf (extensionDirs != [ ]) {
   home.activation.installMatugenThemeExtension = lib.hm.dag.entryAfter activationAfter ''
-    ${lib.getExe installScript} ${lib.concatMapStringsSep " " lib.escapeShellArg extensionDirs}
+    ${lib.getExe' installScript "install-matugen-vscode-theme"} ${lib.concatMapStringsSep " " lib.escapeShellArg extensionDirs}
   '';
 }
