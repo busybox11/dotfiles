@@ -46,6 +46,7 @@
       ];
 
       settings = {
+        "extensions.autoDisableScopes" = 0;
         "browser.aboutConfig.showWarning" = false;
         "widget.dmabuf.force-enabled" = true;
         "font.name.monospace.x-western" = "Cascadia Code NF";
