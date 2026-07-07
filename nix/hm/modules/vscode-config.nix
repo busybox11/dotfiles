@@ -11,6 +11,25 @@ let
     };
   };
 
+  # Cursor is on vscode 1.105.1, use compatible extension versions
+  nixIdeExtension = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
+    mktplcRef = {
+      publisher = "jnoortheen";
+      name = "nix-ide";
+      version = "0.5.7";
+      sha256 = "1sjlnw92gr2xf6caxn3jn105l1rq3zcp4cwqhfqfj0r5yfx260pb";
+    };
+  };
+
+  errorLensExtension = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
+    mktplcRef = {
+      publisher = "usernamehw";
+      name = "errorlens";
+      version = "3.26.0";
+      sha256 = "0rmvzr5qsbq8zni9vwg4y6bh8l6s5hci974x676m57hi0pfj82d4";
+    };
+  };
+
   matugenThemeExtensionUniqueId = matugenThemeExtension.passthru.vscodeExtUniqueId;
 
   matugenThemeExtensionPath =
@@ -25,7 +44,6 @@ let
     catppuccin.catppuccin-vsc-icons
     bbenoist.nix
     yoavbls.pretty-ts-errors
-    usernamehw.errorlens
     gruntfuggly.todo-tree
     bradlc.vscode-tailwindcss
     esbenp.prettier-vscode
@@ -36,7 +54,10 @@ let
     docker.docker
     ms-azuretools.vscode-containers
     ms-vscode-remote.remote-containers
-  ]) ++ vscodeMarketplaceExtensions;
+  ]) ++ vscodeMarketplaceExtensions ++ [
+    nixIdeExtension
+    errorLensExtension
+  ];
 
   sharedSettings = {
     "editor.fontFamily" = "'Cascadia Code NF', 'Google Sans Code NF', 'Droid Sans Mono', 'monospace', monospace";
