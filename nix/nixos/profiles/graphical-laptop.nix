@@ -37,6 +37,10 @@
   services.libinput.enable = true;
   services.power-profiles-daemon.enable = true;
 
+  boot.kernel.sysctl = {
+    "kernel.nmi_watchdog" = 0;
+  };
+
   services.logind.settings.Login.HandleLidSwitch = "suspend";
 
   zramSwap.enable = true;
