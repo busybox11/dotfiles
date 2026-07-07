@@ -73,9 +73,32 @@
           export SUDO_PROMPT="[sudo] password for %p: "
         fi
       '')
+      (lib.mkOrder 10 ''
+        # lightweight prompt for coding agents
+        _dotfiles_is_ai_agent_shell() {
+          [[ -n "$AI_AGENT" || -n "$AGENT" ]] && return 0
+
+          [[ -n "$CURSOR_AGENT" || -n "$CURSOR_SANDBOX" ]] && return 0
+          
+          [[ -n "$OPENCODE" || -n "$OPENCODE_PID" ]] && return 0
+
+          [[ -n "$CLAUDECODE" || -n "$CLAUDE_CODE_CHILD_SESSION" ]] && return 0
+
+          [[ -n "$CODEX_THREAD_ID" || -n "$CODEX_SANDBOX" || -n "$CODEX_CI" ]] && return 0
+
+          [[ -n "$GEMINI_CLI" || -n "$AUGMENT_AGENT" || -n "$CLINE_ACTIVE" ]] && return 0
+          [[ -n "$ROO_ACTIVE" || -n "$ANTIGRAVITY_AGENT" || -n "$AMP_CURRENT_THREAD_ID" ]] && return 0
+          [[ -n "$COPILOT_AGENT_SESSION_ID" || -n "$CRUSH" || -n "$GOOSE_TERMINAL" ]] && return 0
+
+          return 1
+        }
+
+        typeset -g _DOTFILES_AI_AGENT_SHELL=0
+        _dotfiles_is_ai_agent_shell && typeset -g _DOTFILES_AI_AGENT_SHELL=1
+      '')
       (lib.mkOrder 50 ''
-        # gitstatus needs job control; without it init fails and leaves $?=1 (red prompt).
-        if [[ -o interactive ]] && ! setopt monitor 2>/dev/null; then
+        if (( ! _DOTFILES_AI_AGENT_SHELL )) && [[ -o interactive ]] && ! setopt monitor 2>/dev/null; then
+          # gitstatus needs job control; without it init fails and leaves $?=1 (red prompt).
           typeset -g _p9k_no_gitstatus=1
           typeset -g POWERLEVEL9K_DISABLE_GITSTATUS=1
           typeset -g POWERLEVEL9K_VCS_BACKENDS=()
@@ -98,15 +121,19 @@
         zstyle ':omz:plugins:nvm' lazy yes
       '')
       (lib.mkOrder 500 ''
-        # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-        # Initialization code that may require console input (password prompts, [y/n]
-        # confirmations, etc.) must go above this block; everything else may go below.
-        if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
-          source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
-        fi
+        if (( _DOTFILES_AI_AGENT_SHELL )); then
+          PROMPT='%n@%m %1~ %# '
+        else
+          # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+          # Initialization code that may require console input (password prompts, [y/n]
+          # confirmations, etc.) must go above this block; everything else may go below.
+          if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
+            source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
+          fi
 
-        source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
-        source ${../../../shell/p10k.zsh}
+          source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
+          source ${../../../shell/p10k.zsh}
+        fi
       '')
       (lib.mkBefore ''
         hmu() {
@@ -129,13 +156,15 @@
         export PATH="$PATH:$HOME/.cargo/bin"
 
         # kitty
-        typeset -g POWERLEVEL9K_TERM_SHELL_INTEGRATION=true
+        (( ! _DOTFILES_AI_AGENT_SHELL )) && typeset -g POWERLEVEL9K_TERM_SHELL_INTEGRATION=true
         [ "$TERM" = "xterm-kitty" ] && alias ssh="kitty +kitten ssh"
       '')
       (lib.mkOrder 2000 ''
-        # Clear spurious non-zero status when gitstatus failed during p10k init.
-        if (( ! ''${+_GITSTATUS_STATE_POWERLEVEL9K} || _GITSTATUS_STATE_POWERLEVEL9K != 2 )); then
-          true
+        if (( ! _DOTFILES_AI_AGENT_SHELL )); then
+          # Clear spurious non-zero status when gitstatus failed during p10k init.
+          if (( ! ''${+_GITSTATUS_STATE_POWERLEVEL9K} || _GITSTATUS_STATE_POWERLEVEL9K != 2 )); then
+            true
+          fi
         fi
       '')
     ];
