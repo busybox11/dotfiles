@@ -1,4 +1,35 @@
-{ pkgs }:
+{
+  pkgs,
+  flakeHost ? null,
+}:
+let
+  lib = pkgs.lib;
+  nixosHosts = import ../../nixos/hosts/map.nix;
+
+  # only enable hm / nixos options on dotfiles workspace
+  nixdServerSettings =
+    let
+      flakeExpr = host: "(builtins.getFlake \"\${workspaceFolder}\").${host}";
+      options = lib.optionalAttrs (flakeHost != null) {
+        "home-manager" = {
+          expr = "${flakeExpr "homeConfigurations.${flakeHost}"}.options";
+        };
+      }
+      // lib.optionalAttrs (flakeHost != null && lib.hasAttr flakeHost nixosHosts) {
+        nixos = {
+          expr = "${flakeExpr "nixosConfigurations.${flakeHost}"}.options";
+        };
+      };
+    in
+    {
+      formatting = {
+        command = [ "${pkgs.nixfmt}/bin/nixfmt" ];
+      };
+    }
+    // lib.optionalAttrs (options != { }) {
+      inherit options;
+    };
+in
 let
   # Writes generated themes at runtime; installed as a mutable copy (see vscode-matugen-theme.nix).
   # Not yet in pkgs.vscode-marketplace; switch to buildVscodeMarketplaceExtension from there once indexed.
@@ -42,7 +73,6 @@ let
 
   sharedExtensions = (with pkgs.vscode-extensions; [
     catppuccin.catppuccin-vsc-icons
-    bbenoist.nix
     yoavbls.pretty-ts-errors
     gruntfuggly.todo-tree
     bradlc.vscode-tailwindcss
@@ -193,6 +223,17 @@ let
 
     "[dotenv]" = {
       "editor.formatOnSave" = false;
+    };
+
+    "[nix]" = {
+      "editor.defaultFormatter" = "jnoortheen.nix-ide";
+      "editor.formatOnSave" = true;
+    };
+
+    "nix.enableLanguageServer" = true;
+    "nix.serverPath" = [ "${pkgs.nixd}/bin/nixd" ];
+    "nix.serverSettings" = {
+      nixd = nixdServerSettings;
     };
   };
 in

@@ -1,6 +1,6 @@
-{ pkgs, ... }:
+{ pkgs, flakeHost, ... }:
 let
-  vscodeConfig = import ./vscode-config.nix { inherit pkgs; };
+  vscodeConfig = import ./vscode-config.nix { inherit pkgs flakeHost; };
 in
 {
   programs.vscode = {
