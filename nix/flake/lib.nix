@@ -1,7 +1,6 @@
 {
   inputs,
   hosts,
-  infra,
   local,
 }:
 let
@@ -46,7 +45,7 @@ let
     nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = {
-        inherit self hosts infra local zen-browser;
+        inherit self hosts local zen-browser;
       };
       modules = [
         home-manager.nixosModules.home-manager

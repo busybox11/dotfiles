@@ -9,3 +9,6 @@ nix/infra.nix
 
 node_modules/
 @girs/
+
+# git-crypt symmetric key export (just crypt-export)
+secrets/git-crypt-key

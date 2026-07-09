@@ -4,19 +4,10 @@ let
   hosts = import ../nixos/hosts/map.nix;
   homeHosts = import ./home-hosts.nix;
 
-  infraPath =
-    if builtins.pathExists /etc/nixos/infra.nix then
-      /etc/nixos/infra.nix
-    else if builtins.pathExists ../infra.nix then
-      ../infra.nix
-    else
-      ../infra.nix.example;
-  infra = import infraPath;
-
   local = import ../local.nix;
 
   flakeLib = import ./lib.nix {
-    inherit inputs hosts infra local;
+    inherit inputs hosts local;
   };
   inherit (flakeLib) mkHome mkNixOS mkDarwinHome;
 in
