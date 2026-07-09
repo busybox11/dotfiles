@@ -1,5 +1,8 @@
-{ config, pkgs, infra, ... }:
+{ config, pkgs, ... }:
 
+let
+  secrets = import ../../../secrets/secrets.nix;
+in
 {
   services.prometheus.exporters.node = {
     enable = true;
@@ -18,7 +21,7 @@
 
   services.vmagent = {
     enable = true;
-    remoteWrite.url = infra.prometheus.url;
+    remoteWrite.url = secrets.prometheusRemoteUrl;
 
     extraArgs = [
       "-remoteWrite.tmpDataPath=/var/lib/vmagent-buffer"

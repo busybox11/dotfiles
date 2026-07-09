@@ -6,13 +6,16 @@
     ../modules/monitoring.nix
   ];
 
-  nixpkgs.overlays = [ (final: prev: {
-    inherit (prev.lixPackageSets.stable)
-      nixpkgs-review
-      nix-eval-jobs
-      nix-fast-build
-      colmena;
-  }) ];
+  nixpkgs.overlays = [
+    (final: prev: {
+      inherit (prev.lixPackageSets.stable)
+        nixpkgs-review
+        nix-eval-jobs
+        nix-fast-build
+        colmena
+        ;
+    })
+  ];
   nix.package = pkgs.lixPackageSets.stable.lix;
 
   time.timeZone = lib.mkDefault "Europe/Paris";
@@ -47,6 +50,8 @@
     ncurses
     xeyes
     ghostty.terminfo
+    just
+    git-crypt
   ];
 
   # universal kitty and ghostty terminfo handling
@@ -55,8 +60,8 @@
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
 
-  services.openssh.enable = lib.mkDefault true;
-  
+  services.openssh.enable = true;
+
   # Key-only root SSH (no root password auth). Pair with users.users.root.openssh.authorizedKeys.* on each host.
   services.openssh.settings.PermitRootLogin = lib.mkDefault "prohibit-password";
 
@@ -67,4 +72,5 @@
     dates = "weekly";
     options = "--delete-older-than 30d";
   };
+
 }

@@ -15,5 +15,6 @@
     ./zen.nix
     ./discord.nix
     ./fonts.nix
+    ./work.nix
   ];
 }
