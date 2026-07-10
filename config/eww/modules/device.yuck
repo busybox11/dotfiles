@@ -1,8 +1,5 @@
 (defvar notice `{"id":0}`)
 
-(defpoll volume :interval "1s"
-"scripts/getvol")
-
 (defpoll brightness :interval "1s"
   "echo $(brightnessctl info | grep Current | awk '{print $4}' | tr '%' ' ' | tr '(' ' ' | tr ')' ' ')")
 
@@ -26,14 +23,26 @@
         :showscale {show-brightness-slider}
       )
     )
+
+    (box
+      :orientation "h"
+      :space-evenly false
+      :halign "end"
+      :visible {audio?.bluetooth && audio?.battery != ""}
+      :spacing 8
+      :class "bluetooth-earbuds ${audio?.bluetooth && audio?.battery != "" && audio?.battery < 10 ? 'critical' : audio?.bluetooth && audio?.battery != "" && audio?.battery < 20 ? 'warning' : ''}"
+
+      (label :class "bluetooth-earbuds-logo" :text {audio?.bluetooth ? "󰂯" : "󰂲"})
+      (label :class "bluetooth-earbuds-battery" :text {audio?.battery != "" ? "  ${audio.battery}%" : ""})
+    )
     
     (metric
-      :label {volume == "null" ? "󰝟 " : "󰕾"}
-      :value volume
-      :tooltip "Volume: ${volume}%"
-      :onchange "amixer -D pulse sset Master {}%"
-      :showscale {volume != "null"}
-      :class ""
+      :label {audio?.muted ? "󰝟 " : "󰕾"}
+      :value {audio?.volume ?: 0}
+      :tooltip {audio?.bluetooth && audio?.battery != "" ? "Volume: ${audio.volume}%, ${audio.name}: ${audio.battery}%" : "Volume: ${audio?.volume ?: 0}%"}
+      :onchange "wpctl set-volume @DEFAULT_AUDIO_SINK@ {}%"
+      :showscale {!audio?.muted}
+      :class "audio-volume"
     )
     
     (metric

@@ -1,0 +1,173 @@
+#!/usr/bin/env bash
+
+SINK="@DEFAULT_AUDIO_SINK@"
+PACTL_SINK="@DEFAULT_SINK@"
+BATTERY_POLL_SECS=60
+
+cached_kind=""
+cached_name=""
+cached_bluez=""
+cached_upower=""
+
+refresh_meta() {
+  local inspect api addr
+
+  inspect=$(wpctl inspect "$SINK" 2>/dev/null) || return 1
+
+  IFS=$'\t' read -r api addr cached_name <<<"$(awk '
+    {
+      line = $0
+      sub(/^[ *]+/, "", line)
+      split(line, a, " = ")
+      gsub(/"/, "", a[2])
+      if (a[1] == "device.api") api = a[2]
+      if (a[1] == "api.bluez5.address") addr = a[2]
+      if (a[1] == "node.description") name = a[2]
+    }
+    END { print api "\t" addr "\t" name }
+  ' <<<"$inspect")"
+
+  if [ "$api" = bluez5 ] && [ -n "$addr" ]; then
+    cached_kind=bt
+    cached_bluez="/org/bluez/hci0/dev_${addr//:/_}"
+    cached_upower="/org/freedesktop/UPower/devices/headset_dev_${addr//:/_}"
+  else
+    cached_kind=wired
+    cached_bluez=""
+    cached_upower=""
+  fi
+}
+
+read_volume() {
+  wpctl get-volume "$SINK" 2>/dev/null | awk '{printf "%d", $2 * 100 + 0.5}'
+}
+
+read_muted() {
+  local mute_line
+  mute_line=$(pactl get-sink-mute "$PACTL_SINK" 2>/dev/null) || return 1
+  [ "${mute_line##* }" = yes ] && echo true || echo false
+}
+
+read_battery() {
+  local batt
+  [ "$cached_kind" = bt ] || return 0
+
+  if [ -n "$cached_bluez" ]; then
+    batt=$(busctl get-property org.bluez "$cached_bluez" org.bluez.Battery1 Percentage 2>/dev/null \
+      | awk '{print $2}')
+    [ -n "$batt" ] && echo "$batt" && return 0
+  fi
+
+  if [ -n "$cached_upower" ]; then
+    batt=$(busctl get-property org.freedesktop.UPower "$cached_upower" \
+      org.freedesktop.UPower.Device Percentage 2>/dev/null | awk '{printf "%d", $2}')
+    [ -n "$batt" ] && echo "$batt"
+  fi
+}
+
+build_json() {
+  local vol muted batt bluetooth
+
+  vol=$(read_volume) || return 1
+  muted=$(read_muted) || muted=false
+  bluetooth=false
+  batt=""
+
+  if [ "$cached_kind" = bt ]; then
+    bluetooth=true
+    batt=$(read_battery)
+  fi
+
+  jq -cn \
+    --argjson volume "$vol" \
+    --argjson muted "$muted" \
+    --argjson bluetooth "$bluetooth" \
+    --arg battery "$batt" \
+    --arg name "${cached_name:-}" \
+    '{
+      volume: $volume,
+      muted: $muted,
+      bluetooth: $bluetooth,
+      battery: (if $battery == "" then null else ($battery | tonumber) end),
+      name: $name
+    }'
+}
+
+last=""
+
+emit() {
+  local json
+  json=$(build_json) || return
+  if [ "$json" != "$last" ]; then
+    last="$json"
+    printf '%s\n' "$json"
+  fi
+}
+
+emit_full() {
+  refresh_meta || return
+  emit
+}
+
+emit_fast() {
+  [ -n "$cached_kind" ] || emit_full || return
+  emit
+}
+
+emit_battery() {
+  [ "$cached_kind" = bt ] || return
+  emit_fast
+}
+
+handle_audio_event() {
+  local event=$1 kind=$2
+  case "$kind:$event" in
+    sink:change)
+      emit_fast
+      ;;
+    server:change|card:change|card:new|card:remove|sink:new|sink:remove)
+      emit_full
+      ;;
+  esac
+}
+
+emit_full
+
+while IFS= read -r line; do
+  case "$line" in
+    audio:*)
+      read -r _ event _ kind _id <<<"${line#audio:}"
+      event=${event#\'}; event=${event%\'}
+      handle_audio_event "$event" "$kind"
+      ;;
+    battery:)
+      emit_battery
+      ;;
+    upower:*)
+      [ "$cached_kind" = bt ] || continue
+      [ "${line#upower:}" = "$cached_upower" ] || continue
+      emit_battery
+      ;;
+  esac
+done < <(
+  pactl subscribe 2>/dev/null | while read -r line; do
+    printf 'audio:%s\n' "$line"
+  done &
+
+  gdbus monitor --system --dest org.bluez --object-path /org/bluez/hci0 2>/dev/null \
+    | grep --line-buffered -E 'PropertiesChanged|org\.bluez\.Battery1' \
+    | while read -r _; do
+        printf 'battery:\n'
+      done &
+
+  upower --monitor 2>/dev/null | tail -n +2 | while read -r _ _ path _; do
+    printf 'upower:%s\n' "$path"
+  done &
+
+  while true; do
+    sleep "$BATTERY_POLL_SECS"
+    printf 'battery:\n'
+  done &
+
+  wait
+)
