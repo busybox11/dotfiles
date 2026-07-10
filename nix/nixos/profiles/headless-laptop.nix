@@ -50,5 +50,9 @@
   environment.systemPackages = with pkgs; [
     lm_sensors
     libva-utils
+    waypipe
+    xwayland-satellite
+    xauth
   ];
+  services.openssh.settings.StreamLocalBindMask = "0117";
 }

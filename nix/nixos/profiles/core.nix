@@ -39,7 +39,7 @@
   users.defaultUserShell = pkgs.zsh;
 
   services.openssh.enable = lib.mkDefault true;
-  
+
   # Key-only root SSH (no root password auth). Pair with users.users.root.openssh.authorizedKeys.* on each host.
   services.openssh.settings.PermitRootLogin = lib.mkDefault "prohibit-password";
 
