@@ -30,7 +30,7 @@
       :halign "end"
       :visible {audio?.bluetooth && audio?.battery != ""}
       :spacing 8
-      :class "bluetooth-earbuds ${audio?.bluetooth && audio?.battery != "" && audio?.battery < 10 ? 'critical' : audio?.bluetooth && audio?.battery != "" && audio?.battery < 20 ? 'warning' : ''}"
+      :class "bluetooth-earbuds ${audio?.bluetooth && audio?.battery != "" && audio?.battery < 11 ? 'critical' : audio?.bluetooth && audio?.battery != "" && audio?.battery < 20 ? 'warning' : ''}"
 
       (label :class "bluetooth-earbuds-logo" :text {audio?.bluetooth ? "󰂯" : "󰂲"})
       (label :class "bluetooth-earbuds-battery" :text {audio?.battery != "" ? "  ${audio.battery}%" : ""})
