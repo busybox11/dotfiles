@@ -14,7 +14,7 @@ with pkgs;
   eza
   tree
   tmux
-  
+
   coreutils-full
 
   ookla-speedtest
@@ -24,9 +24,14 @@ with pkgs;
   statix
   nixd
   opencode
+  nodejs_latest
+  pnpm
+  react-native-debugger
+  direnv
 
   # android platform tools (adb, fastboot)
   android-tools
 
+  gh
   graphite-cli
 ]
