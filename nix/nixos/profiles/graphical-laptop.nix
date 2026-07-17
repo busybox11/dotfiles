@@ -52,6 +52,7 @@
   console.keyMap = "fr";
 
   networking.networkmanager.enable = true;
+  networking.firewall.enable = false;
 
   hardware.enableRedistributableFirmware = true;
 
