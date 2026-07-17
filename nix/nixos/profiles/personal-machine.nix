@@ -5,7 +5,15 @@
   dotfilesPath ? "/home/${username}/dev/dotfiles",
   homeDirectory ? "/home/${username}",
 }:
-{ self, hosts, local, pkgs, zen-browser, ... }:
+{
+  self,
+  hosts,
+  local,
+  pkgs,
+  zen-browser,
+  vscode-server,
+  ...
+}:
 {
   imports = [
     ../modules/fonts.nix
@@ -18,14 +26,32 @@
   users.users.${username} = {
     isNormalUser = true;
     home = homeDirectory;
-    extraGroups = [ "sudo" "wheel" "networkmanager" "video" "audio" ];
+    extraGroups = [
+      "sudo"
+      "wheel"
+      "networkmanager"
+      "video"
+      "audio"
+    ];
   };
+
+  # mostly vscode remote ssh
+  programs.nix-ld.enable = true;
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
 
   home-manager.extraSpecialArgs = {
-    inherit hosts local self username homeDirectory dotfilesPath zen-browser;
+    inherit
+      hosts
+      local
+      self
+      username
+      homeDirectory
+      dotfilesPath
+      zen-browser
+      vscode-server
+      ;
     flakeHost = hostName;
     fontsManagedByNixOS = builtins.hasAttr hostName hosts;
   };
