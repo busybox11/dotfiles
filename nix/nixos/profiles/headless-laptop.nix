@@ -47,6 +47,14 @@
 
   services.logind.settings.Login.HandleLidSwitch = "ignore";
 
+  services.tlp.enable = true;
+  services.tlp.settings = {
+    START_CHARGE_THRESH_BAT0 = 80;
+    USB_AUTOSUSPEND = 0;
+    WIFI_PWR_ON_AC = "off";
+    DISK_SPINDOWN_TIMEOUT_ON_AC = "0";
+  };
+
   environment.systemPackages = with pkgs; [
     lm_sensors
     libva-utils

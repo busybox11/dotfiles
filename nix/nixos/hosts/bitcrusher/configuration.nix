@@ -13,6 +13,9 @@ in
     ../../profiles/graphical-laptop.nix
     (import ../../profiles/personal-machine.nix machine)
   ];
+  
+  hardware.nvidia.powerManagement.enable = true;
+  hardware.nvidia.prime.offload.enable = lib.mkDefault false;
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;

@@ -35,7 +35,9 @@
   services.blueman.enable = true;
 
   services.libinput.enable = true;
-  services.power-profiles-daemon.enable = true;
+  services.power-profiles-daemon.enable = false;
+  services.tlp.enable = true;
+  services.tlp.settings.START_CHARGE_THRESH_BAT0 = 85;
 
   boot.kernel.sysctl = {
     "kernel.nmi_watchdog" = 0;
