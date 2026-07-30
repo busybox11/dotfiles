@@ -10,6 +10,7 @@
 
 {
    "$schema": "https://vicinae.com/schemas/config.json",
+   "pop_to_root_on_close": true,
    "font": {
       "rendering": "native",
       "normal": {
@@ -24,6 +25,9 @@
    },
    "launcher_window": {
       "opacity": 0.75,
+      "client_side_decorations": {
+         "enabled": true
+      },
       "layer_shell": {
          "enabled": false
       }
@@ -32,6 +36,8 @@
       "toggle-action-panel": "control+K"
    },
    "favorites": [
+      "@Gelei/store.vicinae.bluetooth:devices",
+      "@rastsislaux/store.vicinae.pulseaudio:outputDevices",
       "clipboard:history",
       "@rastsislaux/store.vicinae.pulseaudio:pulseaudio",
       "@thomaslombart/store.raycast.github:notifications",
