@@ -1,6 +1,6 @@
 {
   appearance = {
-    wallpaper = "wallpapers/d308f42fb9554fb536f4ec55e1ea1358.jpg";
+    wallpaper = "wallpapers/126660551_p0_cut.jpg";
     matugen = {
       enable = true;
       mode = "dark";

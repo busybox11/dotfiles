@@ -5,9 +5,15 @@
   dotfilesPath ? "/home/${username}/dev/dotfiles",
   homeDirectory ? "/home/${username}",
 }:
-{ self, hosts, pkgs, ... }:
+{
+  self,
+  hosts,
+  pkgs,
+  ...
+}:
 {
   imports = [
+    ../modules/hyprland-desktop.nix
     (import ../modules/superbird.nix username)
   ];
 
@@ -16,11 +22,21 @@
   users.users.${username} = {
     isNormalUser = true;
     home = homeDirectory;
-    extraGroups = [ "sudo" "wheel" "networkmanager" ];
+    extraGroups = [
+      "sudo"
+      "wheel"
+      "networkmanager"
+    ];
   };
 
   home-manager.extraSpecialArgs = {
-    inherit hosts self username homeDirectory dotfilesPath;
+    inherit
+      hosts
+      self
+      username
+      homeDirectory
+      dotfilesPath
+      ;
     flakeHost = hostName;
   };
 

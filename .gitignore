@@ -6,3 +6,6 @@ result
 nix/hm/darwin-local.nix
 
 nix/infra.nix
+
+node_modules/
+@girs/

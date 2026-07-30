@@ -13,7 +13,7 @@ in
   appearance = lib.mkMerge [
     {
       matugen.enable = lib.mkDefault true;
-      wallpaper = lib.mkDefault "wallpapers/d308f42fb9554fb536f4ec55e1ea1358.jpg";
+      wallpaper = lib.mkDefault "wallpapers/126660551_p0_cut.jpg";
     }
     (local.appearance or { })
     (hostLocal.appearance or { })
