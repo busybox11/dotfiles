@@ -29,7 +29,7 @@ Item {
   readonly property string level: root.lowIsBad
     ? Colors.levelLow(value, warnAt, critAt)
     : Colors.level(value, warnAt, critAt)
-  readonly property color textColor: root.style === "graph_text"
+  readonly property color textColor: root.style === "graph_text" || root.style === "text"
     ? Colors.foreground(level)
     : Colors.get("primary", "#ffffff")
   readonly property color plotColor: Colors.accent(level)

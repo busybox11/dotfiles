@@ -15,6 +15,8 @@ Row {
     icon: ""
     style: "text"
     text: `${Math.round(value)}°C`
+    warnAt: 70
+    critAt: 80
   }
 
   Monitor {

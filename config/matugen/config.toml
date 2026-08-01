@@ -69,6 +69,10 @@ output_path = '~/.config/anyrun/colors.css'
 input_path = './templates/hyprlunavsc.json'
 output_path = '~/.vscode/extensions/hyprluna.hyprluna-theme-1.0.2/themes/hyprluna.json'
 
+[templates.vscode_insiders]
+input_path = './templates/hyprlunavsc.json'
+output_path = '~/.vscode-insiders/extensions/hyprluna.hyprluna-theme-1.0.2/themes/hyprluna.json'
+
 [templates.cursor]
 input_path = './templates/hyprlunavsc.json'
 output_path = '~/.cursor/extensions/hyprluna.hyprluna-theme-1.0.2/themes/hyprluna.json'

@@ -108,7 +108,7 @@ MouseArea {
         required property HyprlandWorkspace modelData
 
         visible: modelData.id > 1
-        implicitWidth: 30
+        implicitWidth: 26
         implicitHeight: 40
         anchors.verticalCenter: parent.verticalCenter
         cursorShape: Qt.PointingHandCursor
