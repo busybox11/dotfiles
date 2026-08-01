@@ -6,7 +6,7 @@ Monitor {
   id: root
 
   icon: ""
-  style: "graph"
+  style: "circle"
   warnAt: 80
   critAt: 95
 

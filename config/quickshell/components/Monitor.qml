@@ -11,11 +11,16 @@ Item {
   property bool lowIsBad: false
   property var history: []
 
-  property var styles: ["graph", "graph_text", "text"]
+  property var styles: ["graph", "graph_text", "text", "circle"]
   property string style: styles[0]
 
   readonly property bool isGraph: style === "graph" || style === "graph_text"
   readonly property bool isGraphText: style === "graph_text"
+  readonly property bool isCircle: style === "circle"
+
+  // styles that already render the value inline don't need a tooltip
+  readonly property bool showsInlineText: root.style === "graph_text" || root.style === "text"
+  readonly property bool tipEnabled: !root.showsInlineText
 
   readonly property int maxSamples: 40
   readonly property int fadePx: 64
@@ -29,7 +34,9 @@ Item {
     : Colors.get("primary", "#ffffff")
   readonly property color plotColor: Colors.accent(level)
 
-  implicitWidth: root.isGraph ? graphWidth : textRow.implicitWidth
+  implicitWidth: root.isGraph
+    ? graphWidth
+    : root.isCircle ? circleMetric.implicitWidth : textRow.implicitWidth
   implicitHeight: 40
 
   function pushSample(v) {
@@ -137,6 +144,18 @@ Item {
     styleColor: "#00000033"
   }
 
+  // —— circle ——
+  CircleMetric {
+    id: circleMetric
+    visible: root.isCircle
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    icon: root.icon
+    value: root.value
+    color: root.plotColor
+    iconColor: root.textColor
+  }
+
   Row {
     id: textRow
     visible: root.style === "text"
@@ -164,5 +183,37 @@ Item {
     z: 2
     cursorShape: Qt.PointingHandCursor
     onClicked: root.cycleStyle()
+  }
+
+  HoverHandler {
+    id: hover
+    target: root
+  }
+
+  // tooltip shown when the current style doesn't render the value inline
+  Rectangle {
+    id: tip
+    visible: hover.hovered && root.tipEnabled
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.top: parent.bottom
+    anchors.topMargin: 4
+    z: 5
+    radius: 5
+    color: Qt.rgba(0, 0, 0, 0.75)
+    border.width: 1
+    border.color: {
+      const c = Qt.color(root.plotColor);
+      return Qt.rgba(c.r, c.g, c.b, 0.4);
+    }
+
+    width: tipText.implicitWidth + 14
+    height: tipText.implicitHeight + 6
+
+    BarText {
+      id: tipText
+      anchors.centerIn: parent
+      text: root.text
+      color: Qt.rgba(1, 1, 1, 0.9)
+    }
   }
 }
