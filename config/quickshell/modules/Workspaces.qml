@@ -52,12 +52,20 @@ MouseArea {
       return 0.85;
     return 0.4;
   }
+  
+  function switchWorkspace(target) {
+    if (Hyprland.usingLua) {
+      Hyprland.dispatch(`hl.dsp.focus({ workspace = ${target} })`);
+    } else {
+      Hyprland.dispatch(`workspace ${target}`);
+    }
+  }
 
   onWheel: event => {
     const current = Hyprland.focusedWorkspace?.id ?? 1;
     const next = Math.min(10, Math.max(1, current + (event.angleDelta.y < 0 ? 1 : -1)));
     if (next !== current)
-      Hyprland.dispatch(`workspace ${next}`);
+      switchWorkspace(next);
   }
 
   Row {
@@ -70,7 +78,7 @@ MouseArea {
       implicitHeight: 40
       anchors.verticalCenter: parent.verticalCenter
       cursorShape: Qt.PointingHandCursor
-      onClicked: Hyprland.dispatch("workspace 1")
+      onClicked: switchWorkspace(1);
 
       Image {
         id: logo
