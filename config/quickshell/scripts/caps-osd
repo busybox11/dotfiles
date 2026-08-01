@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+on=false
+for led in /sys/class/leds/*capslock*/brightness; do
+  [ -f "$led" ] || continue
+  [ "$(cat "$led")" = 1 ] && on=true
+  break
+done
+
+qs ipc call osd showCapsLock "$on"

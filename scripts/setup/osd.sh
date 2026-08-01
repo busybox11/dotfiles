@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# service
-sudo systemctl enable --now swayosd-libinput-backend.service
-
 # verify ddcutil is installed
 if ! command -v ddcutil &> /dev/null; then
     echo "installing ddcutil"
