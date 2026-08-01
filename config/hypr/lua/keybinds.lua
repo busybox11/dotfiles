@@ -30,7 +30,7 @@ for i = 1, 12 do
 end
 
 hl.bind(mainMod .. " + code:49", hl.dsp.focus({ workspace = "previous_per_monitor" }))
-hl.bind(mainModShift .. " + code:49", hl.dsp.exec_cmd("hyprctl dispatch swapactiveworkspaces 0 1"))
+hl.bind(mainModShift .. " + code:49", hl.dsp.workspace.swap_monitors({ monitor1 = 0, monitor2 = 1 }))
 hl.bind("ALT + TAB", hl.dsp.focus({ workspace = "m+1" }))
 hl.bind("SHIFT + ALT + TAB", hl.dsp.focus({ workspace = "m-1" }))
 hl.bind(mainMod .. " + CTRL + right", hl.dsp.focus({ workspace = "m+1" }))
