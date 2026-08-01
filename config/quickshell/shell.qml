@@ -35,6 +35,9 @@ Scope {
         Cpu {
           anchors.verticalCenter: parent.verticalCenter
         }
+        Gpu {
+          anchors.verticalCenter: parent.verticalCenter
+        }
         Mem {
           anchors.verticalCenter: parent.verticalCenter
         }
