@@ -18,6 +18,8 @@ Scope {
   property bool showLabel: false
   property string labelText: ""
   property bool extendOsd: false
+  property bool pendingSinkOsd: false
+  property int hideDuration: root.osdMs
   property var lastSinkId: null
 
   property bool brightnessReady: false
@@ -32,10 +34,24 @@ Scope {
   readonly property string outputApi: sink?.properties?.["device.api"] ?? ""
   readonly property bool sourceMuted: source?.audio?.muted ?? false
   readonly property real sourceVolume: source?.audio?.volume ?? 0
-  readonly property string sinkName: sink?.properties?.["node.description"]
-    ?? sink?.properties?.["application.name"]
-    ?? sink?.properties?.["media.name"]
-    ?? "Unknown output"
+  function nodeName(node) {
+    if (!node)
+      return "";
+    const props = node.properties ?? {};
+    return props["node.description"]
+      ?? props["device.description"]
+      ?? props["application.name"]
+      ?? props["media.name"]
+      ?? props["node.nick"]
+      ?? node.description
+      ?? node.name
+      ?? "";
+  }
+
+  readonly property string sinkName: {
+    const name = root.nodeName(root.sink);
+    return name.length ? name : "Unknown output";
+  }
 
   readonly property bool isMuted: root.mode === "input" ? root.sourceMuted : root.outputMuted
   readonly property real level: {
@@ -90,17 +106,44 @@ Scope {
   }
 
   function restartOsd(duration, opts) {
+    stateResetTimer.stop();
     root.showOsd = true;
     if (opts?.mode)
       root.mode = opts.mode;
-    if (opts?.label) {
+    if (opts?.showLabel)
+      root.showLabel = true;
+    else if (opts?.label) {
       root.showLabel = true;
       root.labelText = opts.label;
     } else if (!root.extendOsd) {
       root.showLabel = false;
     }
-    hideTimer.interval = duration;
+    root.hideDuration = duration;
     hideTimer.restart();
+  }
+
+  function beginSinkChangeOsd(node) {
+    root.extendOsd = true;
+    root.showLabel = true;
+    root.pendingSinkOsd = true;
+    root.tryCompleteSinkOsd(node);
+  }
+
+  function tryCompleteSinkOsd(node) {
+    if (!root.pendingSinkOsd)
+      return;
+    const target = node ?? root.sink;
+    const name = root.nodeName(target);
+    if (!name.length && target && !target.ready)
+      return;
+    root.pendingSinkOsd = false;
+    root.restartOsd(root.extendedOsdMs, { mode: "output", showLabel: true });
+  }
+
+  function resetOsdState() {
+    root.showLabel = false;
+    root.extendOsd = false;
+    root.pendingSinkOsd = false;
   }
 
   function updateBrightness() {
@@ -165,14 +208,25 @@ Scope {
       if (!next)
         return;
       const id = next.id;
-      if (root.lastSinkId !== null && id !== root.lastSinkId) {
-        root.extendOsd = true;
-        root.restartOsd(root.extendedOsdMs, {
-          mode: "output",
-          label: root.sinkName,
-        });
-      }
+      if (root.lastSinkId !== null && id !== root.lastSinkId)
+        root.beginSinkChangeOsd(next);
       root.lastSinkId = id;
+    }
+  }
+
+  Timer {
+    id: sinkOsdPoll
+    interval: 50
+    repeat: true
+    running: root.pendingSinkOsd
+    onTriggered: root.tryCompleteSinkOsd(root.sink)
+  }
+
+  Connections {
+    target: root.sink
+
+    function onReadyChanged() {
+      root.tryCompleteSinkOsd(root.sink);
     }
   }
 
@@ -211,12 +265,17 @@ Scope {
 
   Timer {
     id: hideTimer
-    interval: root.osdMs
+    interval: root.hideDuration
     onTriggered: {
       root.showOsd = false;
-      root.showLabel = false;
-      root.extendOsd = false;
+      stateResetTimer.restart();
     }
+  }
+
+  Timer {
+    id: stateResetTimer
+    interval: 600
+    onTriggered: root.resetOsdState()
   }
 
   LazyLoader {
@@ -258,7 +317,7 @@ Scope {
           }
 
           OsdText {
-            text: root.labelText
+            text: root.sinkName
             anchors.verticalCenter: parent.verticalCenter
           }
         }
