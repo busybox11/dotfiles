@@ -86,4 +86,6 @@ Scope {
   }
 
   Osd {}
+
+  Notifications {}
 }

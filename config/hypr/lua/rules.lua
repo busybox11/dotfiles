@@ -10,7 +10,7 @@ end
 
 layer({ name = "bubbles", match = { namespace = "class:(bubbles.scr)" }, blur = true })
 layer({ name = "control-center", match = { namespace = "swaync-control-center" }, blur = true, dim_around = true, ignore_alpha = 0 })
-layer({ name = "notifications", match = { namespace = "swaync-notification-window" }, blur = true, animation = "slide", ignore_alpha = 0 })
+layer({ name = "notifications", match = { namespace = "(swaync-notification-window|quickshell-notifications)" }, blur = true, animation = "slide", ignore_alpha = 0.25 })
 layer({ name = "osd", match = { namespace = "^(swayosd|quickshell-osd)$" }, blur = true, ignore_alpha = 0.3, above_lock = 2 })
 layer({ name = "selection", match = { namespace = "^(hyprpicker|selection)$" }, no_anim = true })
 layer({ name = "wallpaper", match = { namespace = "^(hyprpaper|wallpaper)$" }, animation = "popin 80%" })
