@@ -2,6 +2,7 @@
 -- Temporary standalone config: hardcoded from conf/*.conf (nix module disabled).
 
 local modules = {
+  "lua/colors",
   "lua/env",
   "lua/monitors",
   "lua/appearance",

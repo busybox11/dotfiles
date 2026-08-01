@@ -1,3 +1,5 @@
+local colors = require("lua/colors")
+
 hl.config({
   general = {
     gaps_in = 4,
@@ -6,6 +8,10 @@ hl.config({
     resize_on_border = true,
     allow_tearing = false,
     layout = "dwindle",
+    col = {
+      active_border = colors.active_border,
+      inactive_border = colors.inactive_border,
+    },
   },
 
   quirks = {

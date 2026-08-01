@@ -1,3 +1,5 @@
+local colors = require("lua/colors")
+
 local function layer(rule)
   hl.layer_rule(rule)
 end
@@ -50,8 +52,8 @@ window({
   match = { class = ".*" },
   suppress_event = "maximize",
 })
-window({ name = "errored-window", match = { tag = "bell" }, border_color = "rgba(ffb4abff) rgba(ffb4abff)" })
-window({ name = "urgent-window", match = { tag = "urgent" }, border_color = "rgba(93000aff) rgba(93000aff)" })
+window({ name = "errored-window", match = { tag = "bell" }, border_color = colors.error .. " " .. colors.error })
+window({ name = "urgent-window", match = { tag = "urgent" }, border_color = colors.error_container .. " " .. colors.error_container })
 window({
   name = "vicinae",
   match = { class = "vicinae" },
