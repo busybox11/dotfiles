@@ -78,6 +78,10 @@ Scope {
         anchors.verticalCenter: parent.verticalCenter
       }
 
+      NotificationIndicator {
+        anchors.verticalCenter: parent.verticalCenter
+      }
+
       Clock {
         rightPadding: 20
         anchors.verticalCenter: parent.verticalCenter
@@ -87,5 +91,7 @@ Scope {
 
   Osd {}
 
-  Notifications {}
+  Notifications {
+    id: notifications
+  }
 }
