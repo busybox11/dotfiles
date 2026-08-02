@@ -420,7 +420,7 @@ Scope {
           }
 
           Component.onCompleted: {
-            if (card.dismissMs > 0)
+            if (card.dismissMs > 0 && !hover.hovered)
               autoTimer.start();
           }
 
