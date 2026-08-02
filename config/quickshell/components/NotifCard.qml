@@ -29,6 +29,28 @@ Item {
     return Qt.rgba(col.r + (1 - col.r) * t, col.g + (1 - col.g) * t, col.b + (1 - col.b) * t, 1);
   }
 
+  property string timeAgoText: formatElapsed(root.notif.sentAt)
+
+  function formatElapsed(sentAt) {
+    if (!sentAt || typeof sentAt !== "number" || isNaN(sentAt))
+      return "";
+    const sec = Math.floor((Date.now() - sentAt) / 1000);
+    if (sec < 5) return "now";
+    if (sec < 60) return `${sec}s`;
+    const min = Math.floor(sec / 60);
+    if (min < 60) return `${min}m`;
+    const hr = Math.floor(min / 60);
+    if (hr < 24) return `${hr}h`;
+    return `${Math.floor(hr / 24)}d`;
+  }
+
+  Timer {
+    interval: 1000
+    running: root.visible
+    repeat: true
+    onTriggered: root.timeAgoText = root.formatElapsed(root.notif.sentAt)
+  }
+
   function sendReply() {
     if (replyField.text.length === 0)
       return;
@@ -114,6 +136,16 @@ Item {
         elide: Text.ElideRight
         Layout.fillWidth: true
         verticalAlignment: Text.AlignVCenter
+      }
+
+      Text {
+        text: root.timeAgoText
+        visible: root.timeAgoText.length > 0
+        font.family: "Caskaydia Cove NF"
+        font.pixelSize: 10
+        color: Colors.get("on_surface_variant")
+        Layout.alignment: Qt.AlignVCenter
+        Layout.rightMargin: 4
       }
 
       Text {
