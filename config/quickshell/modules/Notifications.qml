@@ -531,7 +531,10 @@ Scope {
           MouseArea {
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
-            onClicked: root.clearAll()
+            onClicked: {
+              root.clearAll();
+              root.centerVisible = false;
+            }
           }
         }
 
