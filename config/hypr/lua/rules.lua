@@ -9,7 +9,7 @@ local function window(rule)
 end
 
 layer({ name = "bubbles", match = { namespace = "class:(bubbles.scr)" }, blur = true })
-layer({ name = "control-center", match = { namespace = "(swaync-control-center|quickshell-notifications-center)" }, blur = true, dim_around = true, ignore_alpha = 0 })
+layer({ name = "control-center", match = { namespace = "(swaync-control-center|quickshell-notifications-center)" }, blur = true, dim_around = true, ignore_alpha = 0.1 })
 layer({ name = "notifications", match = { namespace = "(swaync-notification-window|quickshell-notifications)" }, blur = true, animation = "slide", ignore_alpha = 0.25 })
 layer({ name = "osd", match = { namespace = "^(swayosd|quickshell-osd)$" }, blur = true, ignore_alpha = 0.3, above_lock = 2 })
 layer({ name = "selection", match = { namespace = "^(hyprpicker|selection)$" }, no_anim = true })
