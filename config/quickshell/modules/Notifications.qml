@@ -135,6 +135,7 @@ Scope {
         return;
       }
       notif.tracked = true;
+      notif.sentAt = Date.now();
       root.notifications = [notif, ...root.notifications];
       root.center = [notif, ...root.center].slice(0, 50);
     }
@@ -417,6 +418,12 @@ Scope {
               card.restartTimer();
             }
           }
+
+          Component.onCompleted: {
+            if (card.dismissMs > 0)
+              autoTimer.start();
+          }
+
         }
       }
     }
@@ -582,6 +589,14 @@ Scope {
                 enabled: !cardBody.replyActive
                 acceptedButtons: Qt.LeftButton
                 onTapped: root.focusApp(modelData)
+              }
+
+              Connections {
+                target: cardBody.notif
+
+                function onClosed() {
+                  root.removeNotif(cardBody.notif);
+                }
               }
             }
           }
