@@ -64,7 +64,7 @@ Item {
     radius: 12
     color: root.notif.urgency === NotificationUrgency.Critical ? root.tone(Colors.get("error_container"), 0.30) : root.tone(Colors.get("on_primary_fixed"), 0.5)
     border.width: 2
-    border.color: root.tone(root.accentColor, 0.35)
+    border.color: root.tone(root.accentColor, 0.5)
 
     layer.enabled: true
     layer.smooth: true

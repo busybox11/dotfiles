@@ -456,7 +456,7 @@ Scope {
       focus: true
       Keys.onEscapePressed: root.centerVisible = false
       radius: 12
-      color: root.tone(Colors.get("surface_container"), 0.7)
+      color: root.tone(Colors.get("on_primary_fixed"), 0.5)
       border.width: 2
       border.color: root.tone(Colors.get("primary"), 0.3)
 
