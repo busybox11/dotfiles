@@ -4,7 +4,7 @@ import qs.components
 BarText {
   id: root
 
-  text: notifications.dnd ? "" : notifications.notifications.length > 0 ? `󱅫 ${notifications.notifications.length}` : ""
+  text: notifications.dnd ? "" : notifications.center.length > 0 ? `󱅫 ${notifications.center.length}` : ""
   font.pointSize: notifications.dnd ? 14 : 12
 
   MouseArea {
