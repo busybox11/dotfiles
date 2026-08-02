@@ -5,6 +5,7 @@ import Quickshell.Services.Notifications
 import Quickshell.Wayland
 import Quickshell.Widgets
 import QtQuick
+import QtQuick.Controls
 import QtQuick.Effects
 import QtQuick.Layouts
 import qs.components
@@ -19,7 +20,9 @@ Scope {
 
   property bool dnd: false
   property bool replyActive: false
+  property bool centerVisible: false
   property var notifications: []
+  property var center: []
 
   function tone(c, a) {
     const col = Qt.color(c);
@@ -60,8 +63,13 @@ Scope {
   function removeNotif(notif) {
     if (notif.hasInlineReply)
       root.replyActive = false;
-    if (root.notifications.indexOf(notif) === -1)
-      return;
+    root.notifications = root.notifications.filter(n => n !== notif);
+    root.center = root.center.filter(n => n !== notif);
+  }
+
+  function popupRemove(notif) {
+    if (notif.hasInlineReply)
+      root.replyActive = false;
     root.notifications = root.notifications.filter(n => n !== notif);
   }
 
@@ -95,7 +103,11 @@ Scope {
   }
 
   function clearAll() {
-    root.notifications.slice().forEach(n => n.dismiss());
+    root.center.slice().forEach(n => n.dismiss());
+  }
+
+  function toggleCenter() {
+    root.centerVisible = !root.centerVisible;
   }
 
   function toggleDnd() {
@@ -124,6 +136,7 @@ Scope {
       }
       notif.tracked = true;
       root.notifications = [notif, ...root.notifications];
+      root.center = [notif, ...root.center].slice(0, 50);
     }
   }
 
@@ -145,6 +158,14 @@ Scope {
 
     function clearAll(): void {
       root.clearAll();
+    }
+
+    function toggleCenter(): void {
+      root.toggleCenter();
+    }
+
+    function setCenter(on: bool): void {
+      root.centerVisible = on;
     }
 
     function test(): void {
@@ -195,23 +216,24 @@ Scope {
           property real velocity: 0
           property bool dragging: false
           property bool dismissing: false
+          property bool popupOnly: false
           property real baseOffset: 0
           property double lastSampleTime: 0
           property real lastSampleOffset: 0
           property double lastWheelTime: 0
 
           width: root.popupWidth
-          height: content.height
+          height: cardBody.height
 
           function dismiss() {
             root.dismissNotif(card.notif);
           }
 
-          function sendReply() {
-            if (replyField.text.length === 0)
-              return;
-            card.notif.sendInlineReply(replyField.text);
-            card.dismiss();
+          function hidePopup() {
+            card.popupOnly = true;
+            card.dismissing = false;
+            card.velocity = 900;
+            card.animateOut();
           }
 
           function restartTimer() {
@@ -248,6 +270,19 @@ Scope {
             x: card.offset
           }
 
+          NotifCard {
+            id: cardBody
+            width: parent.width
+            notif: card.notif
+            accentColor: card.accentColor
+            onCloseRequested: {
+              card.dismissing = false;
+              card.velocity = 900;
+              card.animateOut();
+            }
+            onReplyActiveChanged: root.replyActive = cardBody.replyActive
+          }
+
           PropertyAnimation {
             id: backAnim
             target: card
@@ -264,12 +299,17 @@ Scope {
             to: root.popupWidth + 80
             duration: 250
             easing.type: Easing.OutCubic
-            onFinished: card.dismiss()
+            onFinished: {
+              if (card.popupOnly)
+                root.popupRemove(card.notif);
+              else
+                root.dismissNotif(card.notif);
+            }
           }
 
           TapHandler {
             id: cardTap
-            enabled: !replyField.activeFocus && !card.dragging
+            enabled: !cardBody.replyActive && !card.dragging
             acceptedButtons: Qt.LeftButton
             onTapped: {
               if (card.offset > 0)
@@ -287,7 +327,7 @@ Scope {
             xAxis.enabled: true
             yAxis.enabled: false
             dragThreshold: 8
-            enabled: !replyField.activeFocus
+            enabled: !cardBody.replyActive
             onActiveChanged: {
               if (active) {
                 card.dragging = true;
@@ -321,7 +361,7 @@ Scope {
             target: null
             orientation: Qt.Horizontal
             activeTimeout: 300
-            enabled: !replyField.activeFocus
+            enabled: !cardBody.replyActive
 
             onWheel: (event) => {
               const now = Date.now();
@@ -340,285 +380,6 @@ Scope {
             }
           }
 
-          Rectangle {
-            id: bg
-            anchors.fill: parent
-            radius: 12
-            color: card.notif.urgency === NotificationUrgency.Critical ? root.tone(Colors.get("error_container"), 0.30) : root.tone(Colors.get("on_primary_fixed"), 0.5)
-            border.width: 2
-            border.color: root.tone(card.accentColor, 0.35)
-
-            layer.enabled: true
-            layer.smooth: true
-            layer.effect: MultiEffect {
-              shadowEnabled: true
-              shadowColor: "#40000000"
-              shadowVerticalOffset: 4
-              shadowBlur: 1
-              shadowOpacity: 1
-            }
-          }
-
-          Rectangle {
-            anchors {
-              left: parent.left
-              leftMargin: 8
-              top: parent.top
-              topMargin: 10
-              bottom: parent.bottom
-              bottomMargin: 10
-            }
-            width: 3
-            radius: 1.5
-            color: card.accentColor
-          }
-
-          Column {
-            id: content
-            width: parent.width
-            padding: 10
-            leftPadding: 20
-            rightPadding: 10
-            spacing: 6
-            readonly property real innerWidth: width - leftPadding - rightPadding
-
-            RowLayout {
-              width: parent.innerWidth
-              spacing: 8
-
-              IconImage {
-                id: appIcon
-                width: 18
-                height: 18
-                source: Quickshell.iconPath(card.notif.appIcon)
-                visible: card.notif.appIcon.length > 0
-                asynchronous: true
-                smooth: false
-                Layout.alignment: Qt.AlignVCenter
-              }
-
-              Text {
-                visible: card.notif.appIcon.length === 0
-                text: "󰂚"
-                font.family: "Caskaydia Cove NF"
-                font.pixelSize: 14
-                color: card.accentColor
-                Layout.alignment: Qt.AlignVCenter
-              }
-
-              Text {
-                text: card.notif.appName.length > 0 ? card.notif.appName : "Notification"
-                color: root.lighten(card.accentColor, 0.45)
-                font {
-                  family: "Caskaydia Cove NF"
-                  pointSize: 9
-                  weight: Font.DemiBold
-                }
-                elide: Text.ElideRight
-                Layout.fillWidth: true
-                verticalAlignment: Text.AlignVCenter
-              }
-
-              Text {
-                text: "󰅖"
-                font.family: "Caskaydia Cove NF"
-                font.pixelSize: 12
-                color: Colors.get("on_surface_variant")
-                Layout.alignment: Qt.AlignVCenter
-                MouseArea {
-                  anchors.fill: parent
-                  cursorShape: Qt.PointingHandCursor
-                  onClicked: {
-                    card.dismissing = false;
-                    card.velocity = 900;
-                    card.animateOut();
-                  }
-                }
-              }
-            }
-
-            RowLayout {
-              width: parent.innerWidth
-              spacing: 8
-
-              Column {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                spacing: 6
-
-                Text {
-                  text: card.notif.summary
-                  width: parent.width
-                  color: root.lighten(card.accentColor, 0.65)
-                  font {
-                    family: "Caskaydia Cove NF"
-                    pointSize: 10
-                    weight: Font.DemiBold
-                  }
-                  wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                  maximumLineCount: 2
-                  elide: Text.ElideRight
-                }
-
-                Text {
-                  visible: card.notif.body.length > 0
-                  text: card.notif.body
-                  width: parent.width
-                  color: root.lighten(card.accentColor, 0.85)
-                  font {
-                    family: "Caskaydia Cove NF"
-                    pointSize: 9
-                  }
-                  wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                  maximumLineCount: 3
-                  elide: Text.ElideRight
-                  textFormat: Text.PlainText
-                }
-              }
-
-              ClippingRectangle {
-                visible: card.notif.image.length > 0
-                Layout.preferredWidth: 48
-                Layout.preferredHeight: 48
-                radius: 10
-                Layout.alignment: Qt.AlignVCenter
-                color: "transparent"
-
-                Image {
-                  anchors.fill: parent
-                  source: card.notif.image
-                  fillMode: Image.PreserveAspectCrop
-                  sourceSize: Qt.size(48, 48)
-                  asynchronous: true
-                  smooth: false
-                  cache: false
-                }
-              }
-            }
-
-            RowLayout {
-              visible: card.notif.actions.length > 0
-              width: parent.innerWidth
-              spacing: 6
-
-              Repeater {
-                model: card.notif.actions.map(action => ({ action: action, notif: card.notif }))
-
-                delegate: Rectangle {
-                  required property var modelData
-                  readonly property string text: modelData.action.text
-                  width: actionText.implicitWidth + 16
-                  height: 24
-                  radius: 6
-                  color: "transparent"
-                  border.width: 1
-                  border.color: root.tone(root.urgencyColor(modelData.notif.urgency), 0.4)
-
-                  Text {
-                    id: actionText
-                    anchors.centerIn: parent
-                    text: parent.text
-                    color: Colors.get("on_surface")
-                    font {
-                      family: "Caskaydia Cove NF"
-                      pointSize: 9
-                    }
-                  }
-
-                  MouseArea {
-                    anchors.fill: parent
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: {
-                      modelData.action.invoke();
-                      root.dismissNotif(modelData.notif);
-                    }
-                  }
-                }
-              }
-            }
-
-            Item {
-              visible: card.notif.hasInlineReply
-              width: parent.innerWidth
-              height: 26
-
-              Rectangle {
-                anchors.fill: parent
-                radius: 6
-                color: "transparent"
-                border.width: 1
-                border.color: root.tone(card.accentColor, 0.4)
-              }
-
-              TextInput {
-                id: replyField
-                anchors {
-                  left: parent.left
-                  right: parent.right
-                  top: parent.top
-                  bottom: parent.bottom
-                  leftMargin: 8
-                  rightMargin: 30
-                }
-                verticalAlignment: Text.AlignVCenter
-                clip: true
-                color: Colors.get("on_surface")
-                font {
-                  family: "Caskaydia Cove NF"
-                  pointSize: 9
-                }
-                selectByMouse: true
-                onAccepted: card.sendReply()
-                onActiveFocusChanged: root.replyActive = replyField.activeFocus
-              }
-
-              Text {
-                visible: replyField.text.length === 0
-                anchors {
-                  left: parent.left
-                  right: parent.right
-                  top: parent.top
-                  bottom: parent.bottom
-                  leftMargin: 8
-                  rightMargin: 30
-                }
-                verticalAlignment: Text.AlignVCenter
-                text: card.notif.inlineReplyPlaceholder || "Reply…"
-                color: Colors.get("outline")
-                font {
-                  family: "Caskaydia Cove NF"
-                  pointSize: 9
-                }
-                elide: Text.ElideRight
-              }
-
-              Rectangle {
-                anchors {
-                  right: parent.right
-                  top: parent.top
-                  bottom: parent.bottom
-                }
-                width: 24
-                radius: 6
-                color: root.tone(card.accentColor, 0.5)
-
-                Text {
-                  text: "󰄷"
-                  anchors.centerIn: parent
-                  font.family: "Caskaydia Cove NF"
-                  font.pixelSize: 11
-                  color: card.accentColor
-                }
-
-                MouseArea {
-                  anchors.fill: parent
-                  cursorShape: Qt.PointingHandCursor
-                  onClicked: card.sendReply()
-                }
-              }
-            }
-          }
-
           HoverHandler {
             id: hover
             target: card
@@ -634,7 +395,7 @@ Scope {
             id: autoTimer
             interval: Math.max(1, card.dismissMs)
             repeat: false
-            onTriggered: card.dismiss()
+            onTriggered: card.hidePopup()
           }
 
           Connections {
@@ -658,6 +419,196 @@ Scope {
           }
         }
       }
+    }
+  }
+
+  PanelWindow {
+    id: centerPanel
+    anchors {
+      top: true
+      right: true
+      bottom: true
+    }
+    margins {
+      top: 18
+      right: 18
+      bottom: 18
+    }
+    exclusiveZone: 0
+    color: "transparent"
+    implicitWidth: root.popupWidth + 36
+    implicitHeight: centerPanel.screen ? centerPanel.screen.height : 800
+    visible: root.centerVisible
+    WlrLayershell.namespace: "quickshell-notifications-center"
+    WlrLayershell.layer: WlrLayer.Overlay
+    WlrLayershell.keyboardFocus: root.centerVisible ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
+
+    Rectangle {
+      id: panelBg
+      anchors.fill: parent
+      focus: true
+      Keys.onEscapePressed: root.centerVisible = false
+      radius: 12
+      color: root.tone(Colors.get("surface_container"), 0.7)
+      border.width: 2
+      border.color: root.tone(Colors.get("primary"), 0.3)
+
+      layer.enabled: true
+      layer.smooth: true
+      layer.effect: MultiEffect {
+        shadowEnabled: true
+        shadowColor: "#80000000"
+        shadowVerticalOffset: 8
+        shadowBlur: 2
+        shadowOpacity: 1
+      }
+    }
+
+    ColumnLayout {
+      id: centerLayout
+      anchors {
+        fill: parent
+        topMargin: 14
+        rightMargin: 14
+        bottomMargin: 14
+        leftMargin: 14
+      }
+      spacing: 10
+
+      RowLayout {
+        Layout.fillWidth: true
+        spacing: 8
+
+        Text {
+          text: "Notifications"
+          color: Colors.get("on_surface")
+          font {
+            family: "Caskaydia Cove NF"
+            pointSize: 11
+            weight: Font.DemiBold
+          }
+          leftPadding: 4
+          Layout.fillWidth: true
+        }
+
+        Text {
+          text: `󰑎 ${root.center.length}`
+          color: Colors.get("on_surface_variant")
+          font {
+            family: "Caskaydia Cove NF"
+            pointSize: 9
+          }
+          Layout.alignment: Qt.AlignVCenter
+        }
+
+        Rectangle {
+          implicitWidth: clearText.implicitWidth + 16
+          height: 24
+          radius: 6
+          color: "transparent"
+          border.width: 1
+          border.color: root.tone(Colors.get("primary"), 0.4)
+          Layout.alignment: Qt.AlignVCenter
+
+          Text {
+            id: clearText
+            anchors.centerIn: parent
+            text: "󰅴 Clear"
+            color: Colors.get("on_surface")
+            font {
+              family: "Caskaydia Cove NF"
+              pointSize: 9
+            }
+          }
+
+          MouseArea {
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
+            onClicked: root.clearAll()
+          }
+        }
+
+        Text {
+          text: "󰅖"
+          font.family: "Caskaydia Cove NF"
+          font.pixelSize: 18
+          padding: 4
+          color: Colors.get("on_surface_variant")
+          Layout.alignment: Qt.AlignVCenter
+
+          MouseArea {
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
+            onClicked: root.centerVisible = false
+          }
+        }
+      }
+
+      Flickable {
+        id: centerList
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        clip: true
+        contentHeight: centerListColumn.height
+        boundsBehavior: Flickable.StopAtBounds
+        ScrollBar.vertical: ScrollBar {
+          policy: ScrollBar.AsNeeded
+        }
+
+        Column {
+          id: centerListColumn
+          width: parent.width
+          spacing: 8
+
+          Repeater {
+            model: root.center
+
+            delegate: Item {
+              required property var modelData
+              width: centerListColumn.width
+              height: cardBody.height
+              implicitHeight: cardBody.implicitHeight + 8
+
+              NotifCard {
+                id: cardBody
+                width: parent.width
+                notif: modelData
+                accentColor: root.urgencyColor(modelData.urgency)
+                onCloseRequested: root.dismissNotif(modelData)
+                onReplyActiveChanged: root.replyActive = cardBody.replyActive
+              }
+
+              TapHandler {
+                enabled: !cardBody.replyActive
+                acceptedButtons: Qt.LeftButton
+                onTapped: root.focusApp(modelData)
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  PanelWindow {
+    anchors {
+      left: true
+      top: true
+      right: true
+      bottom: true
+    }
+    exclusiveZone: 0
+    color: "transparent"
+    visible: root.centerVisible
+    WlrLayershell.namespace: "quickshell-notifications-center-backdrop"
+    WlrLayershell.layer: WlrLayer.Top
+    WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
+
+    MouseArea {
+      anchors.fill: parent
+      acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
+      cursorShape: Qt.ArrowCursor
+      onClicked: root.centerVisible = false
     }
   }
 }

@@ -161,6 +161,7 @@ Item {
     visible: root.style === "text"
     spacing: 8
     height: parent.height
+    opacity: 0.75
 
     BarText {
       anchors.verticalCenter: parent.verticalCenter
