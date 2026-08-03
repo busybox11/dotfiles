@@ -61,6 +61,7 @@ Item {
   Rectangle {
     id: bg
     anchors.fill: parent
+    anchors.margins: 2
     radius: 12
     color: root.notif.urgency === NotificationUrgency.Critical ? root.tone(Colors.get("error_container"), 0.30) : root.tone(Colors.get("on_primary_fixed"), 0.5)
     border.width: 2
@@ -75,6 +76,16 @@ Item {
       shadowBlur: 1
       shadowOpacity: 1
     }
+  }
+
+  Rectangle {
+    id: bgOutline
+    anchors.fill: parent
+    radius: 13
+    color: Qt.rgba(Colors.get("surface_dim").r, Colors.get("surface_dim").g, Colors.get("surface_dim").b, 0.3)
+
+    border.width: 2
+    border.color: "#30000000"
   }
 
   Rectangle {
@@ -219,8 +230,9 @@ Item {
           fillMode: Image.PreserveAspectCrop
           sourceSize: Qt.size(48, 48)
           asynchronous: true
-          smooth: false
+          smooth: true
           cache: false
+          opacity: 1.0
         }
       }
     }
