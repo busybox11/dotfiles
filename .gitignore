@@ -12,3 +12,5 @@ node_modules/
 
 # git-crypt symmetric key export (just crypt-export)
 secrets/git-crypt-key
+
+devvm.qcow2

@@ -14,6 +14,7 @@ in
 {
   nixosConfigurations = lib.mapAttrs (_hostName: _host: mkNixOS _hostName) hosts;
 
+  # Hosts with `deploy = false` (e.g. devvm) stay in nixosConfigurations only
   deploy.nodes = lib.mapAttrs (
     name: host:
     {
@@ -25,11 +26,9 @@ in
       };
       remoteBuild = true;
     }
-  ) hosts;
+  ) (lib.filterAttrs (_: host: host.deploy or true) hosts);
 
-  # deploy-rs README suggests deployChecks for all deploy-rs.lib systems; that pulls
-  # x86_64-linux builds under `nix flake check` on Darwin. Re-enable selectively if you want.
-  # checks.x86_64-linux = deploy-rs.lib.x86_64-linux.deployChecks self.deploy;
+  packages.x86_64-linux.devvm = self.nixosConfigurations.devvm.config.system.build.vm;
 
   homeConfigurations =
     lib.mapAttrs (name: cfg: mkHome ({ flakeHost = name; } // cfg)) homeHosts
