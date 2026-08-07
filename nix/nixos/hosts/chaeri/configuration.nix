@@ -25,19 +25,33 @@ in
 
   # amdgpu.dcdebugmask=0x400 disables Panel Replay only (keeps PSR for battery)
   # Fixes the DC 3.2.378 Panel Replay hang; refresh may sag below 120Hz under
-  # PSR. The nvidia specialisation below overrides this with 0x610
   boot.kernelParams = [
     "amdgpu.dcdebugmask=0x400"
   ];
 
-  boot.blacklistedKernelModules = [
-    "nouveau"
-    "nvidiafb"
-  ];
-  boot.extraModprobeConfig = ''
-    blacklist nouveau
-    options nouveau modeset=0
-  '';
+  # nvidia-open instead of nouveau; the nvidia module also blacklists
+  # nouveau/nvidiafb etc
+  services.xserver.videoDrivers = [ "nvidia" ];
+
+  hardware.nvidia = {
+    open = true;
+    modesetting.enable = true;
+    powerManagement.enable = true;
+    powerManagement.finegrained = true;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.latest;
+
+    prime = {
+      offload = {
+        enable = true;
+        enableOffloadCmd = true;
+      };
+      nvidiaBusId = "PCI:64:0:0";
+      amdgpuBusId = "PCI:65:0:0";
+    };
+  };
+
+  boot.kernelModules = lib.mkForce [ "kvm-amd" ];
 
   specialisation.nvidia.configuration = {
     system.nixos.tags = [ "nvidia" ];
@@ -48,27 +62,12 @@ in
       "amdgpu.dcdebugmask=0x610"
     ];
 
-    services.xserver.videoDrivers = [ "nvidia" ];
-
-    hardware.nvidia = {
-      open = true;
-      modesetting.enable = true;
-      powerManagement.enable = true;
-      powerManagement.finegrained = true;
-      nvidiaSettings = true;
-      package = config.boot.kernelPackages.nvidiaPackages.latest;
-
-      prime = {
-        offload = {
-          enable = true;
-          enableOffloadCmd = true;
-        };
-        # iGPU is confirmed at 65:00.0. nvidiaBusId must be set from
-        # `lspci | grep -i nvidia` when dGPU will work (ouch)
-        nvidiaBusId = "PCI:1:0:0"; # TODO: verify once dGPU is enabled in BIOS
-        amdgpuBusId = "PCI:65:0:0";
-      };
-    };
+    boot.kernelModules = lib.mkForce [
+      "nvidia"
+      "nvidia_modeset"
+      "nvidia_drm"
+      "nvidia_uvm"
+    ];
   };
 
   services.supergfxd = {
