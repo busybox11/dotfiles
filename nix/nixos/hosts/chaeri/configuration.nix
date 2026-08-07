@@ -79,6 +79,11 @@ in
 
   services.asusd.enable = true;
 
+  services.howdy = {
+    enable = true;
+    control = "sufficient";
+  };
+
   networking.useDHCP = lib.mkDefault true;
 
   users.users.root.openssh.authorizedKeys.keys = [
