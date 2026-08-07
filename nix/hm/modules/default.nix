@@ -14,6 +14,7 @@
     ./cursor.nix
     ./zen.nix
     ./discord.nix
+    ./flatpak.nix
     ./fonts.nix
     ./work.nix
   ];

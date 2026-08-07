@@ -12,6 +12,7 @@
   pkgs,
   zen-browser,
   vscode-server,
+  nix-flatpak,
   ...
 }:
 {
@@ -35,6 +36,8 @@
     ];
   };
 
+  services.flatpak.enable = true;
+
   # mostly vscode remote ssh
   programs.nix-ld.enable = true;
 
@@ -51,6 +54,7 @@
       dotfilesPath
       zen-browser
       vscode-server
+      nix-flatpak
       ;
     flakeHost = hostName;
     fontsManagedByNixOS = builtins.hasAttr hostName hosts;

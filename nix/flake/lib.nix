@@ -4,7 +4,7 @@
   local,
 }:
 let
-  inherit (inputs) nixpkgs home-manager self zen-browser nur apple-fonts nix-vscode-extensions vscode-server;
+  inherit (inputs) nixpkgs home-manager self zen-browser nur apple-fonts nix-vscode-extensions vscode-server nix-flatpak;
   lib = nixpkgs.lib;
 
   overlays = [
@@ -36,7 +36,7 @@ let
       ] ++ extraModules;
 
       extraSpecialArgs = {
-        inherit self username homeDirectory dotfilesPath flakeHost local zen-browser nur hosts vscode-server;
+        inherit self username homeDirectory dotfilesPath flakeHost local zen-browser nur hosts vscode-server nix-flatpak;
         fontsManagedByNixOS = builtins.hasAttr flakeHost hosts;
       };
     };
@@ -45,7 +45,7 @@ let
     nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = {
-        inherit self hosts local zen-browser vscode-server;
+        inherit self hosts local zen-browser vscode-server nix-flatpak;
       };
       modules = [
         home-manager.nixosModules.home-manager

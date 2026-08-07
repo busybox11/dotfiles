@@ -39,6 +39,10 @@
       url = "github:nix-community/nixos-vscode-server";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nix-flatpak = {
+      url = "github:gmodena/nix-flatpak/?ref=v0.7.0";
+    };
   };
 
   outputs = inputs: import ./nix/flake/outputs.nix inputs;
