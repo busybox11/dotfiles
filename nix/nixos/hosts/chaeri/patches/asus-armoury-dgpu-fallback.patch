@@ -1,0 +1,138 @@
+From 9c827605d49137fa5436ac002c4b03884791e8ee Mon Sep 17 00:00:00 2001
+From: busybox11 <busybox11th@gmail.com>
+Date: Fri, 7 Aug 2026 23:21:12 +0200
+Subject: [PATCH platform-drivers-x86] platform/x86: asus-armoury: add dGPU
+ disable fallback DEVID for ProArt H7606 series
+
+Newer ASUS ProArt laptops (e.g. H7606 series) implement dGPU power
+control on WMI DEVID 0x00090120 instead of the usual 0x00090020.
+The default DEVID returns 0xFFFFFFFE on these models, so the
+dgpu_disable firmware attribute is never created and the dGPU cannot
+be re-enabled from Linux at all.
+
+Add a fallback probe for device ID 0x00090120 following the same
+approach as the gpu_mux_dev_id probe.
+
+Details for 0x00090120 (confirmed on H7606W using direct WMNB calls
+and inspecting the DSDT DEVS handler):
+  - Reading DSTS returns 0x00010001 when the dGPU is off (CUMA=1),
+	or 0x00010000 when it's on.
+  - Writing DEVS: 0 enables the dGPU (calls PG00._ON() + Notifies
+	PEGP, Device Check), and 1 disables or ejects it.
+	
+This behavior matches the dgpu_disable attribute (1 = disabled).
+
+Signed-off-by: busybox11 <busybox11th@gmail.com>
+---
+ drivers/platform/x86/asus-armoury.c        | 32 ++++++++++++++++++----
+ include/linux/platform_data/x86/asus-wmi.h |  3 ++
+ 2 files changed, 30 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/platform/x86/asus-armoury.c b/drivers/platform/x86/asus-armoury.c
+index 5b0987ccc..592ea61ef 100644
+--- a/drivers/platform/x86/asus-armoury.c
++++ b/drivers/platform/x86/asus-armoury.c
+@@ -93,6 +93,7 @@ struct asus_armoury_priv {
+ 
+ 	u32 mini_led_dev_id;
+ 	u32 gpu_mux_dev_id;
++	u32 dgpu_disable_dev_id;
+ };
+ 
+ static struct asus_armoury_priv asus_armoury = {
+@@ -444,8 +445,8 @@ static ssize_t gpu_mux_mode_current_value_store(struct kobject *kobj,
+ 	if (err)
+ 		return err;
+ 
+-	if (armoury_has_devstate(ASUS_WMI_DEVID_DGPU)) {
+-		err = armoury_get_devstate(NULL, &result, ASUS_WMI_DEVID_DGPU);
++	if (asus_armoury.dgpu_disable_dev_id) {
++		err = armoury_get_devstate(NULL, &result, asus_armoury.dgpu_disable_dev_id);
+ 		if (err)
+ 			return err;
+ 		if (result && !optimus) {
+@@ -499,7 +500,8 @@ static ssize_t dgpu_disable_current_value_store(struct kobject *kobj,
+ 	}
+ 
+ 	scoped_guard(mutex, &asus_armoury.egpu_mutex) {
+-		err = armoury_set_devstate(attr, disable ? 1 : 0, NULL, ASUS_WMI_DEVID_DGPU);
++		err = armoury_set_devstate(attr, disable ? 1 : 0, NULL,
++					   asus_armoury.dgpu_disable_dev_id);
+ 		if (err)
+ 			return err;
+ 	}
+@@ -508,7 +510,7 @@ static ssize_t dgpu_disable_current_value_store(struct kobject *kobj,
+ 
+ 	return count;
+ }
+-ASUS_WMI_SHOW_INT(dgpu_disable_current_value, ASUS_WMI_DEVID_DGPU);
++ASUS_WMI_SHOW_INT(dgpu_disable_current_value, asus_armoury.dgpu_disable_dev_id);
+ ASUS_ATTR_GROUP_BOOL(dgpu_disable, "dgpu_disable", "Disable the dGPU");
+ 
+ /* Values map for eGPU activation requests. */
+@@ -782,7 +784,6 @@ ASUS_ATTR_GROUP_INT_VALUE_ONLY_RO(nv_base_tgp, ATTR_NV_BASE_TGP, ASUS_WMI_DEVID_
+ static const struct asus_attr_group armoury_attr_groups[] = {
+ 	{ &egpu_connected_attr_group, ASUS_WMI_DEVID_EGPU_CONNECTED },
+ 	{ &egpu_enable_attr_group, ASUS_WMI_DEVID_EGPU },
+-	{ &dgpu_disable_attr_group, ASUS_WMI_DEVID_DGPU },
+ 	{ &apu_mem_attr_group, ASUS_WMI_DEVID_APU_MEM },
+ 
+ 	{ &ppt_pl1_spl_attr_group, ASUS_WMI_DEVID_PPT_PL1_SPL },
+@@ -926,6 +927,21 @@ static int asus_fw_attr_add(void)
+ 		}
+ 	}
+ 
++	asus_armoury.dgpu_disable_dev_id = 0;
++	if (armoury_has_devstate(ASUS_WMI_DEVID_DGPU))
++		asus_armoury.dgpu_disable_dev_id = ASUS_WMI_DEVID_DGPU;
++	else if (armoury_has_devstate(ASUS_WMI_DEVID_GPU_MODE))
++		asus_armoury.dgpu_disable_dev_id = ASUS_WMI_DEVID_GPU_MODE;
++
++	if (asus_armoury.dgpu_disable_dev_id) {
++		err = sysfs_create_group(&asus_armoury.fw_attr_kset->kobj,
++					 &dgpu_disable_attr_group);
++		if (err) {
++			pr_err("Failed to create sysfs-group for dgpu_disable\n");
++			goto err_remove_gpu_mux_group;
++		}
++	}
++
+ 	for (i = 0; i < ARRAY_SIZE(armoury_attr_groups); i++) {
+ 		if (!armoury_has_devstate(armoury_attr_groups[i].wmi_devid))
+ 			continue;
+@@ -963,6 +979,9 @@ static int asus_fw_attr_add(void)
+ 			sysfs_remove_group(&asus_armoury.fw_attr_kset->kobj,
+ 					   armoury_attr_groups[i].attr_group);
+ 	}
++	if (asus_armoury.dgpu_disable_dev_id)
++		sysfs_remove_group(&asus_armoury.fw_attr_kset->kobj, &dgpu_disable_attr_group);
++err_remove_gpu_mux_group:
+ 	if (asus_armoury.gpu_mux_dev_id)
+ 		sysfs_remove_group(&asus_armoury.fw_attr_kset->kobj, &gpu_mux_mode_attr_group);
+ err_remove_mini_led_group:
+@@ -1135,6 +1154,9 @@ static void __exit asus_fw_exit(void)
+ 					   armoury_attr_groups[i].attr_group);
+ 	}
+ 
++	if (asus_armoury.dgpu_disable_dev_id)
++		sysfs_remove_group(&asus_armoury.fw_attr_kset->kobj, &dgpu_disable_attr_group);
++
+ 	if (asus_armoury.gpu_mux_dev_id)
+ 		sysfs_remove_group(&asus_armoury.fw_attr_kset->kobj, &gpu_mux_mode_attr_group);
+ 
+diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
+index 554f41b82..a130a4c3c 100644
+--- a/include/linux/platform_data/x86/asus-wmi.h
++++ b/include/linux/platform_data/x86/asus-wmi.h
+@@ -138,6 +138,9 @@
+ /* dgpu on/off */
+ #define ASUS_WMI_DEVID_DGPU		0x00090020
+ 
++/* dgpu power/mode switch, dgpu_disable fallback on some ProArt */
++#define ASUS_WMI_DEVID_GPU_MODE		0x00090120
++
+ #define ASUS_WMI_DEVID_APU_MEM		0x000600C1
+ 
+ #define ASUS_WMI_DEVID_DGPU_BASE_TGP	0x00120099
+-- 
+2.54.0
