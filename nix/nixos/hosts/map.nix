@@ -9,6 +9,10 @@
       prefixLength = 24;
     };
   };
+  chaeri = {
+    ethernet = builtins.throw "voidroid eth IP not set yet";
+    wifi = builtins.throw "voidroid wifi IP not set yet";
+  };
   voidroid = {
     ethernet = builtins.throw "voidroid eth IP not set yet";
     wifi = builtins.throw "voidroid wifi IP not set yet";
