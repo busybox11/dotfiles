@@ -7,6 +7,10 @@
 {
   home.file.".config/hypr".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/config/hypr";
 
+  programs.hyprshot = {
+    enable = true;
+  };
+
   programs.quickshell = {
     enable = true;
   };
