@@ -7,7 +7,25 @@ hl.monitor({
 	bitdepth = 10,
 	vrr = 1,
 })
-local hostname = os.getenv("HOSTNAME")
+
+local function read_hostname()
+	local hostname = os.getenv("HOSTNAME")
+	if hostname and hostname ~= "" then
+		return hostname
+	end
+
+	local file = io.open("/etc/hostname", "r")
+	if not file then
+		return ""
+	end
+
+	hostname = file:read("*l") or ""
+	file:close()
+
+	return hostname
+end
+local hostname = read_hostname()
+
 hl.monitor({
 	output = "desc:AOC CU34G2XP 1Q1Q7HA012666",
 	mode = hostname == "chaeri" and "3440x1440@100" or "3440x1440@180",
