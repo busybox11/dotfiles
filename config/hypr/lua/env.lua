@@ -1,39 +1,77 @@
-hl.env("XCURSOR_THEME", "elementary")
-hl.env("HYPRCURSOR_THEME", "hyprelementary")
-hl.env("XCURSOR_SIZE", "12")
-hl.env("HYPRCURSOR_SIZE", "24")
+local function read_hostname()
+	local hostname = os.getenv("HOSTNAME")
+	if hostname and hostname ~= "" then
+		return hostname
+	end
 
-hl.env("LIBVA_DRIVER_NAME", "nvidia")
-hl.env("GBM_BACKEND", "nvidia-drm")
-hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
-hl.env("__NV_PRIME_RENDER_OFFLOAD", "1")
+	local file = io.open("/etc/hostname", "r")
+	if not file then
+		return ""
+	end
 
-hl.env("CLUTTER_BACKEND", "wayland")
-hl.env("GDK_BACKEND", "wayland,x11,*")
+	hostname = file:read("*l") or ""
+	file:close()
 
-hl.env("QT_AUTO_SCREEN_SCALE_FACTOR", "1")
-hl.env("QT_QPA_PLATFORM", "wayland;xcb")
-hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
-hl.env("QT_SCALE_FACTOR", "1")
-hl.env("QT_WAYLAND_DISABLE_WINDOWDECORATION", "1")
+	return hostname
+end
 
-hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
-hl.env("XDG_SESSION_DESKTOP", "Hyprland")
-hl.env("XDG_SESSION_TYPE", "wayland")
+local function set_env(vars)
+	for key, value in pairs(vars) do
+		hl.env(key, value)
+	end
+end
 
-hl.env("MOZ_ENABLE_WAYLAND", "1")
-hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
-hl.env("WLR_RENDERER_ALLOW_SOFTWARE", "1")
+local hostname = read_hostname()
 
-hl.env("MOZ_DISABLE_RDD_SANDBOX", "1")
-hl.env("NVD_BACKEND", "direct")
-hl.env("EGL_PLATFORM", "wayland")
-hl.env("SDL_VIDEODRIVER", "wayland")
-hl.env("__EGL_VENDOR_LIBRARY_FILENAMES", "/usr/share/glvnd/egl_vendor.d/10_nvidia.json")
-hl.env("CUDA_DISABLE_PERF_BOOST", "1")
+set_env({
+	XCURSOR_THEME = "elementary",
+	HYPRCURSOR_THEME = "hyprelementary",
+	XCURSOR_SIZE = "12",
+	HYPRCURSOR_SIZE = "24",
 
-hl.env("__GL_SHADER_DISK_CACHE", "1")
-hl.env("__GL_SHADER_DISK_CACHE_CLEANUP", "1")
-hl.env("__GL_SHADER_DISK_CACHE_SIZE", "10")
-hl.env("__GL_GSYNC_ALLOWED", "1")
-hl.env("__GL_VRR_ALLOWED", "1")
+	CLUTTER_BACKEND = "wayland",
+	GDK_BACKEND = "wayland,x11,*",
+
+	QT_AUTO_SCREEN_SCALE_FACTOR = "1",
+	QT_QPA_PLATFORM = "wayland;xcb",
+	QT_QPA_PLATFORMTHEME = "qt6ct",
+	QT_SCALE_FACTOR = "1",
+	QT_WAYLAND_DISABLE_WINDOWDECORATION = "1",
+
+	XDG_CURRENT_DESKTOP = "Hyprland",
+	XDG_SESSION_DESKTOP = "Hyprland",
+	XDG_SESSION_TYPE = "wayland",
+
+	MOZ_ENABLE_WAYLAND = "1",
+	ELECTRON_OZONE_PLATFORM_HINT = "auto",
+	WLR_RENDERER_ALLOW_SOFTWARE = "1",
+
+	SDL_VIDEODRIVER = "wayland",
+	EGL_PLATFORM = "wayland",
+})
+
+local gpu_profiles = {
+	chaeri = {
+		LIBVA_DRIVER_NAME = "radeonsi",
+		GBM_BACKEND = "drm",
+	},
+	default = {
+		LIBVA_DRIVER_NAME = "nvidia",
+		GBM_BACKEND = "nvidia-drm",
+		__GLX_VENDOR_LIBRARY_NAME = "nvidia",
+		__NV_PRIME_RENDER_OFFLOAD = "1",
+
+		MOZ_DISABLE_RDD_SANDBOX = "1",
+		NVD_BACKEND = "direct",
+		__EGL_VENDOR_LIBRARY_FILENAMES = "/usr/share/glvnd/egl_vendor.d/10_nvidia.json",
+		CUDA_DISABLE_PERF_BOOST = "1",
+
+		__GL_SHADER_DISK_CACHE = "1",
+		__GL_SHADER_DISK_CACHE_CLEANUP = "1",
+		__GL_SHADER_DISK_CACHE_SIZE = "10",
+		__GL_GSYNC_ALLOWED = "1",
+		__GL_VRR_ALLOWED = "1",
+	},
+}
+
+set_env(gpu_profiles[hostname] or gpu_profiles.default)

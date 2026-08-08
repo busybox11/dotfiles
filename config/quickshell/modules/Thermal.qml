@@ -61,7 +61,7 @@ Row {
 
   Process {
     id: fanProc
-    command: ["bash", Quickshell.env("HOME") + "/.config/eww/scripts/fan_speeds"]
+    command: ["bash", Quickshell.env("HOME") + "/.config/hypr/scripts/fan_speed.sh"]
     stdout: StdioCollector {
       onStreamFinished: {
         try {
