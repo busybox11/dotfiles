@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   inherit (import ./vscode-config.nix { inherit pkgs; })
     matugenThemeExtensionUniqueId
@@ -6,8 +11,10 @@ let
     ;
 
   extensionDirs = lib.concatLists [
-    (lib.optional (config.programs.vscode.enable or false) "${config.home.homeDirectory}/.vscode/extensions")
-    (lib.optional (config.programs.cursor.enable or false) "${config.home.homeDirectory}/.cursor/extensions")
+    (lib.optional (config.programs.vscode.enable or false
+    ) "${config.home.homeDirectory}/.vscode/extensions")
+    (lib.optional (config.programs.cursor.enable or false
+    ) "${config.home.homeDirectory}/.cursor/extensions")
   ];
 
   activationAfter = [
@@ -34,6 +41,6 @@ let
 in
 lib.mkIf (extensionDirs != [ ]) {
   home.activation.installMatugenThemeExtension = lib.hm.dag.entryAfter activationAfter ''
-    ${lib.getExe' installScript "install-matugen-vscode-theme"} ${lib.concatMapStringsSep " " lib.escapeShellArg extensionDirs}
+    ${installScript} ${lib.concatMapStringsSep " " lib.escapeShellArg extensionDirs}
   '';
 }
