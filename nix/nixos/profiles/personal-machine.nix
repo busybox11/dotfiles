@@ -46,6 +46,7 @@
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
+  home-manager.backupFileExtension = "hmbak-${toString self.lastModified}";
 
   home-manager.extraSpecialArgs = {
     inherit
