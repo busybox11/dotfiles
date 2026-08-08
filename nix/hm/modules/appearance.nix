@@ -19,10 +19,7 @@ let
       let
         s = toString value;
       in
-      if lib.hasPrefix "/" s then
-        s
-      else
-        "${dotfilesPath}/${s}";
+      if lib.hasPrefix "/" s then s else "${dotfilesPath}/${s}";
 in
 {
   options.appearance = {
@@ -48,11 +45,7 @@ in
 
       configFile = lib.mkOption {
         type = lib.types.str;
-        default =
-          if isDarwin then
-            "darwin.toml"
-          else
-            "config.toml";
+        default = if isDarwin then "darwin.toml" else "config.toml";
         description = "Matugen config basename under ~/.config/matugen/";
       };
     };
@@ -65,7 +58,8 @@ in
     {
       home.packages = lib.mkIf config.appearance.matugen.enable [ pkgs.matugen ];
 
-      home.file.".config/matugen".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/config/matugen";
+      home.file.".config/matugen".source =
+        config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/config/matugen";
 
       home.activation.appearanceMatugen = lib.hm.dag.entryAfter [ "linkGeneration" ] (
         if wallpaper == null || !config.appearance.matugen.enable then
@@ -76,39 +70,39 @@ in
             matugenMode = config.appearance.matugen.mode;
             matugenConfig = "${dotfilesPath}/config/matugen/${matugenConfigFile}";
           in
-        ''
-          run ${pkgs.writeShellScript "matugen-from-wallpaper" ''
-            set -euo pipefail
-            wallpaper=${lib.escapeShellArg (toString wallpaper)}
-            config=${lib.escapeShellArg matugenConfig}
-            if [ ! -f "$wallpaper" ]; then
-              echo "appearance: wallpaper not found: $wallpaper" >&2
-              exit 1
-            fi
-            if [ ! -f "$config" ]; then
-              echo "appearance: matugen config not found: $config" >&2
-              exit 1
-            fi
-            mkdir -p "''${HOME}/.config/ghostty/themes"
-            if ! timeout 60 ${lib.getExe pkgs.matugen} image "$wallpaper" -c "$config" -m ${matugenMode} -q --source-color-index 0; then
-              echo "appearance: matugen timed out or failed" >&2
-            fi
-          ''}
-        ''
-    );
+          ''
+            run ${pkgs.writeShellScript "matugen-from-wallpaper" ''
+              set -euo pipefail
+              wallpaper=${lib.escapeShellArg (toString wallpaper)}
+              config=${lib.escapeShellArg matugenConfig}
+              if [ ! -f "$wallpaper" ]; then
+                echo "appearance: wallpaper not found: $wallpaper" >&2
+                exit 1
+              fi
+              if [ ! -f "$config" ]; then
+                echo "appearance: matugen config not found: $config" >&2
+                exit 1
+              fi
+              mkdir -p "''${HOME}/.config/ghostty/themes"
+              if ! timeout 60 ${lib.getExe pkgs.matugen} image "$wallpaper" -c "$config" -m ${matugenMode} -q --source-color-index 0; then
+                echo "appearance: matugen timed out or failed" >&2
+              fi
+            ''}
+          ''
+      );
 
       home.activation.appearanceWallpaper = lib.hm.dag.entryAfter [ "appearanceMatugen" ] (
         if wallpaper == null || !isDarwin then
           "exit 0"
         else
-        ''
-          run ${pkgs.writeShellScript "set-darwin-wallpaper" ''
-            set -euo pipefail
-            export PATH="/usr/bin:/bin:/usr/sbin:/sbin''${PATH:+:$PATH}"
-            /usr/bin/osascript -e "tell application \"Finder\" to set desktop picture to POSIX file \"${wallpaper}\""
-          ''}
-        ''
-    );
+          ''
+            run ${pkgs.writeShellScript "set-darwin-wallpaper" ''
+              set -euo pipefail
+              export PATH="/usr/bin:/bin:/usr/sbin:/sbin''${PATH:+:$PATH}"
+              /usr/bin/osascript -e "tell application \"Finder\" to set desktop picture to POSIX file \"${wallpaper}\""
+            ''}
+          ''
+      );
 
     };
 }
