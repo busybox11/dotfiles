@@ -1,6 +1,22 @@
-{ lib, pkgs, fontsManagedByNixOS ? false, ... }:
+{
+  lib,
+  pkgs,
+  fontsManagedByNixOS ? false,
+  ...
+}:
 let
   fontPackages = import ../../fonts/packages.nix { inherit pkgs; };
+  isLinux = pkgs.stdenv.hostPlatform.isLinux;
+
+  sans = "SF Pro";
+  mono = "Cascadia Code NF";
+  size = 10;
+
+  # Plasma still uses Qt's legacy weight scale in kdeglobals (50 = Normal/Regular).
+  qtFont = family: "${family},${toString size},-1,5,50,0,0,0,0,0";
+
+  kwriteconfig6 = lib.getExe' pkgs.kdePackages.kconfig "kwriteconfig6";
+  gsettings = lib.getExe' pkgs.glib "gsettings";
 in
 {
   fonts.fontconfig = {
@@ -10,8 +26,8 @@ in
     subpixelRendering = "rgb";
 
     defaultFonts = {
-      sansSerif = [ "SF Pro" ];
-      monospace = [ "Cascadia Code NF" ];
+      sansSerif = [ sans ];
+      monospace = [ mono ];
     };
 
     configFile = {
@@ -70,6 +86,38 @@ in
       };
     };
   };
+
+  # GTK settings.ini (with gtk.enable from appearance.nix)
+  gtk.font = lib.mkIf isLinux {
+    name = sans;
+    size = size;
+  };
+
+  # GNOME Tweaks / libadwaita
+  dconf.settings = lib.mkIf isLinux {
+    "org/gnome/desktop/interface" = {
+      font-name = lib.mkForce "${sans} ${toString size}";
+      document-font-name = lib.mkForce "${sans} ${toString size}";
+      monospace-font-name = lib.mkForce "${mono} ${toString size}";
+      font-antialiasing = "rgba";
+      font-hinting = "slight";
+    };
+  };
+
+  # Plasma fonts live in kdeglobals; also push monospace to gsettings (Tweaks reads that).
+  home.activation.plasmaFonts = lib.mkIf isLinux (
+    lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      run ${kwriteconfig6} --file kdeglobals --group General --key font ${lib.escapeShellArg (qtFont sans)}
+      run ${kwriteconfig6} --file kdeglobals --group General --key menuFont ${lib.escapeShellArg (qtFont sans)}
+      run ${kwriteconfig6} --file kdeglobals --group General --key toolBarFont ${lib.escapeShellArg (qtFont sans)}
+      run ${kwriteconfig6} --file kdeglobals --group General --key smallestReadableFont ${lib.escapeShellArg (qtFont sans)}
+      run ${kwriteconfig6} --file kdeglobals --group General --key activeFont ${lib.escapeShellArg (qtFont sans)}
+      run ${kwriteconfig6} --file kdeglobals --group General --key fixed ${lib.escapeShellArg (qtFont mono)}
+      run ${gsettings} set org.gnome.desktop.interface font-name ${lib.escapeShellArg "${sans} ${toString size}"}
+      run ${gsettings} set org.gnome.desktop.interface document-font-name ${lib.escapeShellArg "${sans} ${toString size}"}
+      run ${gsettings} set org.gnome.desktop.interface monospace-font-name ${lib.escapeShellArg "${mono} ${toString size}"}
+    ''
+  );
 
   home.packages = lib.mkIf (!fontsManagedByNixOS) fontPackages;
 }
