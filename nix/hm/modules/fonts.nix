@@ -8,7 +8,7 @@ let
   fontPackages = import ../../fonts/packages.nix { inherit pkgs; };
   isLinux = pkgs.stdenv.hostPlatform.isLinux;
 
-  sans = "SF Pro";
+  sans = "SF Pro Text";
   mono = "Cascadia Code NF";
   size = 10;
 
