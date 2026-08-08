@@ -54,6 +54,10 @@ in
   config =
     let
       wallpaper = resolveWallpaper config.appearance.wallpaper;
+      dark = config.appearance.matugen.mode == "dark";
+      gtkThemeName = if dark then "adw-gtk3-dark" else "adw-gtk3";
+      iconThemeName = if dark then "Papirus-Dark" else "Papirus-Light";
+      colorScheme = config.appearance.matugen.mode;
     in
     {
       home.packages = lib.mkIf config.appearance.matugen.enable [ pkgs.matugen ];
@@ -104,19 +108,34 @@ in
           ''
       );
 
-      # gtk = {
-      #   iconTheme = {
-      #     name = "Papirus-Dark";
-      #     package = pkgs.papirus-icon-theme;
-      #   };
-      #   gtk3 = {
-      #     extraConfig.gtk-application-prefer-dark-theme = true;
-      #   };
-      # };
-      # qt = {
-      #   enable = true;
-      #   style.name = "adwaita-dark";
-      #   platformTheme.name = "gtk";
-      # };
+      gtk = lib.mkIf (!isDarwin) {
+        enable = true;
+        colorScheme = colorScheme;
+        theme = {
+          name = gtkThemeName;
+          package = pkgs.adw-gtk3;
+        };
+        iconTheme = {
+          name = iconThemeName;
+          package = pkgs.papirus-icon-theme;
+        };
+        # libadwaita ignores gtk-theme-name; colors come from gtk.css / colors.css
+        gtk4.theme = null;
+        gtk3.extraCss = lib.mkIf config.appearance.matugen.enable ''
+          @import 'colors.css';
+        '';
+        gtk4.extraCss = lib.mkIf config.appearance.matugen.enable ''
+          @import 'colors.css';
+        '';
+      };
+
+      # What GNOME Tweaks reads. https://hoverbear.org/blog/declarative-gnome-configuration-in-nixos/
+      dconf.settings = lib.mkIf (!isDarwin) {
+        "org/gnome/desktop/interface" = {
+          color-scheme = "prefer-${colorScheme}";
+          gtk-theme = gtkThemeName;
+          icon-theme = iconThemeName;
+        };
+      };
     };
 }
