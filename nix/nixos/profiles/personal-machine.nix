@@ -22,6 +22,8 @@
     (import ../modules/docker.nix username)
   ];
 
+  services.fwupd.enable = true;
+
   networking.hostName = hostName;
 
   users.users.${username} = {
@@ -33,6 +35,7 @@
       "networkmanager"
       "video"
       "audio"
+      "i2c"
     ];
   };
 

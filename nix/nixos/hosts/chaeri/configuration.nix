@@ -23,12 +23,18 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  hardware.i2c.enable = true;
+
   # ProArt H7606: dgpu_disable lives on DEVID 0x00090120, not 0x00090020
   # OOT rebuild of asus-armoury only; drop once the patch is upstream
   boot.extraModulePackages = [
     (config.boot.kernelPackages.callPackage ./asus-armoury-h7606.nix { })
   ];
   boot.blacklistedKernelModules = [ "asus-armoury" ];
+
+  boot.extraModprobeConfig = ''
+    options nvidia NVreg_RegistryDwords="RMUseSwI2c=0x01;RMI2cSpeed=100"
+  '';
 
   # amdgpu.dcdebugmask=0x400 disables Panel Replay only (keeps PSR for battery)
   # Fixes the DC 3.2.378 Panel Replay hang; refresh may sag below 120Hz under
@@ -61,6 +67,7 @@ in
   boot.kernelModules = lib.mkForce [
     "kvm-amd"
     "asus-armoury-h7606"
+    "i2c-dev"
   ];
 
   specialisation.nvidia.configuration = {
@@ -78,6 +85,7 @@ in
       "nvidia_drm"
       "nvidia_uvm"
       "asus-armoury-h7606"
+      "i2c-dev"
     ];
   };
 

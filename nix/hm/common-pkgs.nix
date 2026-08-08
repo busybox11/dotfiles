@@ -15,7 +15,10 @@ with pkgs;
   tree
   tmux
 
+  papirus-icon-theme
+
   coreutils-full
+  brightnessctl
 
   ookla-speedtest
 
