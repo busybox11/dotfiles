@@ -1,10 +1,8 @@
 hl.on("hyprland.start", function()
-  hl.exec_cmd("gsettings set org.gnome.desktop.interface font-antialiasing 'grayscale'")
-  hl.exec_cmd("gsettings set org.gnome.desktop.interface font-hinting 'full'")
-
   hl.exec_cmd('uwsm-app -a "hyprland_autotag_bg" -s b -- bash ~/.config/hypr/scripts/bg/autotag.sh')
   hl.exec_cmd("uwsm-app -s b -- fumon")
-  hl.exec_cmd("uwsm-app -s b -- swaybg --mode fill --image ~/Pictures/wallpapers/126660551_p0_cut.jpg")
+  -- Path managed by home-manager (appearance.wallpaper → ~/.local/share/appearance/wallpaper).
+  hl.exec_cmd("uwsm-app -s b -- swaybg --mode fill --image ~/.local/share/appearance/wallpaper")
   hl.exec_cmd("uwsm-app -s b -- hyprsunset")
   hl.exec_cmd("uwsm-app -s b -- nm-applet")
   hl.exec_cmd("uwsm-app -- kitty --single-instance --start-as=hidden")

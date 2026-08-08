@@ -95,15 +95,51 @@ in
           ''
       );
 
+      # Stable path for wallpape
+      home.file.".local/share/appearance/wallpaper" = lib.mkIf (wallpaper != null && !isDarwin) {
+        source = config.lib.file.mkOutOfStoreSymlink (toString wallpaper);
+      };
+
       home.activation.appearanceWallpaper = lib.hm.dag.entryAfter [ "appearanceMatugen" ] (
-        if wallpaper == null || !isDarwin then
+        if wallpaper == null then
           "exit 0"
-        else
+        else if isDarwin then
           ''
             run ${pkgs.writeShellScript "set-darwin-wallpaper" ''
               set -euo pipefail
               export PATH="/usr/bin:/bin:/usr/sbin:/sbin''${PATH:+:$PATH}"
               /usr/bin/osascript -e "tell application \"Finder\" to set desktop picture to POSIX file \"${wallpaper}\""
+            ''}
+          ''
+        else
+          let
+            wallpaperPath = toString wallpaper;
+            gsettings = lib.getExe' pkgs.glib "gsettings";
+            kwriteconfig6 = lib.getExe' pkgs.kdePackages.kconfig "kwriteconfig6";
+            plasmaWallpaper = lib.getExe' pkgs.kdePackages.plasma-workspace "plasma-apply-wallpaperimage";
+          in
+          ''
+            run ${pkgs.writeShellScript "set-linux-wallpaper" ''
+              set -euo pipefail
+              wallpaper=${lib.escapeShellArg wallpaperPath}
+              uri="file://$wallpaper"
+              if [ ! -f "$wallpaper" ]; then
+                echo "appearance: wallpaper not found: $wallpaper" >&2
+                exit 1
+              fi
+
+              ${gsettings} set org.gnome.desktop.background picture-uri "$uri"
+              ${gsettings} set org.gnome.desktop.background picture-uri-dark "$uri"
+              ${gsettings} set org.gnome.desktop.screensaver picture-uri "$uri"
+
+              ${kwriteconfig6} --file kscreenlockerrc \
+                --group Greeter --group Wallpaper --group org.kde.image --group General \
+                --key Image "$wallpaper"
+              ${kwriteconfig6} --file kscreenlockerrc \
+                --group Greeter --group Wallpaper --group org.kde.image --group General \
+                --key PreviewImage "$wallpaper"
+              # No-op outside an active Plasma session.
+              ${plasmaWallpaper} "$wallpaper" >/dev/null 2>&1 || true
             ''}
           ''
       );
@@ -130,12 +166,23 @@ in
       };
 
       # What GNOME Tweaks reads. https://hoverbear.org/blog/declarative-gnome-configuration-in-nixos/
-      dconf.settings = lib.mkIf (!isDarwin) {
-        "org/gnome/desktop/interface" = {
-          color-scheme = "prefer-${colorScheme}";
-          gtk-theme = gtkThemeName;
-          icon-theme = iconThemeName;
-        };
-      };
+      dconf.settings = lib.mkIf (!isDarwin) (
+        {
+          "org/gnome/desktop/interface" = {
+            color-scheme = "prefer-${colorScheme}";
+            gtk-theme = gtkThemeName;
+            icon-theme = iconThemeName;
+          };
+        }
+        // lib.optionalAttrs (wallpaper != null) {
+          "org/gnome/desktop/background" = {
+            picture-uri = "file://${toString wallpaper}";
+            picture-uri-dark = "file://${toString wallpaper}";
+          };
+          "org/gnome/desktop/screensaver" = {
+            picture-uri = "file://${toString wallpaper}";
+          };
+        }
+      );
     };
 }
