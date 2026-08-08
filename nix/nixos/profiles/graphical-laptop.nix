@@ -13,6 +13,8 @@
 
   services.xserver.enable = true;
   services.displayManager.gdm.enable = true;
+  services.displayManager.defaultSession = "hyprland-uwsm";
+
   services.desktopManager.gnome.enable = true;
   services.desktopManager.plasma6.enable = true;
 
