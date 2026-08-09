@@ -58,6 +58,7 @@ in
       gtkThemeName = if dark then "adw-gtk3-dark" else "adw-gtk3";
       iconThemeName = if dark then "Papirus-Dark" else "Papirus-Light";
       colorScheme = config.appearance.matugen.mode;
+      kwriteconfig6 = lib.getExe' pkgs.kdePackages.kconfig "kwriteconfig6";
     in
     {
       home.packages = lib.mkIf config.appearance.matugen.enable [ pkgs.matugen ];
@@ -142,6 +143,13 @@ in
               ${plasmaWallpaper} "$wallpaper" >/dev/null 2>&1 || true
             ''}
           ''
+      );
+
+      # Qt apps on Plasma pick the icon theme from kdeglobals (GTK uses gtk.iconTheme above).
+      home.activation.appearanceQtIcons = lib.mkIf (!isDarwin) (
+        lib.hm.dag.entryAfter [ "appearanceMatugen" ] ''
+          run ${kwriteconfig6} --file kdeglobals --group Icons --key Theme ${lib.escapeShellArg iconThemeName}
+        ''
       );
 
       gtk = lib.mkIf (!isDarwin) {
