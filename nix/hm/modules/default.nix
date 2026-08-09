@@ -18,5 +18,6 @@
     ./flatpak.nix
     ./fonts.nix
     ./work.nix
+    ./playerctl.nix
   ];
 }
