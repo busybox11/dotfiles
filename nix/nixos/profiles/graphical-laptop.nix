@@ -1,4 +1,9 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  kwin-effects-better-blur-dx,
+  ...
+}:
 {
   hardware.graphics = {
     enable = true;
@@ -77,5 +82,8 @@
     vicinae
     pulseaudio
     pwvucontrol
+
+    # Plasma: force-blur transparent windows (Zen, etc.)
+    kwin-effects-better-blur-dx.packages.${pkgs.system}.default
   ];
 }

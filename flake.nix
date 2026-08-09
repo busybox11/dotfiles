@@ -43,6 +43,12 @@
     nix-flatpak = {
       url = "github:gmodena/nix-flatpak/?ref=v0.7.0";
     };
+
+    # Plasma 6.5+ force-blur fork (stock blur ignores Firefox/Zen transparency)
+    kwin-effects-better-blur-dx = {
+      url = "github:xarblu/kwin-effects-better-blur-dx";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs: import ./nix/flake/outputs.nix inputs;

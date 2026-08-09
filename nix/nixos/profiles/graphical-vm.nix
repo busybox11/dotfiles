@@ -1,4 +1,9 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  kwin-effects-better-blur-dx,
+  ...
+}:
 {
   hardware.graphics = {
     enable = true;
@@ -60,5 +65,7 @@
     vicinae
     pulseaudio
     pwvucontrol
+
+    kwin-effects-better-blur-dx.packages.${pkgs.system}.default
   ];
 }

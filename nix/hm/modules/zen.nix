@@ -65,10 +65,20 @@
                 position = 201;
               };
             };
+
+            theme = {
+              opacity = 0.8;
+              texture = 0.5;
+            };
           };
           "work" = {
             id = "0a2df7a1-9c8e-4af3-aac4-808d5a7b15e0";
             position = 1001;
+
+            theme = {
+              opacity = 0.8;
+              texture = 0.5;
+            };
           };
         };
 
@@ -94,7 +104,7 @@
           bitwarden
           refined-github
           darkreader
-          i-dont-care-about-cookies
+          istilldontcareaboutcookies
           web-scrobbler
           react-devtools
           stylus
@@ -114,6 +124,9 @@
           "zen.theme.gradient.show-custom-colors" = true;
           "zen.theme.use-system-colors" = true;
           "zen.urlbar.show-domain-only-in-sidebar" = false;
+
+          "zen.widget.linux.transparency" = true;
+          "browser.tabs.allow_transparent_browser" = true;
         };
 
         mods = [
@@ -122,6 +135,18 @@
           "dbe05f83-b471-4278-a3f9-e5ed244b0d6c"
           "03a8e7ef-cf00-4f41-bf24-a90deeafc9db"
         ];
+
+        userChrome = ''
+          html {
+            background: transparent !important;
+
+            --lwt-accent-color-inactive: rgba(31, 30, 37, 0.75) !important;
+          }
+
+          browser {
+            background:rgba(0, 0, 0, 0.35) !important;
+          }
+        '';
       };
   };
 }

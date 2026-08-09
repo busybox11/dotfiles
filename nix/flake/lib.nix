@@ -4,7 +4,7 @@
   local,
 }:
 let
-  inherit (inputs) nixpkgs home-manager self zen-browser nur apple-fonts nix-vscode-extensions vscode-server nix-flatpak;
+  inherit (inputs) nixpkgs home-manager self zen-browser nur apple-fonts nix-vscode-extensions vscode-server nix-flatpak kwin-effects-better-blur-dx;
   lib = nixpkgs.lib;
 
   overlays = [
@@ -45,7 +45,7 @@ let
     nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = {
-        inherit self hosts local zen-browser vscode-server nix-flatpak;
+        inherit self hosts local zen-browser vscode-server nix-flatpak kwin-effects-better-blur-dx;
       };
       modules = [
         home-manager.nixosModules.home-manager

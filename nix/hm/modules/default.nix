@@ -1,6 +1,7 @@
 {
   imports = [
     ./appearance.nix
+    ./plasma-better-blur.nix
     ./ghostty.nix
     ./gui.nix
     ./home-workspace.nix
