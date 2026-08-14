@@ -32,7 +32,7 @@ in
         user = {
           name = secrets.workGitUsername;
           email = secrets.workGitEmail;
-          signingkey = "${config.home.homeDirectory}/.ssh/id_ed25519_work_sign.pub";
+          signingkey = "${config.home.homeDirectory}/.ssh/id_ed25519_work.pub";
         };
 
         commit.gpgSign = true;

@@ -30,7 +30,7 @@
     LC_NUMERIC = "fr_FR.UTF-8";
     LC_PAPER = "fr_FR.UTF-8";
     LC_TELEPHONE = "fr_FR.UTF-8";
-    LC_TIME = "fr_FR.UTF-8";
+    LC_TIME = "en_US.UTF-8";
   };
 
   programs.git.enable = true;
@@ -52,6 +52,13 @@
     ghostty.terminfo
     just
     git-crypt
+    # JSON parsing for scripting
+    jq
+    # Modern CLI utilities
+    ripgrep
+    fd
+    fzf
+    bat
   ];
 
   # universal kitty and ghostty terminfo handling

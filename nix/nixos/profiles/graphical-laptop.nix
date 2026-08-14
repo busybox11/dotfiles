@@ -68,6 +68,7 @@
   environment.systemPackages = with pkgs; [
     libva-utils
     lm_sensors
+    nvtopPackages.full
 
     # Hyprland environment
     uwsm
