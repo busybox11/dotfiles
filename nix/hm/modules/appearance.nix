@@ -57,11 +57,16 @@ in
       dark = config.appearance.matugen.mode == "dark";
       gtkThemeName = if dark then "adw-gtk3-dark" else "adw-gtk3";
       iconThemeName = if dark then "Papirus-Dark" else "Papirus-Light";
+      cursorThemeName = "elementary";
+      cursorSize = 12;
       colorScheme = config.appearance.matugen.mode;
       kwriteconfig6 = lib.getExe' pkgs.kdePackages.kconfig "kwriteconfig6";
     in
     {
-      home.packages = lib.mkIf config.appearance.matugen.enable [ pkgs.matugen ];
+      home.packages = lib.mkMerge [
+        (lib.mkIf (!isDarwin) [ pkgs.pantheon.elementary-icon-theme ])
+        (lib.mkIf config.appearance.matugen.enable [ pkgs.matugen ])
+      ];
 
       home.file.".config/matugen".source =
         config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/config/matugen";
@@ -145,10 +150,13 @@ in
           ''
       );
 
-      # Qt apps on Plasma pick the icon theme from kdeglobals (GTK uses gtk.iconTheme above).
+      # Qt apps on Plasma pick icons from kdeglobals and the cursor from kcminputrc
+      # (GTK uses gtk.iconTheme / gtk.cursorTheme above).
       home.activation.appearanceQtIcons = lib.mkIf (!isDarwin) (
         lib.hm.dag.entryAfter [ "appearanceMatugen" ] ''
           run ${kwriteconfig6} --file kdeglobals --group Icons --key Theme ${lib.escapeShellArg iconThemeName}
+          run ${kwriteconfig6} --file kcminputrc --group Mouse --key cursorTheme ${lib.escapeShellArg cursorThemeName}
+          run ${kwriteconfig6} --file kcminputrc --group Mouse --key cursorSize ${toString cursorSize}
         ''
       );
 
@@ -162,6 +170,11 @@ in
         iconTheme = {
           name = iconThemeName;
           package = pkgs.papirus-icon-theme;
+        };
+        cursorTheme = {
+          name = cursorThemeName;
+          package = pkgs.pantheon.elementary-icon-theme;
+          size = cursorSize;
         };
         # libadwaita ignores gtk-theme-name; colors come from gtk.css / colors.css
         gtk4.theme = null;
@@ -180,6 +193,8 @@ in
             color-scheme = "prefer-${colorScheme}";
             gtk-theme = gtkThemeName;
             icon-theme = iconThemeName;
+            cursor-theme = cursorThemeName;
+            cursor-size = cursorSize;
           };
         }
         // lib.optionalAttrs (wallpaper != null) {
