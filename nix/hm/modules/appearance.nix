@@ -65,6 +65,7 @@ in
     {
       home.packages = lib.mkMerge [
         (lib.mkIf (!isDarwin) [ pkgs.pantheon.elementary-icon-theme ])
+        (lib.mkIf (!isDarwin && config.appearance.matugen.enable) [ pkgs.qt6Packages.qt6ct ])
         (lib.mkIf config.appearance.matugen.enable [ pkgs.matugen ])
       ];
 
@@ -159,6 +160,19 @@ in
           run ${kwriteconfig6} --file kcminputrc --group Mouse --key cursorSize ${toString cursorSize}
         ''
       );
+
+      # qt6ct (QT_QPA_PLATFORMTHEME=qt6ct, set in hyprland) pulls the dark palette
+      # from the matugen-generated color scheme and the icon theme from here.
+      home.file.".config/qt6ct/qt6ct.conf" = lib.mkIf (!isDarwin && config.appearance.matugen.enable) {
+        text = ''
+          [Appearance]
+          color_scheme_path=${config.home.homeDirectory}/.config/qt6ct/colors/matugen.conf
+          custom_palette=true
+          icon_theme=${iconThemeName}
+          standard_dialogs=default
+          style=Fusion
+        '';
+      };
 
       gtk = lib.mkIf (!isDarwin) {
         enable = true;
