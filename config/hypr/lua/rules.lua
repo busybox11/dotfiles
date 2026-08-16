@@ -58,7 +58,6 @@ window({
   name = "vicinae",
   match = { class = "vicinae" },
   float = true,
-  size = "622 652",
   stay_focused = true,
   dim_around = true,
   center = true,

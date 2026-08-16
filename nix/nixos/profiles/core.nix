@@ -37,6 +37,8 @@
 
   environment.systemPackages = with pkgs; [
     vim
+    coreutils
+    killall
     pciutils
     usbutils
     neovim
