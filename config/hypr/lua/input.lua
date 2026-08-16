@@ -32,8 +32,17 @@ local function gesture_exec(command)
 end
 
 hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
-hl.gesture({ fingers = 3, direction = "up", action = gesture_exec("wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+") })
-hl.gesture({ fingers = 3, direction = "down", action = gesture_exec("wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-") })
+
+local volume_gesture = function(change) hl.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ " .. math.abs(change) .. "%" .. (change<0 and "-" or "+")) end
+hl.gesture({
+  fingers = 3,
+  direction = "vertical",
+  action = {
+    start = function(e) volume_gesture(-0.25 * e.delta.y) end,
+    update = function(e) volume_gesture(-0.25 * e.delta.y) end
+  }
+})
+
 hl.gesture({ fingers = 4, direction = "left", action = gesture_exec("playerctl previous") })
 hl.gesture({ fingers = 4, direction = "right", action = gesture_exec("playerctl next") })
 hl.gesture({ fingers = 4, direction = "left", mods = "SUPER", action = gesture_exec("playerctl position 10-") })
