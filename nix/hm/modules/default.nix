@@ -6,6 +6,7 @@
     ./gui.nix
     ./home-workspace.nix
     ./hyprland.nix
+    ./hyprcursor.nix
     ./kitty.nix
     ./neovim.nix
     ./zsh.nix

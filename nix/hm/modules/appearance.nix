@@ -174,6 +174,14 @@ in
         '';
       };
 
+      home.pointerCursor = {
+        enable = true;
+        gtk.enable = true;
+        package = pkgs.pantheon.elementary-icon-theme;
+        name = "elementary";
+        size = 24;
+      };
+
       gtk = lib.mkIf (!isDarwin) {
         enable = true;
         colorScheme = colorScheme;
