@@ -3,9 +3,10 @@ hl.monitor({
 	output = "desc:Samsung Display Corp. ATNA60HR07-0",
 	mode = "2880x1800@120",
 	position = "5360x0",
-	scale = 1.6,
+	scale = 1.2,
 	bitdepth = 10,
 	vrr = 1,
+	cm = "hdr",
 })
 
 local function read_hostname()

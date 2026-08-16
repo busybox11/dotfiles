@@ -10,7 +10,7 @@ hl.config({
   misc = {
     force_default_wallpaper = -1,
     disable_hyprland_logo = true,
-    vrr = 0,
+    vrr = 3,
   },
   binds = {
     workspace_back_and_forth = true,
@@ -23,9 +23,10 @@ hl.config({
     nvidia_anti_flicker = true,
   },
   render = {
-    direct_scanout = 0,
+    direct_scanout = 2,
     new_render_scheduling = true,
     send_content_type = false,
+    non_shader_cm = 1,
   },
   xwayland = {
     force_zero_scaling = true,
