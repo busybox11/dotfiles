@@ -59,6 +59,7 @@
     fd
     fzf
     bat
+    comma
   ];
 
   # universal kitty and ghostty terminfo handling
