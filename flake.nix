@@ -44,9 +44,20 @@
       url = "github:gmodena/nix-flatpak/?ref=v0.7.0";
     };
 
+    twintail-nix = {
+      url = "github:madebycli/twintail-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Plasma 6.5+ force-blur fork (stock blur ignores Firefox/Zen transparency)
     kwin-effects-better-blur-dx = {
       url = "github:xarblu/kwin-effects-better-blur-dx";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # supergfx nixpkgs package yet).
+    cardwire = {
+      url = "github:OpenGamingCollective/cardwire";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

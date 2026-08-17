@@ -13,6 +13,7 @@
   zen-browser,
   vscode-server,
   nix-flatpak,
+  twintail-nix,
   ...
 }:
 {
@@ -59,6 +60,7 @@
       zen-browser
       vscode-server
       nix-flatpak
+      twintail-nix
       ;
     flakeHost = hostName;
     fontsManagedByNixOS = builtins.hasAttr hostName hosts;

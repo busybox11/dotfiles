@@ -16,7 +16,7 @@
     ./cursor.nix
     ./zen.nix
     ./discord.nix
-    ./flatpak.nix
+    ./twintail.nix
     ./fonts.nix
     ./work.nix
     ./playerctl.nix
