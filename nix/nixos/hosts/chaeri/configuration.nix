@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  cardwire,
   ...
 }:
 let
@@ -17,6 +18,7 @@ in
     ../../profiles/core.nix
     ../../profiles/graphical-laptop.nix
     (import ../../profiles/personal-machine.nix machine)
+    cardwire.nixosModules.default
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -87,16 +89,78 @@ in
       "asus-armoury-h7606"
       "i2c-dev"
     ];
+    hardware.nvidia-container-toolkit.enable = true;
+    virtualisation.docker.daemon.settings.features.cdi = true;
   };
 
-  services.supergfxd = {
+  services.cardwire = {
     enable = true;
     settings = {
-      mode = "hybrid";
+      auto_apply_gpu_state = true;
+      battery_auto_switch = false;
     };
   };
 
-  services.asusd.enable = true;
+  programs.gamemode = {
+    enable = true;
+    enableRenice = true;
+    settings = {
+      general = {
+        softrealtime = "auto";
+        inhibit_screensaver = 1;
+        renice = 10;
+      };
+      gpu = {
+        apply_gpu_optimisations = "no";
+      };
+    };
+  };
+
+  services.tlp.enable = lib.mkForce false;
+
+  services.tuned = {
+    enable = true;
+  };
+
+  services.asusd = {
+    enable = true;
+    asusdConfig = {
+      source = ./asusd.ron;
+    };
+    fanCurvesConfig = {
+      source = ./fan_curves.ron;
+    };
+    auraConfigs = {
+      "19b6" = {
+        source = ./aura_19b6.ron;
+      };
+    };
+  };
+
+  systemd.services.cpu-boost-by-power-source = {
+    description = "Enable CPU boost on AC, disable on battery";
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      if [ "$(cat /sys/class/power_supply/ACAD/online 2>/dev/null)" = "1" ]; then
+        echo 1 > /sys/devices/system/cpu/cpufreq/boost 2>/dev/null || true
+      else
+        echo 0 > /sys/devices/system/cpu/cpufreq/boost 2>/dev/null || true
+      fi
+    '';
+  };
+  services.udev.extraRules = ''
+    SUBSYSTEM=="power_supply", ATTRS{type}=="Mains", RUN+="${pkgs.writeShellScript "cpu-boost-by-powersrc" ''
+      if [ "$(cat /sys/class/power_supply/ACAD/online 2>/dev/null)" = "1" ]; then
+        echo 1 > /sys/devices/system/cpu/cpufreq/boost 2>/dev/null || true
+      else
+        echo 0 > /sys/devices/system/cpu/cpufreq/boost 2>/dev/null || true
+      fi
+    ''}"
+  '';
 
   services.howdy = {
     enable = true;
