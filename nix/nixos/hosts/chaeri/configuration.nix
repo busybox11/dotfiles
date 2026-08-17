@@ -36,6 +36,8 @@ in
 
   boot.extraModprobeConfig = ''
     options nvidia NVreg_RegistryDwords="RMUseSwI2c=0x01;RMI2cSpeed=100"
+    # s2idle suspend only
+    options nvidia NVreg_EnableS0ixPowerManagement=1
   '';
 
   # amdgpu.dcdebugmask=0x400 disables Panel Replay only (keeps PSR for battery)

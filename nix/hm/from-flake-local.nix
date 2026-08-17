@@ -1,5 +1,10 @@
 # Merges flake-local config (nix/local.nix) into home-manager.
-{ local, flakeHost, lib, ... }:
+{
+  local,
+  flakeHost,
+  lib,
+  ...
+}:
 let
   hostLocal = (local.hosts or { }).${flakeHost} or { };
   localGhostty = local.programs.ghostty or { };
@@ -13,7 +18,7 @@ in
   appearance = lib.mkMerge [
     {
       matugen.enable = lib.mkDefault true;
-      wallpaper = lib.mkDefault "wallpapers/126660551_p0_cut.jpg";
+      wallpaper = lib.mkDefault "wallpapers/full-moon-clouds-pink-sky-scenic-aesthetic-2880x1800-1653-darken.png";
     }
     (local.appearance or { })
     (hostLocal.appearance or { })
