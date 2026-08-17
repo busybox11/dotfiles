@@ -153,12 +153,15 @@ Scope {
     const max = Number(maxBrightnessFile.text().trim());
     if (!max)
       return;
-    root.brightnessPct = current / max * 100;
+    const pct = current / max * 100;
+    const changed = pct !== root.brightnessPct;
+    root.brightnessPct = pct;
     if (!root.brightnessReady) {
       root.brightnessReady = true;
       return;
     }
-    root.restartOsd(root.osdMs, { mode: "brightness" });
+    if (changed)
+      root.restartOsd(root.osdMs, { mode: "brightness" });
   }
 
   PwObjectTracker {
@@ -190,7 +193,7 @@ Scope {
     path: root.backlightDir ? `${root.backlightDir}/brightness` : ""
     watchChanges: true
     onLoaded: root.updateBrightness()
-    onFileChanged: root.updateBrightness()
+    onFileChanged: brightnessFile.reload()
   }
 
   FileView {

@@ -10,6 +10,10 @@ Item {
   property real critAt: Colors.critAt
   property bool lowIsBad: false
 
+  // collapse the pill chrome and show just the icon
+  property bool iconOnly: false
+  property color iconColor: root.textColor
+
   readonly property string level: root.lowIsBad
     ? Colors.levelLow(value, warnAt, critAt)
     : Colors.level(value, warnAt, critAt)
@@ -27,6 +31,17 @@ Item {
 
   implicitHeight: 40
 
+  BarText {
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.verticalCenter: parent.verticalCenter
+    topPadding: 0.5
+    visible: root.iconOnly
+    text: root.icon
+    color: root.iconColor
+    style: Text.Outline
+    styleColor: "#00000033"
+  }
+
   property ClippingRectangle visual: ClippingRectangle {
     id: visual
 
@@ -36,6 +51,7 @@ Item {
     anchors.verticalCenter: parent.verticalCenter
     height: 28
     radius: height / 2
+    visible: !root.iconOnly
 
     border.width: 1
     border.color: {
@@ -55,7 +71,7 @@ Item {
       topPadding: 0.5
       z: 1
       text: root.icon
-      color: root.textColor
+      color: root.iconColor
       style: Text.Outline
       styleColor: "#00000033"
     }

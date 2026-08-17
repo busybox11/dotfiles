@@ -7,6 +7,7 @@ Pill {
   property bool showFill: true
   property real fillAlpha: 0.25
   property real edgeAlpha: 0.5
+  property color fillColor: root.plotColor
 
   // volume-style metrics stay on primary chrome
   warnAt: 150
@@ -17,7 +18,7 @@ Pill {
     return Qt.rgba(c.r, c.g, c.b, edgeAlpha);
   }
 
-  width: 84
+  width: root.iconOnly ? 28 : 84
 
   Item {
     parent: root.contentItem
@@ -32,7 +33,7 @@ Pill {
       anchors.bottom: parent.bottom
       width: parent.width * Math.min(1, Math.max(0, root.value / 100))
       color: {
-        const c = Qt.color(root.plotColor);
+        const c = Qt.color(root.fillColor);
         return Qt.rgba(c.r, c.g, c.b, root.fillAlpha);
       }
 
@@ -41,7 +42,7 @@ Pill {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         width: 1
-        color: root.plotColor
+        color: root.fillColor
         opacity: root.edgeAlpha
       }
     }
@@ -54,6 +55,7 @@ Pill {
     anchors.verticalCenter: parent.verticalCenter
     topPadding: 0.5
     z: 1
+    visible: !root.iconOnly
     text: root.text
     color: root.textColor
     style: Text.Outline
