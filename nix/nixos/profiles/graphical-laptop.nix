@@ -23,6 +23,9 @@
   services.desktopManager.gnome.enable = true;
   services.desktopManager.plasma6.enable = true;
 
+  services.gnome.gnome-keyring.enable = true;
+  programs.seahorse.enable = true;
+
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   # programs.ssh.askPassword = lib.mkForce "${pkgs.plasma5Packages.ksshaskpass}/bin/ksshaskpass";
@@ -86,5 +89,16 @@
 
     # Plasma: force-blur transparent windows (Zen, etc.)
     kwin-effects-better-blur-dx.packages.${pkgs.system}.default
+
+    # keyring
+    libsecret
+    seahorse
   ];
+
+  security.pam.services = {
+    sudo.nodelay = true;
+
+    gdm.enableGnomeKeyring = true;
+    hyprlock.enableGnomeKeyring = true; # Allows unlocking via hyprlock
+  };
 }
