@@ -25,8 +25,8 @@ Item {
     anchors.fill: parent
     radius: width / 2
 
-    border.width: 1
-    border.color: root.edge(root.color, 0.3)
+    border.width: 2
+    border.color: root.edge(root.color, 0.5)
     color: root.edge(root.color, 0.12)
 
     Rectangle {

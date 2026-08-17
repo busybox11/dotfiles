@@ -22,7 +22,7 @@ Item {
 
   property color tint: Colors.accent(level)
   property real tintAlpha: 0.12
-  property real borderAlpha: 0.3
+  property real borderAlpha: 0.4
 
   property alias radius: visual.radius
   property alias border: visual.border
@@ -53,7 +53,7 @@ Item {
     radius: height / 2
     visible: !root.iconOnly
 
-    border.width: 1
+    border.width: 2
     border.color: {
       const c = Qt.color(root.tint);
       return Qt.rgba(c.r, c.g, c.b, root.borderAlpha);

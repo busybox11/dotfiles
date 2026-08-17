@@ -201,7 +201,7 @@ Item {
     z: 5
     radius: 5
     color: Qt.rgba(0, 0, 0, 0.75)
-    border.width: 1
+    border.width: 2
     border.color: {
       const c = Qt.color(root.plotColor);
       return Qt.rgba(c.r, c.g, c.b, 0.4);

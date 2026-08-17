@@ -14,7 +14,7 @@ layer({ name = "notifications", match = { namespace = "(swaync-notification-wind
 layer({ name = "osd", match = { namespace = "^(swayosd|quickshell-osd)$" }, blur = true, ignore_alpha = 0.3, above_lock = 2 })
 layer({ name = "selection", match = { namespace = "^(hyprpicker|selection)$" }, no_anim = true })
 layer({ name = "wallpaper", match = { namespace = "^(hyprpaper|wallpaper)$" }, animation = "popin 80%" })
-layer({ name = "bars", match = { namespace = "^(waybar|eww|quickshell)$" }, blur = true, ignore_alpha = 0 })
+layer({ name = "bars", match = { namespace = "^(waybar|eww|quickshell)$" }, blur = true, ignore_alpha = 0.9 })
 
 window({ name = "genshin", match = { class = "genshinimpact.exe" }, immediate = true })
 window({
