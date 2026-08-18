@@ -17,6 +17,8 @@ in
     ];
   };
 
+  home.packages = vscodeConfig.sharedPackages;
+
   programs.vscode = {
     enable = true;
     package = pkgs.vscode;

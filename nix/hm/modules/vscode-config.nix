@@ -10,16 +10,17 @@ let
   nixdServerSettings =
     let
       flakeExpr = host: "(builtins.getFlake \"\${workspaceFolder}\").${host}";
-      options = lib.optionalAttrs (flakeHost != null) {
-        "home-manager" = {
-          expr = "${flakeExpr "homeConfigurations.${flakeHost}"}.options";
+      options =
+        lib.optionalAttrs (flakeHost != null) {
+          "home-manager" = {
+            expr = "${flakeExpr "homeConfigurations.${flakeHost}"}.options";
+          };
+        }
+        // lib.optionalAttrs (flakeHost != null && lib.hasAttr flakeHost nixosHosts) {
+          nixos = {
+            expr = "${flakeExpr "nixosConfigurations.${flakeHost}"}.options";
+          };
         };
-      }
-      // lib.optionalAttrs (flakeHost != null && lib.hasAttr flakeHost nixosHosts) {
-        nixos = {
-          expr = "${flakeExpr "nixosConfigurations.${flakeHost}"}.options";
-        };
-      };
     in
     {
       formatting = {
@@ -63,34 +64,41 @@ let
 
   matugenThemeExtensionUniqueId = matugenThemeExtension.passthru.vscodeExtUniqueId;
 
-  matugenThemeExtensionPath =
-    "${matugenThemeExtension}/share/vscode/extensions/${matugenThemeExtension.passthru.vscodeExtUniqueId}";
+  matugenThemeExtensionPath = "${matugenThemeExtension}/share/vscode/extensions/${matugenThemeExtension.passthru.vscodeExtUniqueId}";
 
   # pkgs.vscode-marketplace.* — versions track nix-vscode-extensions on flake update.
   vscodeMarketplaceExtensions = with pkgs.vscode-marketplace; [
     # haikalllp.matugen-theme  # once indexed, move matugenThemeExtension here and drop mutable install
   ];
 
-  sharedExtensions = (with pkgs.vscode-extensions; [
-    catppuccin.catppuccin-vsc-icons
-    yoavbls.pretty-ts-errors
-    gruntfuggly.todo-tree
-    bradlc.vscode-tailwindcss
-    esbenp.prettier-vscode
-    biomejs.biome
-    lokalise.i18n-ally
-    dbaeumer.vscode-eslint
-    aaron-bond.better-comments
-    docker.docker
-    ms-azuretools.vscode-containers
-    ms-vscode-remote.remote-containers
-  ]) ++ vscodeMarketplaceExtensions ++ [
-    nixIdeExtension
-    errorLensExtension
+  sharedExtensions =
+    (with pkgs.vscode-extensions; [
+      catppuccin.catppuccin-vsc-icons
+      yoavbls.pretty-ts-errors
+      gruntfuggly.todo-tree
+      bradlc.vscode-tailwindcss
+      esbenp.prettier-vscode
+      biomejs.biome
+      lokalise.i18n-ally
+      dbaeumer.vscode-eslint
+      aaron-bond.better-comments
+      docker.docker
+      ms-azuretools.vscode-containers
+      ms-vscode-remote.remote-containers
+    ])
+    ++ vscodeMarketplaceExtensions
+    ++ [
+      nixIdeExtension
+      errorLensExtension
+    ];
+
+  sharedPackages = [
+    pkgs.biome
   ];
 
   sharedSettings = {
-    "editor.fontFamily" = "'Cascadia Code NF', 'Google Sans Code NF', 'Droid Sans Mono', 'monospace', monospace";
+    "editor.fontFamily" =
+      "'Cascadia Code NF', 'Google Sans Code NF', 'Droid Sans Mono', 'monospace', monospace";
     "editor.fontWeight" = "400";
     "editor.fontLigatures" = "'ss01', 'ss02', 'ss19', 'ss20', 'zero'";
     "editor.smoothScrolling" = true;
@@ -144,7 +152,8 @@ let
 
     "terminal.integrated.smoothScrolling" = true;
     "terminal.integrated.fontLigatures.enabled" = true;
-    "terminal.integrated.fontFamily" = "'CaskaydiaCove NF', 'Cascadia Code NF', 'Google Sans Code NF', 'Droid Sans Mono', 'monospace', monospace";
+    "terminal.integrated.fontFamily" =
+      "'CaskaydiaCove NF', 'Cascadia Code NF', 'Google Sans Code NF', 'Droid Sans Mono', 'monospace', monospace";
     "terminal.external.linuxExec" = "kitty";
     "terminal.integrated.cursorBlinking" = true;
     "terminal.integrated.enableVisualBell" = true;
@@ -153,7 +162,8 @@ let
     "terminal.integrated.suggest.enabled" = true;
     "terminal.integrated.defaultLocation" = "editor";
 
-    "debug.console.fontFamily" = "'Cascadia Code NF', 'Google Sans Code NF', 'Droid Sans Mono', 'monospace', monospace";
+    "debug.console.fontFamily" =
+      "'Cascadia Code NF', 'Google Sans Code NF', 'Droid Sans Mono', 'monospace', monospace";
 
     "scm.defaultViewMode" = "tree";
     "search.defaultViewMode" = "tree";
@@ -191,7 +201,7 @@ let
 
     "remote.autoForwardPortsSource" = "hybrid";
 
-    "update.releaseTrack" = "prerelease";
+    "update.releaseTrack" = "stable";
     "database-client.autoSync" = true;
     "makefile.configureOnOpen" = true;
     "json.schemaDownload.enable" = true;
@@ -237,12 +247,13 @@ let
     };
   };
 in
-  {
-    inherit
-      sharedExtensions
-      sharedSettings
-      matugenThemeExtension
-      matugenThemeExtensionUniqueId
-      matugenThemeExtensionPath
-      ;
-  }
+{
+  inherit
+    sharedPackages
+    sharedExtensions
+    sharedSettings
+    matugenThemeExtension
+    matugenThemeExtensionUniqueId
+    matugenThemeExtensionPath
+    ;
+}

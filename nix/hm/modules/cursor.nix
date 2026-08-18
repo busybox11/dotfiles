@@ -9,6 +9,8 @@ let
   cursor = pkgs.code-cursor;
 in
 {
+  home.packages = vscodeConfig.sharedPackages;
+
   programs.cursor = {
     enable = true;
     # https://forum.cursor.com/t/cursors-sandbox-unable-to-run-any-command-missing-zsh-mount-in-sandbox/159727/5
