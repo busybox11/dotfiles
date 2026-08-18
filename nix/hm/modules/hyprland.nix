@@ -18,6 +18,7 @@
     config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/config/quickshell";
   home.packages = with pkgs; [
     qt6.qt5compat
+    wtype
   ];
 
   home.file."Pictures/wallpapers".source =

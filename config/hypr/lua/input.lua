@@ -51,7 +51,11 @@ hl.gesture({
   }
 })
 
+hl.gesture({ fingers = 3, direction = "left", mods = "SUPER", action = gesture_exec("wtype -k XF86Back")})
+hl.gesture({ fingers = 3, direction = "right", mods = "SUPER", action = gesture_exec("wtype -k XF86Forward")})
+
 hl.gesture({ fingers = 4, direction = "left", action = gesture_exec("playerctl previous") })
 hl.gesture({ fingers = 4, direction = "right", action = gesture_exec("playerctl next") })
+
 hl.gesture({ fingers = 4, direction = "left", mods = "SUPER", action = gesture_exec("playerctl position 10-") })
 hl.gesture({ fingers = 4, direction = "right", mods = "SUPER", action = gesture_exec("playerctl position 10+") })
