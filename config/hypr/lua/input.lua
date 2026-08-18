@@ -41,14 +41,49 @@ end
 
 hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
 
-local volume_gesture = function(change) hl.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ " .. math.abs(change) .. "%" .. (change<0 and "-" or "+")) end
+-- volume gesture debounce for perf
+local vol_pending = 0
+local vol_last_ms = 0
+local VOL_MIN_MS = 50
+
+local function volume_flush(time_ms, force)
+  local elapsed = time_ms - vol_last_ms
+  if not force and elapsed < VOL_MIN_MS then
+    return
+  end
+  local step = vol_pending >= 0 and math.floor(vol_pending + 0.5) or math.ceil(vol_pending - 0.5)
+  if step == 0 then
+    if force then
+      vol_pending = 0
+    end
+    return
+  end
+  vol_pending = vol_pending - step
+  vol_last_ms = time_ms
+  hl.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ " .. math.abs(step) .. "%" .. (step < 0 and "-" or "+"))
+end
+
+local function volume_gesture(e)
+  vol_pending = vol_pending + (-0.25 * e.delta.y)
+  volume_flush(e.time_ms, false)
+end
+
 hl.gesture({
   fingers = 3,
   direction = "vertical",
   action = {
-    start = function(e) volume_gesture(-0.25 * e.delta.y) end,
-    update = function(e) volume_gesture(-0.25 * e.delta.y) end
-  }
+    start = function(e)
+      vol_pending = 0
+      vol_last_ms = e.time_ms - VOL_MIN_MS
+      volume_gesture(e)
+    end,
+    update = function(e)
+      volume_gesture(e)
+    end,
+    finish = function(e)
+      volume_flush(e.time_ms, true)
+    end,
+  },
 })
 
 hl.gesture({ fingers = 3, direction = "left", mods = "SUPER", action = gesture_exec("wtype -k XF86Back")})

@@ -122,6 +122,15 @@ Scope {
     hideTimer.restart();
   }
 
+  function pokeOsd(mode, duration) {
+    if (root.showOsd && root.mode === mode) {
+      root.hideDuration = duration;
+      hideTimer.restart();
+      return;
+    }
+    root.restartOsd(duration, { mode: mode });
+  }
+
   function beginSinkChangeOsd(node) {
     root.extendOsd = true;
     root.showLabel = true;
@@ -237,11 +246,11 @@ Scope {
     target: root.sink?.audio
 
     function onVolumeChanged() {
-      root.restartOsd(root.extendOsd ? root.extendedOsdMs : root.osdMs, { mode: "output" });
+      root.pokeOsd("output", root.extendOsd ? root.extendedOsdMs : root.osdMs);
     }
 
     function onMutedChanged() {
-      root.restartOsd(root.extendOsd ? root.extendedOsdMs : root.osdMs, { mode: "output" });
+      root.pokeOsd("output", root.extendOsd ? root.extendedOsdMs : root.osdMs);
     }
   }
 
@@ -249,11 +258,11 @@ Scope {
     target: root.source?.audio
 
     function onVolumeChanged() {
-      root.restartOsd(root.osdMs, { mode: "input" });
+      root.pokeOsd("input", root.osdMs);
     }
 
     function onMutedChanged() {
-      root.restartOsd(root.osdMs, { mode: "input" });
+      root.pokeOsd("input", root.osdMs);
     }
   }
 
