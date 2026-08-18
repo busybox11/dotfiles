@@ -9,6 +9,7 @@ hl.config({
     follow_mouse = 1,
     sensitivity = 1,
     accel_profile = "flat",
+    force_no_accel = true,
     touchpad = {
       natural_scroll = true,
     },
@@ -23,6 +24,13 @@ hl.device({
 hl.device({
   name = "mouse-passthrough",
   natural_scroll = true,
+})
+
+-- proart touchpad
+hl.device({
+  name = "ascp1a01:00-093a:3014-touchpad",
+  natural_scroll = true,
+  sensitivity = 1,
 })
 
 local function gesture_exec(command)
