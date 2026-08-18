@@ -20,5 +20,6 @@
     ./fonts.nix
     ./work.nix
     ./playerctl.nix
+    ./cider.nix
   ];
 }
