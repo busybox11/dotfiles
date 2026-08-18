@@ -76,6 +76,8 @@ exec("XF86AudioNext", "playerctl next", { locked = true })
 exec("XF86AudioPrev", "playerctl previous", { locked = true })
 exec("XF86AudioStop", "playerctl stop", { locked = true })
 
+exec("XF86Launch1", "rog-control-center", { locked = true })
+
 exec("META + CTRL + mouse_up", "wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+", { locked = true, repeating = true })
 exec("META + CTRL + mouse_down", "wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-", { locked = true, repeating = true })
 exec("META + ALT + SHIFT + mouse:275", "playerctl position 5+", { locked = true, repeating = true })

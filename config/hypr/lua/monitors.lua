@@ -2,7 +2,7 @@ hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1 })
 hl.monitor({
 	output = "desc:Samsung Display Corp. ATNA60HR07-0",
 	mode = "2880x1800@120",
-	position = "5360x0",
+	position = "0x0",
 	scale = 1.2,
 	bitdepth = 10,
 	vrr = 1,
@@ -26,6 +26,18 @@ local function read_hostname()
 	return hostname
 end
 local hostname = read_hostname()
+
+-- work monitors
+hl.monitor({
+	output = "desc:Dell Inc. DELL E2211H NJ91T19Q584U",
+	mode = "1920x1080@60",
+	position = "2400x0",
+})
+hl.monitor({
+	output = "desc:Dell Inc. DELL E2210H D553R0961DJU",
+	mode = "1920x1080@60",
+	position = "4320x0",
+})
 
 hl.monitor({
 	output = "desc:AOC CU34G2XP 1Q1Q7HA012666",

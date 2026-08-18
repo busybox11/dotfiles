@@ -24,8 +24,8 @@ Row {
     icon: "󰈐"
     style: "text"
     text: `${Math.round(value)}`
-    warnAt: 4000
-    critAt: 5200
+    warnAt: 6000
+    critAt: 7500
   }
 
   Process {
