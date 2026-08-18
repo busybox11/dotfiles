@@ -29,7 +29,7 @@ with pkgs;
   opencode
   nodejs_latest
   pnpm
-  react-native-debugger
+  bun
   direnv
 
   # android platform tools (adb, fastboot)

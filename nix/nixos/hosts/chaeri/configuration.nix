@@ -17,6 +17,7 @@ in
     ../../profiles/core.nix
     ../../profiles/graphical-laptop.nix
     (import ../../profiles/personal-machine.nix machine)
+    (import ./cpu-pinning.nix machine)
   ];
 
   boot.loader.systemd-boot.enable = true;
