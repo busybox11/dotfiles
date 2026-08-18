@@ -4,7 +4,19 @@
   local,
 }:
 let
-  inherit (inputs) nixpkgs home-manager self zen-browser nur apple-fonts nix-vscode-extensions vscode-server nix-flatpak kwin-effects-better-blur-dx twintail-nix cardwire;
+  inherit (inputs)
+    nixpkgs
+    home-manager
+    self
+    zen-browser
+    nur
+    apple-fonts
+    nix-vscode-extensions
+    vscode-server
+    nix-flatpak
+    kwin-effects-better-blur-dx
+    twintail-nix
+    ;
   lib = nixpkgs.lib;
 
   overlays = [
@@ -13,10 +25,12 @@ let
     nix-vscode-extensions.overlays.default
   ];
 
-  pkgsFor = system: import nixpkgs {
-    inherit system;
-    inherit overlays;
-  };
+  pkgsFor =
+    system:
+    import nixpkgs {
+      inherit system;
+      inherit overlays;
+    };
 
   mkHome =
     {
@@ -33,19 +47,43 @@ let
       modules = [
         ../hm/default.nix
         ../hm/from-flake-local.nix
-      ] ++ extraModules;
+      ]
+      ++ extraModules;
 
       extraSpecialArgs = {
-        inherit self username homeDirectory dotfilesPath flakeHost local zen-browser nur hosts vscode-server nix-flatpak twintail-nix;
+        inherit
+          self
+          username
+          homeDirectory
+          dotfilesPath
+          flakeHost
+          local
+          zen-browser
+          nur
+          hosts
+          vscode-server
+          nix-flatpak
+          twintail-nix
+          ;
         fontsManagedByNixOS = builtins.hasAttr flakeHost hosts;
       };
     };
 
-  mkNixOS = hostName:
+  mkNixOS =
+    hostName:
     nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = {
-        inherit self hosts local zen-browser vscode-server nix-flatpak kwin-effects-better-blur-dx twintail-nix cardwire;
+        inherit
+          self
+          hosts
+          local
+          zen-browser
+          vscode-server
+          nix-flatpak
+          kwin-effects-better-blur-dx
+          twintail-nix
+          ;
       };
       modules = [
         home-manager.nixosModules.home-manager
@@ -78,5 +116,10 @@ let
       { };
 in
 {
-  inherit lib mkHome mkNixOS mkDarwinHome;
+  inherit
+    lib
+    mkHome
+    mkNixOS
+    mkDarwinHome
+    ;
 }

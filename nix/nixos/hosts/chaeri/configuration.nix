@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  cardwire,
   ...
 }:
 let
@@ -18,7 +17,6 @@ in
     ../../profiles/core.nix
     ../../profiles/graphical-laptop.nix
     (import ../../profiles/personal-machine.nix machine)
-    cardwire.nixosModules.default
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -95,7 +93,7 @@ in
     virtualisation.docker.daemon.settings.features.cdi = true;
   };
 
-  services.cardwire = {
+  services.cardwired = {
     enable = true;
     settings = {
       auto_apply_gpu_state = true;

@@ -54,12 +54,6 @@
       url = "github:xarblu/kwin-effects-better-blur-dx";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # supergfx nixpkgs package yet).
-    cardwire = {
-      url = "github:OpenGamingCollective/cardwire";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = inputs: import ./nix/flake/outputs.nix inputs;
