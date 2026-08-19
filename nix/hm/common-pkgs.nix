@@ -2,7 +2,6 @@
 with pkgs;
 [
   htop
-  btop
   usbtop
   powertop
 

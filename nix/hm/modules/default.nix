@@ -21,5 +21,6 @@
     ./work.nix
     ./playerctl.nix
     ./cider.nix
+    ./btop.nix
   ];
 }
