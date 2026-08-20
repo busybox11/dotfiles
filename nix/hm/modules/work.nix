@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   workDir = "${config.home.homeDirectory}/work";
@@ -7,6 +7,10 @@ let
   workMatchExec = "pwd | grep -qE '^${workDir}(/|$)'";
 in
 {
+  gtk.gtk3.bookmarks = lib.mkIf pkgs.stdenv.hostPlatform.isLinux (
+    lib.mkAfter [ "file://${workDir}" ]
+  );
+
   home.activation.work-dir = {
     before = [ "linkGeneration" ];
     after = [ "writeBoundary" ];
