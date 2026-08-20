@@ -116,6 +116,7 @@
           "zen.welcome-screen.seen" = true;
           "extensions.autoDisableScopes" = 0;
           "browser.aboutConfig.showWarning" = false;
+          "browser.search.suggest.enabled" = true;
           "widget.dmabuf.force-enabled" = true;
           "font.name.monospace.x-western" = "Cascadia Code NF";
           "font.name.sans-serif.x-western" = "SF Pro Text";
@@ -127,6 +128,7 @@
 
           "zen.widget.linux.transparency" = true;
           "browser.tabs.allow_transparent_browser" = true;
+          "zen.view.experimental-no-window-controls" = true;
         };
 
         mods = [
