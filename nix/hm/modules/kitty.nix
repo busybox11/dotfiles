@@ -16,6 +16,11 @@
       scrollbar_gap = 0.3;
       scrollbar_track_hover_opacity = 0.05;
       notify_on_cmd_finish = "unfocused";
+
+      window_padding_width = 5;
+
+      allow_remote_control = "yes";
+      listen_on = "unix:/tmp/kittysock";
     };
 
     extraConfig = ''
