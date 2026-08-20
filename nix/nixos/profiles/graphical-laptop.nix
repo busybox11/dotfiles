@@ -5,6 +5,10 @@
   ...
 }:
 {
+  imports = [
+    ../modules/sunshine.nix
+  ];
+
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
@@ -14,6 +18,21 @@
     enable = true;
     withUWSM = true;
     xwayland.enable = true;
+  };
+
+  # Hyprland owns screencast/screenshot; GNOME FileChooser is Nautilus.
+  xdg.portal = {
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-gtk
+      xdg-desktop-portal-gnome
+    ];
+    config.hyprland = {
+      default = [
+        "hyprland"
+        "gtk"
+      ];
+      "org.freedesktop.impl.portal.FileChooser" = [ "gnome" ];
+    };
   };
 
   services.xserver.enable = true;
@@ -79,7 +98,6 @@
     hyprsunset
     hyprlock
     hyprpolkitagent
-    xdg-desktop-portal-hyprland
     networkmanagerapplet
     swayosd
     eww
