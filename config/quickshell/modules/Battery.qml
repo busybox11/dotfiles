@@ -15,10 +15,11 @@ BarPill {
   readonly property bool discharging: bat?.state === UPowerDeviceState.Discharging
 
   // charge limit in %, defaulting to 100 when the battery has no limiter;
-  // from 95% onward a regular battery is treated as full
+  // from 95% onward a regular battery is treated as full.
+  // a limiter that stops 1% early still counts as charged.
   property real chargeCap: 100
   property string capPath: ""
-  readonly property real fullAt: chargeCap < 100 ? chargeCap : 95
+  readonly property real fullAt: chargeCap < 100 ? chargeCap - 1 : 95
   readonly property bool full: !discharging && pct >= fullAt
 
   visible: !!(bat?.ready && bat?.isPresent && bat?.isLaptopBattery)
