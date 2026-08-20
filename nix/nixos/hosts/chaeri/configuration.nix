@@ -71,6 +71,7 @@ in
     "kvm-amd"
     "asus-armoury-h7606"
     "i2c-dev"
+    "uinput"
   ];
 
   specialisation.nvidia.configuration = {
@@ -89,6 +90,7 @@ in
       "nvidia_uvm"
       "asus-armoury-h7606"
       "i2c-dev"
+      "uinput"
     ];
     hardware.nvidia-container-toolkit.enable = true;
     virtualisation.docker.daemon.settings.features.cdi = true;

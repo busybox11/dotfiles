@@ -22,5 +22,6 @@
     ./playerctl.nix
     ./cider.nix
     ./btop.nix
+    ./sunshine.nix
   ];
 }
