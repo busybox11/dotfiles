@@ -9,14 +9,10 @@ Pill {
   property real edgeAlpha: 0.5
   property color fillColor: root.plotColor
 
-  // volume-style metrics stay on primary chrome
+  // volume-style metrics stay on primary chrome unless tint/fillColor override
   warnAt: 150
   critAt: 150
   borderAlpha: edgeAlpha
-  border.color: {
-    const c = Qt.color(plotColor);
-    return Qt.rgba(c.r, c.g, c.b, edgeAlpha);
-  }
 
   width: root.iconOnly ? 28 : 84
 
