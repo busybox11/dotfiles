@@ -22,6 +22,9 @@ Scope {
       code: "background",
       "org.gnome.nautilus": "background",
       equibop: "#160e13",
+      kitty: "on_secondary_fixed",
+      "zen-twilight": "#000000",
+      helium: "#30191E"
     })
 
     readonly property var workspace: Hyprland.monitorFor(screen)?.activeWorkspace ?? null
