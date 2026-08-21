@@ -16,7 +16,13 @@ deploy-nixos hostname="":
   fi
 
   target_host="${hostname:-$(hostname)}"
-  sudo nixos-rebuild switch --flake "{{dotfiles}}#$target_host"
+  flake="path:{{dotfiles}}"
+
+  if command -v nh >/dev/null 2>&1; then
+    nh os switch "$flake" -H "$target_host"
+  else
+    sudo nixos-rebuild switch --flake "$flake#$target_host"
+  fi
 
 # Export the symmetric key for use on another machine (transfer securely, never commit).
 crypt-export key=default_crypt_key:

@@ -2,21 +2,24 @@
   config,
   lib,
   pkgs,
+  hosts,
   dotfilesPath,
   flakeHost,
   ...
 }:
 
 {
-  home.packages = with pkgs; [
-    zsh-powerlevel10k
-    zoxide
-    eza
-    direnv
-  ];
+  home.packages =
+    with pkgs;
+    [
+      zsh-powerlevel10k
+      zoxide
+      eza
+      direnv
+    ]
+    ++ lib.optional (!(builtins.hasAttr flakeHost hosts)) nh;
 
   programs.zsh = {
-    # Lock legacy dotfile location until home.stateVersion >= 26.05 (HM warning).
     dotDir = config.home.homeDirectory;
 
     enable = true;
@@ -51,8 +54,7 @@
 
     shellAliases = {
       cdot = "cd ${dotfilesPath}";
-      # path:… so gitignored nix/darwin-local.nix is visible (git+file: flakes omit it)
-      hmdot-upd = "home-manager switch --flake path:${dotfilesPath}#${flakeHost}";
+      hmdot-upd = "nh home switch -c ${flakeHost}";
 
       n = "nvim";
       z = "nocorrect z";
@@ -65,6 +67,9 @@
       EDITOR = "nvim"; # maybe set in nvim nix module later on / handle ssh sessions
 
       COMPLETION_WAITING_DOTS = "true";
+    }
+    // lib.optionalAttrs (!(builtins.hasAttr flakeHost hosts)) {
+      NH_FLAKE = "path:${dotfilesPath}";
     };
 
     initContent = lib.mkMerge [
@@ -140,7 +145,7 @@
         hmu() {
           cd ${dotfilesPath} &&
           nix flake update --commit-lock-file &&
-          home-manager switch --flake path:${dotfilesPath}#${flakeHost} &&
+          nh home switch -c ${flakeHost} &&
           cd -
         }
       '')
