@@ -1,5 +1,13 @@
-{ pkgs, ... }:
 {
+  pkgs,
+  config,
+  dotfilesPath,
+  ...
+}:
+{
+  xdg.configFile."kitty/tui-padding.py".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/config/kitty/tui-padding.py";
+
   programs.kitty = {
     enable = true;
     package = pkgs.kitty;
@@ -18,6 +26,8 @@
       notify_on_cmd_finish = "unfocused";
 
       window_padding_width = 5;
+      placement_strategy = "center";
+      watcher = "tui-padding.py";
 
       allow_remote_control = "yes";
       listen_on = "unix:/tmp/kittysock";
