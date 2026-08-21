@@ -11,6 +11,7 @@
   local,
   pkgs,
   zen-browser,
+  helium-browser,
   vscode-server,
   nix-flatpak,
   twintail-nix,
@@ -44,6 +45,15 @@
 
   # mostly vscode remote ssh
   programs.nix-ld.enable = true;
+
+  programs.nh = {
+    enable = true;
+    flake = "path:${dotfilesPath}";
+    clean = {
+      enable = true;
+      extraArgs = "--keep-since 7d --keep 5";
+    };
+  };
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;

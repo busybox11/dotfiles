@@ -7,6 +7,7 @@
 {
   imports = [
     ../modules/sunshine.nix
+    ../modules/chromium-policies.nix
   ];
 
   hardware.graphics = {
@@ -45,7 +46,10 @@
   services.gnome.gnome-keyring.enable = true;
   programs.seahorse.enable = true;
 
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+    ELECTRON_ENABLE_FEATURES = "ElasticOverscroll,TouchpadOverscrollHistoryNavigation";
+  };
 
   # programs.ssh.askPassword = lib.mkForce "${pkgs.plasma5Packages.ksshaskpass}/bin/ksshaskpass";
   programs.ssh.askPassword = lib.mkForce "${pkgs.seahorse}/libexec/seahorse/ssh-askpass";

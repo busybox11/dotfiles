@@ -5,6 +5,8 @@
   ...
 }:
 {
+  imports = [ ../modules/chromium-policies.nix ];
+
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
@@ -20,7 +22,10 @@
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
 
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+    ELECTRON_ENABLE_FEATURES = "ElasticOverscroll,TouchpadOverscrollHistoryNavigation";
+  };
 
   programs.ssh.askPassword = lib.mkForce "${pkgs.kdePackages.ksshaskpass}/bin/ksshaskpass";
 
