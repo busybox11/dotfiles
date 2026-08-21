@@ -59,6 +59,29 @@
       url = "github:xarblu/kwin-effects-better-blur-dx";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # OpenCode 2 native binaries via npm `beta` dist-tag. `nix flake update` / `hmu`
+    # refresh these; opencode2.nix reads version + tarball integrity from the JSON.
+    opencode2-linux-x64 = {
+      flake = false;
+      type = "file";
+      url = "https://registry.npmjs.org/@opencode-ai%2fcli-linux-x64/beta";
+    };
+    opencode2-linux-arm64 = {
+      flake = false;
+      type = "file";
+      url = "https://registry.npmjs.org/@opencode-ai%2fcli-linux-arm64/beta";
+    };
+    opencode2-darwin-x64 = {
+      flake = false;
+      type = "file";
+      url = "https://registry.npmjs.org/@opencode-ai%2fcli-darwin-x64/beta";
+    };
+    opencode2-darwin-arm64 = {
+      flake = false;
+      type = "file";
+      url = "https://registry.npmjs.org/@opencode-ai%2fcli-darwin-arm64/beta";
+    };
   };
 
   outputs = inputs: import ./nix/flake/outputs.nix inputs;

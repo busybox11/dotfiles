@@ -26,6 +26,7 @@ with pkgs;
   statix
   nixd
   opencode
+  opencode2
   nodejs_latest
   pnpm
   bun
