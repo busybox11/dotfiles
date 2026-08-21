@@ -53,7 +53,7 @@ Pill {
     z: 1
     visible: !root.iconOnly
     text: root.text
-    color: root.textColor
+    color: root.iconColor
     style: Text.Outline
     styleColor: "#00000033"
   }
