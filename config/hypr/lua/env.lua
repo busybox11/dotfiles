@@ -44,6 +44,7 @@ set_env({
 
 	MOZ_ENABLE_WAYLAND = "1",
 	ELECTRON_OZONE_PLATFORM_HINT = "auto",
+	ELECTRON_ENABLE_FEATURES = "ElasticOverscroll,TouchpadOverscrollHistoryNavigation",
 	WLR_RENDERER_ALLOW_SOFTWARE = "1",
 
 	SDL_VIDEODRIVER = "wayland",
