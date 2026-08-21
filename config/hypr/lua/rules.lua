@@ -83,6 +83,18 @@ window({
   rounding = 0,
 })
 
+window({
+  name = "bitwarden",
+  match = { class = "chrome-nngceckbapebfimnlniiiahkandclblb-Default" },
+  float = true,
+  -- for some reason the initial paint renders only 480px width, transparent after or cuts if lesser than 480
+  -- the window properly rerenders with the right size if it is manually resized
+  -- good enough workaround for now
+  size = "480 800",
+  center = true,
+  dim_around = true,
+})
+
 hl.on("window.title", function(w)
   local prefix = "Extension: (Bitwarden Password Manager)"
   if w.title:sub(1, #prefix) == prefix then
