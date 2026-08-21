@@ -9,6 +9,7 @@ let
     home-manager
     self
     zen-browser
+    helium-browser
     nur
     apple-fonts
     nix-vscode-extensions
@@ -23,6 +24,9 @@ let
     apple-fonts.overlays.default
     nur.overlays.default
     nix-vscode-extensions.overlays.default
+    helium-browser.overlays.default
+    (import ../overlays/dlib.nix)
+    (import ../overlays/opencode2.nix inputs)
   ];
 
   pkgsFor =
@@ -59,6 +63,7 @@ let
           flakeHost
           local
           zen-browser
+          helium-browser
           nur
           hosts
           vscode-server
@@ -79,6 +84,7 @@ let
           hosts
           local
           zen-browser
+          helium-browser
           vscode-server
           nix-flatpak
           kwin-effects-better-blur-dx

@@ -15,6 +15,7 @@
     ./vscode-matugen-theme.nix
     ./cursor.nix
     ./zen.nix
+    ./helium.nix
     ./discord.nix
     ./twintail.nix
     ./fonts.nix

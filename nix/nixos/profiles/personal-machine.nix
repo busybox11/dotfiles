@@ -58,6 +58,7 @@
       homeDirectory
       dotfilesPath
       zen-browser
+      helium-browser
       vscode-server
       nix-flatpak
       twintail-nix
