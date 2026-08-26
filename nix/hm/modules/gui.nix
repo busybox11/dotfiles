@@ -9,6 +9,8 @@ in
   programs.google-chrome.enable = true;
   programs.google-chrome.commandLineArgs = [ flag ];
 
+  programs.obsidian.enable = true;
+
   home.sessionVariables.ELECTRON_ENABLE_FEATURES = features;
 
   home.packages = [

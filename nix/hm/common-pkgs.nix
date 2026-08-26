@@ -13,6 +13,7 @@ with pkgs;
   eza
   tree
   tmux
+  file
 
   papirus-icon-theme
 
