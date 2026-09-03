@@ -1,16 +1,15 @@
-# Standalone Linux HM only. NixOS hosts already run services.sunshine from
-# graphical-laptop; a second user unit would fight it.
+# Standalone Linux HM only. Nested NixOS HM already has services.sunshine
+# from graphical-laptop; a second user unit would fight it.
 #
 # Input emulation still needs host udev (sunshine's 60-sunshine.rules) and uinput.
 {
   lib,
   pkgs,
-  flakeHost,
-  hosts,
+  nestedInNixOS ? false,
   ...
 }:
 let
-  enable = pkgs.stdenv.hostPlatform.isLinux && !(builtins.hasAttr flakeHost hosts);
+  enable = pkgs.stdenv.hostPlatform.isLinux && !nestedInNixOS;
 in
 {
   config = lib.mkIf enable {

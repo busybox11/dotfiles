@@ -1,28 +1,16 @@
 {
   imports = [
     ./appearance.nix
-    ./plasma-better-blur.nix
     ./ghostty.nix
-    ./gui.nix
     ./home-workspace.nix
-    ./hyprland.nix
-    ./hyprcursor.nix
     ./kitty.nix
     ./neovim.nix
     ./zsh.nix
     ./git.nix
     ./vscode.nix
-    ./vscode-matugen-theme.nix
     ./cursor.nix
-    ./zen.nix
-    ./helium.nix
-    ./discord.nix
-    ./twintail.nix
     ./fonts.nix
-    ./work.nix
-    ./playerctl.nix
-    ./cider.nix
     ./btop.nix
-    ./sunshine.nix
+    ./easyeffects.nix
   ];
 }

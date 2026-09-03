@@ -2,12 +2,16 @@
   config,
   lib,
   pkgs,
-  hosts,
   dotfilesPath,
   flakeHost,
+  nestedInNixOS ? false,
   ...
 }:
 
+let
+  nhSwitch =
+    if nestedInNixOS then "nh os switch -H ${flakeHost}" else "nh home switch -c ${flakeHost}";
+in
 {
   home.packages =
     with pkgs;
@@ -17,7 +21,7 @@
       eza
       direnv
     ]
-    ++ lib.optional (!(builtins.hasAttr flakeHost hosts)) nh;
+    ++ lib.optional (!nestedInNixOS) nh;
 
   programs.zsh = {
     dotDir = config.home.homeDirectory;
@@ -54,7 +58,7 @@
 
     shellAliases = {
       cdot = "cd ${dotfilesPath}";
-      hmdot-upd = "nh home switch -c ${flakeHost}";
+      hmdot-upd = nhSwitch;
 
       n = "nvim";
       z = "nocorrect z";
@@ -67,8 +71,7 @@
       EDITOR = "nvim"; # maybe set in nvim nix module later on / handle ssh sessions
 
       COMPLETION_WAITING_DOTS = "true";
-    }
-    // lib.optionalAttrs (!(builtins.hasAttr flakeHost hosts)) {
+
       NH_FLAKE = "path:${dotfilesPath}";
     };
 
@@ -145,7 +148,7 @@
         hmu() {
           cd ${dotfilesPath} &&
           nix flake update --commit-lock-file &&
-          nh home switch -c ${flakeHost} &&
+          ${nhSwitch} &&
           cd -
         }
       '')

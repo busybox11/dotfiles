@@ -1,18 +1,21 @@
-{ pkgs, username, homeDirectory, ... }:
+{
+  pkgs,
+  username,
+  homeDirectory,
+  ...
+}:
 let
   sharedPackages = import ./common-pkgs.nix { inherit pkgs; };
 in
 {
   imports = [
-    ./profiles/base.nix
+    ./profiles/common.nix
   ];
 
   home = {
     inherit username homeDirectory;
 
-    packages = sharedPackages ++ [
-      pkgs.hello
-    ];
+    packages = sharedPackages;
 
     stateVersion = "25.11";
   };

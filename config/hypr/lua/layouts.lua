@@ -11,6 +11,8 @@ hl.config({
     force_default_wallpaper = -1,
     disable_hyprland_logo = true,
     vrr = 3,
+    key_press_enables_dpms = true,
+    mouse_move_enables_dpms = true,
   },
   binds = {
     workspace_back_and_forth = true,

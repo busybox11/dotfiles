@@ -1,4 +1,4 @@
-# Import only from darwin homeConfigurations (see flake.nix extraModules).
+# Import only from darwin homeConfigurations (see lib.nix hmModulesFor).
 { ... }:
 {
   imports = [

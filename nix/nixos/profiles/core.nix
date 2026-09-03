@@ -3,7 +3,6 @@
   imports = [
     ../../common/nix-settings.nix
     ../modules/tailscale.nix
-    ../modules/monitoring.nix
   ];
 
   nixpkgs.overlays = [

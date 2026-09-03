@@ -4,19 +4,11 @@
   config,
   ...
 }:
-let
-  machine = rec {
-    hostName = "bitcrusher";
-    username = "rain";
-    dotfilesPath = "/home/${username}/.dotfiles";
-  };
-in
 {
   imports = [
     ./hardware-configuration.nix
     ../../profiles/core.nix
     ../../profiles/graphical-laptop.nix
-    (import ../../profiles/personal-machine.nix machine)
   ];
 
   boot.blacklistedKernelModules = [

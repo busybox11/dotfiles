@@ -2,18 +2,19 @@
 {
   hostName,
   username,
-  dotfilesPath ? "/home/${username}/dev/dotfiles",
-  homeDirectory ? "/home/${username}",
+  dotfilesPath,
+  homeDirectory,
+  hmExtraModules ? [ ],
+  monitoring ? false,
 }:
 {
   self,
-  hosts,
   local,
   pkgs,
+  lib,
   zen-browser,
   helium-browser,
   vscode-server,
-  nix-flatpak,
   twintail-nix,
   ...
 }:
@@ -22,7 +23,8 @@
     ../modules/fonts.nix
     (import ../modules/superbird.nix username)
     (import ../modules/docker.nix username)
-  ];
+  ]
+  ++ lib.optional monitoring ../modules/monitoring.nix;
 
   services.fwupd.enable = true;
 
@@ -32,7 +34,6 @@
     isNormalUser = true;
     home = homeDirectory;
     extraGroups = [
-      "sudo"
       "wheel"
       "networkmanager"
       "video"
@@ -55,13 +56,14 @@
     };
   };
 
+  programs.steam.enable = true;
+
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.backupFileExtension = "hmbak-${toString self.lastModified}";
 
   home-manager.extraSpecialArgs = {
     inherit
-      hosts
       local
       self
       username
@@ -70,18 +72,18 @@
       zen-browser
       helium-browser
       vscode-server
-      nix-flatpak
       twintail-nix
       ;
     flakeHost = hostName;
-    fontsManagedByNixOS = builtins.hasAttr hostName hosts;
+    nestedInNixOS = true;
   };
 
   home-manager.users.${username} = {
     imports = [
       ../../hm/default.nix
       ../../hm/from-flake-local.nix
-    ];
+    ]
+    ++ hmExtraModules;
     home.packages = [ pkgs.home-manager ];
   };
 }

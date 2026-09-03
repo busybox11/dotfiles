@@ -1,7 +1,7 @@
 {
   lib,
   pkgs,
-  fontsManagedByNixOS ? false,
+  nestedInNixOS ? false,
   ...
 }:
 let
@@ -119,5 +119,5 @@ in
     ''
   );
 
-  home.packages = lib.mkIf (!fontsManagedByNixOS) fontPackages;
+  home.packages = lib.mkIf (!nestedInNixOS) fontPackages;
 }

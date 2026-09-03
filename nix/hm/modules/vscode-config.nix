@@ -1,24 +1,27 @@
 {
   pkgs,
   flakeHost ? null,
+  nestedInNixOS ? false,
 }:
 let
   lib = pkgs.lib;
-  nixosHosts = import ../../nixos/hosts/map.nix;
 
   # only enable hm / nixos options on dotfiles workspace
   nixdServerSettings =
     let
       flakeExpr = host: "(builtins.getFlake \"\${workspaceFolder}\").${host}";
       options =
-        lib.optionalAttrs (flakeHost != null) {
-          "home-manager" = {
-            expr = "${flakeExpr "homeConfigurations.${flakeHost}"}.options";
-          };
-        }
-        // lib.optionalAttrs (flakeHost != null && lib.hasAttr flakeHost nixosHosts) {
+        lib.optionalAttrs (flakeHost != null && nestedInNixOS) {
           nixos = {
             expr = "${flakeExpr "nixosConfigurations.${flakeHost}"}.options";
+          };
+          "home-manager" = {
+            expr = "${flakeExpr "nixosConfigurations.${flakeHost}"}.options.home-manager.users.type.getSubOptions []";
+          };
+        }
+        // lib.optionalAttrs (flakeHost != null && !nestedInNixOS) {
+          "home-manager" = {
+            expr = "${flakeExpr "homeConfigurations.${flakeHost}"}.options";
           };
         };
     in
@@ -81,6 +84,7 @@ let
     "editor.fontWeight" = "400";
     "editor.fontLigatures" = "'ss01', 'ss02', 'ss19', 'ss20', 'zero'";
     "editor.smoothScrolling" = true;
+    "editor.inertialScroll" = true;
     "editor.cursorSmoothCaretAnimation" = "on";
     "editor.showFoldingControls" = "always";
     "editor.stickyScroll.enabled" = true;

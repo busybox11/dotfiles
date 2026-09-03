@@ -10,7 +10,6 @@ with pkgs;
   ripgrep
   fd
   fzf
-  eza
   tree
   tmux
   file

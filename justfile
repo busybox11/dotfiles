@@ -24,6 +24,22 @@ deploy-nixos hostname="":
     sudo nixos-rebuild switch --flake "$flake#$target_host"
   fi
 
+# Standalone Home Manager (realbox, powerbox, darwin, or Arch dual-boot).
+# NixOS hosts use deploy-nixos; nested HM is built with the system.
+deploy-home name="":
+  #!/usr/bin/env bash
+  set -euo pipefail
+  cd "{{dotfiles}}"
+
+  target="${name:-$(hostname)}"
+  flake="path:{{dotfiles}}"
+
+  if command -v nh >/dev/null 2>&1; then
+    nh home switch "$flake" -c "$target"
+  else
+    home-manager switch --flake "$flake#$target"
+  fi
+
 # Export the symmetric key for use on another machine (transfer securely, never commit).
 crypt-export key=default_crypt_key:
   #!/usr/bin/env bash
@@ -47,7 +63,7 @@ crypt-lock:
 crypt-status:
   "{{crypt}}" status -e
 
-# Confirm secrets/secrets.nix is readable (required before nix builds).
+# Confirm secrets/secrets.nix is readable (needed for hosts with work or monitoring).
 crypt-check:
   #!/usr/bin/env bash
   set -euo pipefail

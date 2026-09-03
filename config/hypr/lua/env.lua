@@ -55,6 +55,8 @@ local gpu_profiles = {
 	chaeri = {
 		LIBVA_DRIVER_NAME = "radeonsi",
 		GBM_BACKEND = "drm",
+		-- iGPU primary; dGPU must be listed so HDMI (wired to NVIDIA) scanouts
+		AQ_DRM_DEVICES = "/dev/dri/amd-igpu:/dev/dri/nvidia-dgpu",
 	},
 	default = {
 		LIBVA_DRIVER_NAME = "nvidia",

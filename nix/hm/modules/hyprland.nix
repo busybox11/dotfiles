@@ -6,6 +6,7 @@
 }:
 {
   home.file.".config/hypr".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/config/hypr";
+  home.file.".config/uwsm".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/config/uwsm";
 
   programs.hyprshot = {
     enable = true;

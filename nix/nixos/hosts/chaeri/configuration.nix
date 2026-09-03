@@ -2,21 +2,14 @@
   config,
   lib,
   pkgs,
+  machine,
   ...
 }:
-let
-  machine = rec {
-    hostName = "chaeri";
-    username = "rain";
-    dotfilesPath = "/home/${username}/.dotfiles";
-  };
-in
 {
   imports = [
     ./hardware-configuration.nix
     ../../profiles/core.nix
     ../../profiles/graphical-laptop.nix
-    (import ../../profiles/personal-machine.nix machine)
     (import ./cpu-pinning.nix machine)
   ];
 
@@ -43,6 +36,15 @@ in
   # Fixes the DC 3.2.378 Panel Replay hang; refresh may sag below 120Hz under
   boot.kernelParams = [
     "amdgpu.dcdebugmask=0x400"
+    # Force RBv2 for AOC 3440x1440: RB 772MHz@144 23.1Gbps 10bpc fits HBR3 without DSC
+    # video= syntax is <xres>x<yres>R@refresh (R before @)
+    "video=DP-9:3440x1440R@144"
+    "video=DP-1:3440x1440R@144"
+    "video=DP-2:3440x1440R@144"
+    # Also expose RB for 180 for DSC test (959MHz@180 needs DSC for 10bpc)
+    "video=DP-9:3440x1440R@180"
+    "video=DP-1:3440x1440R@180"
+    "video=DP-2:3440x1440R@180"
   ];
 
   # nvidia-open instead of nouveau; the nvidia module also blacklists
@@ -54,6 +56,7 @@ in
     modesetting.enable = true;
     powerManagement.enable = true;
     powerManagement.finegrained = true;
+    dynamicBoost.enable = true;
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.latest;
 
@@ -156,6 +159,8 @@ in
     '';
   };
   services.udev.extraRules = ''
+    KERNEL=="card[0-9]", KERNELS=="0000:65:00.0", SUBSYSTEM=="drm", SUBSYSTEMS=="pci", SYMLINK+="dri/amd-igpu"
+    KERNEL=="card[0-9]", KERNELS=="0000:64:00.0", SUBSYSTEM=="drm", SUBSYSTEMS=="pci", SYMLINK+="dri/nvidia-dgpu"
     SUBSYSTEM=="power_supply", ATTRS{type}=="Mains", RUN+="${pkgs.writeShellScript "cpu-boost-by-powersrc" ''
       if [ "$(cat /sys/class/power_supply/ACAD/online 2>/dev/null)" = "1" ]; then
         echo 1 > /sys/devices/system/cpu/cpufreq/boost 2>/dev/null || true

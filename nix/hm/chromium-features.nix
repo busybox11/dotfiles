@@ -1,5 +1,5 @@
 rec {
-  features = "ElasticOverscroll,TouchpadOverscrollHistoryNavigation";
+  features = "ElasticOverscroll,OverscrollEffectOnNonRootScrollers,TouchpadOverscrollHistoryNavigation";
   flag = "--enable-features=${features}";
 
   # session env is notably ignored by CEF (Spotify)
@@ -12,6 +12,7 @@ rec {
       postBuild = ''
         wrapProgram $out/bin/${pkg.meta.mainProgram} \
           --add-flags ${pkgs.lib.escapeShellArg flag} \
+          --add-flags "--scroll-bounce" \
           --set ELECTRON_ENABLE_FEATURES ${pkgs.lib.escapeShellArg features}
       '';
       meta = pkg.meta;

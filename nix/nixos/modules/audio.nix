@@ -4,6 +4,8 @@
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
 
+  programs.dconf.enable = true;
+
   environment.systemPackages = with pkgs; [
     alsa-utils
     pulseaudio

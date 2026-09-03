@@ -1,25 +1,14 @@
+# Daily-driver laptop: Hyprland (default session) plus GNOME and Plasma.
 {
   pkgs,
   lib,
-  kwin-effects-better-blur-dx,
   ...
 }:
 {
   imports = [
+    ./graphical-common.nix
     ../modules/sunshine.nix
-    ../modules/chromium-policies.nix
   ];
-
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-  };
-
-  programs.hyprland = {
-    enable = true;
-    withUWSM = true;
-    xwayland.enable = true;
-  };
 
   # Hyprland owns screencast/screenshot; GNOME FileChooser is Nautilus.
   xdg.portal = {
@@ -36,38 +25,18 @@
     };
   };
 
-  services.xserver.enable = true;
   services.displayManager.gdm.enable = true;
   services.displayManager.defaultSession = "hyprland-uwsm";
 
   services.desktopManager.gnome.enable = true;
-  services.desktopManager.plasma6.enable = true;
 
   services.gnome.gnome-keyring.enable = true;
   programs.seahorse.enable = true;
 
-  environment.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
-    ELECTRON_ENABLE_FEATURES = "ElasticOverscroll,TouchpadOverscrollHistoryNavigation";
-  };
-
-  # programs.ssh.askPassword = lib.mkForce "${pkgs.plasma5Packages.ksshaskpass}/bin/ksshaskpass";
   programs.ssh.askPassword = lib.mkForce "${pkgs.seahorse}/libexec/seahorse/ssh-askpass";
-
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-  security.rtkit.enable = true;
 
   services.printing.enable = true;
 
-  hardware.bluetooth.enable = true;
-  services.blueman.enable = true;
-
-  services.libinput.enable = true;
   services.power-profiles-daemon.enable = false;
   services.tlp.enable = true;
   services.tlp.settings.START_CHARGE_THRESH_BAT0 = 85;
@@ -78,41 +47,9 @@
 
   services.logind.settings.Login.HandleLidSwitch = "suspend";
 
-  zramSwap.enable = true;
-
-  services.xserver.xkb = {
-    layout = "fr";
-    variant = "";
-  };
-  console.keyMap = "fr";
-
-  networking.networkmanager.enable = true;
-  networking.firewall.enable = false;
-
-  hardware.enableRedistributableFirmware = true;
-
   environment.systemPackages = with pkgs; [
-    libva-utils
     lm_sensors
     nvtopPackages.full
-
-    # Hyprland environment
-    uwsm
-    swaybg
-    hyprsunset
-    hyprlock
-    hyprpolkitagent
-    networkmanagerapplet
-    swayosd
-    eww
-    vicinae
-    pulseaudio
-    pwvucontrol
-
-    # Plasma: force-blur transparent windows (Zen, etc.)
-    kwin-effects-better-blur-dx.packages.${pkgs.system}.default
-
-    # keyring
     libsecret
     seahorse
   ];
@@ -121,6 +58,6 @@
     sudo.nodelay = true;
 
     gdm.enableGnomeKeyring = true;
-    hyprlock.enableGnomeKeyring = true; # Allows unlocking via hyprlock
+    hyprlock.enableGnomeKeyring = true;
   };
 }

@@ -10,13 +10,12 @@ let
     self
     zen-browser
     helium-browser
-    nur
     apple-fonts
     nix-vscode-extensions
     vscode-server
-    nix-flatpak
     kwin-effects-better-blur-dx
     twintail-nix
+    nur
     ;
   lib = nixpkgs.lib;
 
@@ -36,6 +35,14 @@ let
       inherit overlays;
     };
 
+  hmModulesFor =
+    machine:
+    (lib.optional ((machine.hmProfile or "common") == "graphical") ../hm/profiles/graphical.nix)
+    ++ (lib.optional ((machine.hmProfile or "common") == "darwin") ../hm/profiles/darwin.nix)
+    ++ (lib.optional (machine.features.work or false) ../hm/modules/work.nix)
+    ++ (lib.optional (machine.features.twintail or false) ../hm/modules/twintail.nix);
+  # ++ (lib.optional (machine.features.hypridle or false) ../hm/modules/hypridle.nix);
+
   mkHome =
     {
       system,
@@ -44,7 +51,11 @@ let
       dotfilesPath,
       flakeHost,
       extraModules ? [ ],
-    }:
+      hmProfile ? "common",
+      features ? { },
+      nestedInNixOS ? false,
+      ...
+    }@machine:
     home-manager.lib.homeManagerConfiguration {
       pkgs = pkgsFor system;
 
@@ -52,6 +63,7 @@ let
         ../hm/default.nix
         ../hm/from-flake-local.nix
       ]
+      ++ hmModulesFor machine
       ++ extraModules;
 
       extraSpecialArgs = {
@@ -64,35 +76,46 @@ let
           local
           zen-browser
           helium-browser
-          nur
-          hosts
           vscode-server
-          nix-flatpak
           twintail-nix
+          nestedInNixOS
           ;
-        fontsManagedByNixOS = builtins.hasAttr flakeHost hosts;
       };
     };
 
   mkNixOS =
     hostName:
+    let
+      machine = hosts.${hostName} // {
+        inherit hostName;
+      };
+    in
     nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
+      system = machine.system;
       specialArgs = {
         inherit
           self
-          hosts
           local
           zen-browser
           helium-browser
           vscode-server
-          nix-flatpak
           kwin-effects-better-blur-dx
           twintail-nix
+          machine
           ;
       };
       modules = [
         home-manager.nixosModules.home-manager
+        (import ../nixos/profiles/personal-machine.nix {
+          inherit (machine)
+            hostName
+            username
+            dotfilesPath
+            homeDirectory
+            ;
+          hmExtraModules = hmModulesFor machine;
+          monitoring = machine.features.monitoring or true;
+        })
         ../nixos/hosts/${hostName}/configuration.nix
         { nixpkgs.overlays = overlays; }
       ];
@@ -113,9 +136,11 @@ let
           homeDirectory = darwinLocal.homeDirectory;
           dotfilesPath = darwinLocal.dotfilesPath;
           flakeHost = "darwin";
-          extraModules = [
-            ../hm/profiles/darwin.nix
-          ];
+          hmProfile = "darwin";
+          features = {
+            work = true;
+          };
+          nestedInNixOS = false;
         };
       }
     else

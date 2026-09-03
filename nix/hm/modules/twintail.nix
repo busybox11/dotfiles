@@ -1,20 +1,16 @@
 # Native TwintailLauncher (github:madebycli/twintail-nix).
 #
-# Replaces the former Flatpak install (flatpak-twintail.nix). The package is
-# built from the official TwintailTeam .deb inside an FHS environment — no
-# source build, no Flatpak sandbox. Launcher-managed state moves from the
-# Flatpak data dir (~/.var/app/app.twintaillauncher.ttl) to the standard
-# ~/.local/share/twintaillauncher.
+# Imported only for hosts with features.twintail (see nix/hosts.nix).
 {
-  flakeHost,
-  lib,
   pkgs,
   twintail-nix,
   ...
 }:
 {
-  home.packages = lib.mkIf (builtins.elem flakeHost [ "chaeri" ]) [
+  home.packages = [
     twintail-nix.packages.${pkgs.system}.twintaillauncher
     pkgs.gamescope
+
+    pkgs.tetrio-desktop
   ];
 }

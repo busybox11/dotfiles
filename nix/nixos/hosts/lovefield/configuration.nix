@@ -1,17 +1,9 @@
-{ lib, ... }:
-let
-  machine = rec {
-    hostName = "lovefield";
-    username = "rain";
-    dotfilesPath = "/home/${username}/build/dotfiles";
-  };
-in
+{ lib, machine, ... }:
 {
   imports = [
     ./hardware-configuration.nix
     ../../profiles/core.nix
     ../../profiles/headless-laptop.nix
-    (import ../../profiles/personal-machine.nix machine)
     (import ../../modules/music-stack.nix machine.username)
     ../../modules/audio.nix
     ../../modules/usbip.nix
