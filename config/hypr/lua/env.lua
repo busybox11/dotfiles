@@ -51,13 +51,24 @@ set_env({
 	EGL_PLATFORM = "wayland",
 })
 
-local gpu_profiles = {
-	chaeri = {
+local function amd_igpu_primary()
+	local profile = {
 		LIBVA_DRIVER_NAME = "radeonsi",
 		GBM_BACKEND = "drm",
-		-- iGPU primary; dGPU must be listed so HDMI (wired to NVIDIA) scanouts
-		AQ_DRM_DEVICES = "/dev/dri/amd-igpu:/dev/dri/nvidia-dgpu",
-	},
+	}
+	-- Skip AQ_DRM_DEVICES until udev symlinks exist
+	local f = io.open("/dev/dri/amd-igpu", "r")
+	if f then
+		f:close()
+		-- nvidia dGPU listed but not used if disabled / hidden by cardwire
+		profile.AQ_DRM_DEVICES = "/dev/dri/amd-igpu:/dev/dri/nvidia-dgpu"
+	end
+	return profile
+end
+
+local gpu_profiles = {
+	chaeri = amd_igpu_primary(),
+	bitcrusher = amd_igpu_primary(),
 	default = {
 		LIBVA_DRIVER_NAME = "nvidia",
 		GBM_BACKEND = "nvidia-drm",
