@@ -15,6 +15,9 @@ elif [ "$hostname" = "realbox" ]; then
 elif [ "$hostname" = "powerbox" ]; then
   cpu_path="/sys/devices/platform/asus-nb-wmi/hwmon/hwmon4/fan1_input"
   gpu_path="/sys/devices/platform/asus-nb-wmi/hwmon/hwmon4/fan2_input"
+elif [ "$hostname" = "bitcrusher" ]; then
+  cpu_path="/sys/devices/platform/asus-nb-wmi/hwmon/hwmon5/fan1_input"
+  gpu_path="/sys/devices/platform/asus-nb-wmi/hwmon/hwmon5/fan2_input"
 fi
 
 cpu_speed=$(cat "${cpu_path:-}" 2>/dev/null || echo 0)
