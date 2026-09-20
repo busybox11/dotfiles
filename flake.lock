@@ -16,11 +16,11 @@
         "sf-pro": "sf-pro"
       },
       "locked": {
-        "lastModified": 1787373040,
-        "narHash": "sha256-mSpL69LSAA/+cQx+v9tC2XC/DD7cUepUmhiMx0/Hw64=",
+        "lastModified": 1789419105,
+        "narHash": "sha256-T5A/AqlF4iL908aIZh45e35Mvj8lTJKq8ddS5bk7nd8=",
         "owner": "Lyndeno",
         "repo": "apple-fonts.nix",
-        "rev": "69f20e9ba294420e4b6407a827c6b5aea3afcc12",
+        "rev": "3861e2249cb244bfbc7cfab2303c152cf5f9d9e9",
         "type": "github"
       },
       "original": {
@@ -86,11 +86,11 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1788395115,
-        "narHash": "sha256-7sprixDLchHgjQt1yNoc91d0L0lnbd1VUb3OPZpsIJk=",
+        "lastModified": 1789404474,
+        "narHash": "sha256-UXFQ7tFiwn8sPz0EV4CBB2PCf/ZiGIHWn/6MXk81Lxs=",
         "owner": "serokell",
         "repo": "deploy-rs",
-        "rev": "a591d4600e8ada8b22489093ebf50337f4d98065",
+        "rev": "e760371d631165e7d8de5b0dcf148e21ec4c16f0",
         "type": "github"
       },
       "original": {
@@ -161,11 +161,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1788352463,
-        "narHash": "sha256-zg16XfEJUoyhdCTRJqwp3qaicSD36RvgbYMo3+7FQKI=",
+        "lastModified": 1789820247,
+        "narHash": "sha256-CB/ZmtlGbdqHZV8yBBVb4kjyDBlZkocMDAbJgy/L2QU=",
         "owner": "oxcl",
         "repo": "nix-flake-helium-browser",
-        "rev": "a54b81f092155f9ff0aaa24b1d6fc5aab8bbccef",
+        "rev": "31b2af977177d347db89d69fac4fe5c44b852007",
         "type": "github"
       },
       "original": {
@@ -181,11 +181,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1788458226,
-        "narHash": "sha256-UZTAlg8iKVEmyEXakzKmukrzFIKrXezYsRy9vajDrGw=",
+        "lastModified": 1789867870,
+        "narHash": "sha256-sOag/7DTqw4tXLI7UxjrZxPGV+dlTe6zFtJn0VSkgFM=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "aa308770461dcf22c333a5e8a31c8bddbde5bee9",
+        "rev": "d2a22a3659a6ae99847ea9176114f6957b8ac62e",
         "type": "github"
       },
       "original": {
@@ -202,11 +202,11 @@
         "utils": "utils_2"
       },
       "locked": {
-        "lastModified": 1786045873,
-        "narHash": "sha256-2s0wSFq3yQ7zXxgt7GxRn8d6qJ02X3hMVEAciyFBPBA=",
+        "lastModified": 1789073086,
+        "narHash": "sha256-8/Y21fJFUDAM5GiahOBHxFXVOqhHEzhFmO5WC+Loi6Q=",
         "owner": "xarblu",
         "repo": "kwin-effects-better-blur-dx",
-        "rev": "4f659e86b933111f757e25ba4b04e53188684c68",
+        "rev": "3d8c1a8fb05393f944751665775676955d040b89",
         "type": "github"
       },
       "original": {
@@ -238,11 +238,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1788408011,
-        "narHash": "sha256-VErLyHIT3U4x64a2G6J6wplB4yDPIpMXlhUpBjUMNEE=",
+        "lastModified": 1789878347,
+        "narHash": "sha256-AoRUHURYJ+stIqu4Q1dupCUuHwyCYlyXrrbi3XUY3ww=",
         "owner": "nix-community",
         "repo": "nix-vscode-extensions",
-        "rev": "f848614222a7ef023998450a6f6773e10f8adf83",
+        "rev": "5ca68735943dfdd2cc05f54d6899848167f86f11",
         "type": "github"
       },
       "original": {
@@ -253,11 +253,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1788316716,
-        "narHash": "sha256-bc7rSpXIdn9QWGNqfWcPZWOhEVF8NoeAZkWq0XWnf/k=",
+        "lastModified": 1789785513,
+        "narHash": "sha256-B44WL6h0XoLjJ41bUPJk0X5SDinLCII//6EcBLXKiJ0=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "3ed67ec0a4d3c7ab4ae1f04f8ee8df07bfa506a2",
+        "rev": "20b1ddd1aa5ace70c9468305030aa4f9ef79671b",
         "type": "github"
       },
       "original": {
@@ -290,11 +290,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1788472390,
-        "narHash": "sha256-MQdiQ8bA6RfQmdGYpq7f3jAETXssW0dymSGdM4ydtYU=",
+        "lastModified": 1789914634,
+        "narHash": "sha256-ciXOsQRjYqsPClZQsGjXDyDShz1GK/A5oFgZSh5t45A=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "b5a8c3e329cd929599d7fffea2023617fc1b62f2",
+        "rev": "7553448f6722263edd5d4d9d920dcf2fa49bed35",
         "type": "github"
       },
       "original": {
@@ -318,7 +318,7 @@
     "opencode2-darwin-arm64": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-dj/pR5Lmkf5MZsG3c+K7Y+JBu4b/3Eh4/tAy4jS4/CE=",
+        "narHash": "sha256-vN7GSOQ+kxY2uLAv4QXLdR9R3eGIFgC89/N25fdrAc0=",
         "type": "file",
         "url": "https://registry.npmjs.org/@opencode-ai%2fcli-darwin-arm64/beta"
       },
@@ -330,7 +330,7 @@
     "opencode2-darwin-x64": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-2OaPj3geZ60KMMOJBPFm8hpyKVHB9BXCACHwOvVuRnA=",
+        "narHash": "sha256-dT1dU7liV6eXV/FsmFXiI5q0+LEG8dKn9Pv8mahHuEw=",
         "type": "file",
         "url": "https://registry.npmjs.org/@opencode-ai%2fcli-darwin-x64/beta"
       },
@@ -342,7 +342,7 @@
     "opencode2-linux-arm64": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-CIA3hRSZbLI8ml5QMtuT8R3M+NmmKkE9u2FVrzXHqNM=",
+        "narHash": "sha256-n7H57fsduoj9d041i7VdJeYT4HbhcU0Q/B2VXO9JlBI=",
         "type": "file",
         "url": "https://registry.npmjs.org/@opencode-ai%2fcli-linux-arm64/beta"
       },
@@ -354,7 +354,7 @@
     "opencode2-linux-x64": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-Z9mpLAb71PV6xco9oyDCyBuhPZFWaAcOFYhqtbW6Xqs=",
+        "narHash": "sha256-5XHCmJe2P9BcoHdrrsOBwEcJ2Z4/6L8tm9IWS92pwEc=",
         "type": "file",
         "url": "https://registry.npmjs.org/@opencode-ai%2fcli-linux-x64/beta"
       },
@@ -410,7 +410,7 @@
     "sf-compact": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-83JwqfF9O4+gemMQXWHLRg2GNz2jHxsej1F1IkM2dug=",
+        "narHash": "sha256-KjCzuJOrNxgptsMLGaR8wcrU/bBxCpwtUGzGDcCxJTc=",
         "type": "file",
         "url": "https://devimages-cdn.apple.com/design/resources/download/SF-Compact.dmg"
       },
@@ -458,7 +458,7 @@
     "sf-pro": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-vINUEMyFmNzZRBOX2aQ4heScWur6RyA/MPmsqlMPIx4=",
+        "narHash": "sha256-dvGLO786y9ygKRSKDJlhIF6AGmn2NTJ5tBulKinPRxY=",
         "type": "file",
         "url": "https://devimages-cdn.apple.com/design/resources/download/SF-Pro.dmg"
       },
@@ -505,11 +505,11 @@
         "twintail_x86_64": "twintail_x86_64"
       },
       "locked": {
-        "lastModified": 1788232702,
-        "narHash": "sha256-kW3Y4b0si+ag57h1xmB98Gd76Uc/Vp0zJ86yIX7qSi4=",
+        "lastModified": 1789893036,
+        "narHash": "sha256-sW/4DxlgaOcZ774VIREznnvpomeTTdRaGzhtesZ349s=",
         "owner": "madebycli",
         "repo": "twintail-nix",
-        "rev": "2cc83c7bcce6570d7caac399cfde37d9ecd2a5ad",
+        "rev": "13dedd08faa20e476d56ca26037b3981dea79e8c",
         "type": "github"
       },
       "original": {
@@ -521,13 +521,13 @@
     "twintail_x86_64": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-4OY+2X8N/0EuPUODDqOipmF4NfjezQ35IpYeMswBkOo=",
+        "narHash": "sha256-F3NgzyTx75hqfKaWqEQgpA3WIiJFl+148Xuq5gAkZ8s=",
         "type": "file",
-        "url": "https://github.com/TwintailTeam/TwintailLauncher/releases/download/ttl-v2.4.0/twintaillauncher_2.4.0_amd64.deb"
+        "url": "https://github.com/TwintailTeam/TwintailLauncher/releases/download/ttl-v2.5.0/twintaillauncher_2.5.0_amd64.deb"
       },
       "original": {
         "type": "file",
-        "url": "https://github.com/TwintailTeam/TwintailLauncher/releases/download/ttl-v2.4.0/twintaillauncher_2.4.0_amd64.deb"
+        "url": "https://github.com/TwintailTeam/TwintailLauncher/releases/download/ttl-v2.5.0/twintaillauncher_2.5.0_amd64.deb"
       }
     },
     "utils": {
@@ -594,11 +594,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1788405419,
-        "narHash": "sha256-wuGizAVEmY0u15MYrhgy7AoQdHg+4Y2QiC+v/mxA8dc=",
+        "lastModified": 1789763453,
+        "narHash": "sha256-odKtnVD85ongiMfagtRXMdTQJoSmQHzmEBAH27QmFms=",
         "owner": "0xc000022070",
         "repo": "zen-browser-flake",
-        "rev": "fdb83f8fce835213fab7eab52c375926fe1a32dc",
+        "rev": "812a7ed1e6aa4ad468b4f9fd0d2bf908d52cf102",
         "type": "github"
       },
       "original": {

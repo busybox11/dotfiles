@@ -11,6 +11,10 @@
     ../../profiles/graphical-laptop.nix
   ];
 
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   boot.blacklistedKernelModules = [
     "nouveau"
     "nvidiafb"
@@ -20,56 +24,58 @@
     options nouveau modeset=0
   '';
 
-  systemd.services.asus-dgpu = {
-    description = "ASUS dGPU power gate (asus-nb-wmi)";
+  systemd.services.asus-dgpu-enable = {
+    description = "Ensure ASUS dGPU is powered for nvidia/cardwire";
     wantedBy = [ "multi-user.target" ];
-    before = [ "display-manager.service" ];
+    before = [
+      "display-manager.service"
+      "cardwired.service"
+    ];
     unitConfig.ConditionPathExists = "/sys/devices/platform/asus-nb-wmi/dgpu_disable";
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
-      ExecStart = pkgs.writeShellScript "asus-dgpu-off" ''
-        echo 1 > /sys/devices/platform/asus-nb-wmi/dgpu_disable
+      ExecStart = pkgs.writeShellScript "asus-dgpu-on" ''
+        echo 0 > /sys/devices/platform/asus-nb-wmi/dgpu_disable
       '';
     };
   };
 
-  specialisation.nvidia.configuration = {
-    system.nixos.tags = [ "nvidia" ];
+  services.xserver.videoDrivers = [ "nvidia" ];
 
-    # EC sometimes keeps dgpu_disable=1 across reboot
-    # clear it before the nvidia stack binds
-    systemd.services.asus-dgpu.serviceConfig.ExecStart = lib.mkForce (
-      pkgs.writeShellScript "asus-dgpu-on" ''
-        echo 0 > /sys/devices/platform/asus-nb-wmi/dgpu_disable
-      ''
-    );
+  hardware.nvidia = {
+    open = true;
+    modesetting.enable = true;
+    powerManagement.enable = true;
+    powerManagement.finegrained = true;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.latest;
 
-    services.xserver.videoDrivers = [ "nvidia" ];
-
-    hardware.nvidia = {
-      open = true;
-      modesetting.enable = true;
-      powerManagement.enable = true;
-      powerManagement.finegrained = true;
-      nvidiaSettings = true;
-      package = config.boot.kernelPackages.nvidiaPackages.latest;
-
-      prime = {
-        offload = {
-          enable = true;
-          enableOffloadCmd = true;
-        };
-        # lspci: 01:00.0 NVIDIA, 06:00.0 AMD
-        nvidiaBusId = "PCI:1:0:0";
-        amdgpuBusId = "PCI:6:0:0";
+    prime = {
+      offload = {
+        enable = true;
+        enableOffloadCmd = true;
       };
+      # lspci: 01:00.0 NVIDIA, 06:00.0 AMD
+      nvidiaBusId = "PCI:1:0:0";
+      amdgpuBusId = "PCI:6:0:0";
     };
   };
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  services.cardwired = {
+    enable = true;
+    settings = {
+      auto_apply_gpu_state = true;
+      battery_auto_switch = false;
+    };
+  };
+
+  services.asusd.enable = true;
+
+  services.udev.extraRules = ''
+    KERNEL=="card[0-9]", KERNELS=="0000:06:00.0", SUBSYSTEM=="drm", SUBSYSTEMS=="pci", SYMLINK+="dri/amd-igpu"
+    KERNEL=="card[0-9]", KERNELS=="0000:01:00.0", SUBSYSTEM=="drm", SUBSYSTEMS=="pci", SYMLINK+="dri/nvidia-dgpu"
+  '';
 
   networking.useDHCP = lib.mkDefault true;
 
