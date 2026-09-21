@@ -29,14 +29,25 @@ local hostname = read_hostname()
 
 -- work monitors
 hl.monitor({
+	output = "desc:LG Display 0x0738",
+	mode = "1920x1080@120",
+	scale = 1,
+	position = "0x0",
+})
+hl.monitor({
 	output = "desc:Dell Inc. DELL E2211H NJ91T19Q584U",
 	mode = "1920x1080@60",
 	position = "2400x0",
 })
 hl.monitor({
+	output = "desc:Philips Consumer Electronics Company 222S9 UK02435068302",
+	mode = "1920x1080@75",
+	position = "1920x0",
+})
+hl.monitor({
 	output = "desc:Dell Inc. DELL E2210H D553R0961DJU",
 	mode = "1920x1080@60",
-	position = "4320x0",
+	position = "3840x0",
 })
 
 hl.monitor({
