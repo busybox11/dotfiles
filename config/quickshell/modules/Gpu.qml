@@ -7,34 +7,32 @@ Monitor {
 
   property string backend: ""
   property string sysfsPath: ""
-  property var prevRc6: null
+  property int intelCol: -1
 
   icon: "󰇄"
   style: "graph"
 
-  function parseSysfs(text) {
-    if (root.backend === "busy") {
-      const val = Number(String(text).trim().split("\n")[0]);
-      if (!Number.isNaN(val))
-        root.pushSample(val);
+  function parseBusy(text) {
+    const val = Number(String(text).trim().split("\n")[0]);
+    if (!Number.isNaN(val))
+      root.pushSample(val);
+  }
+
+  function parseIntelCsv(line) {
+    const cols = String(line).trim().split(",");
+    if (cols.length < 2)
       return;
+
+    if (root.intelCol < 0) {
+      const i = cols.findIndex(c => /RCS|Render/i.test(c));
+      root.intelCol = i >= 0 ? i : 6;
+      if (i >= 0)
+        return;
     }
 
-    if (root.backend !== "rc6")
-      return;
-
-    const ms = Number(String(text).trim());
-    if (Number.isNaN(ms))
-      return;
-
-    const t = Date.now();
-    if (root.prevRc6) {
-      const dRc6 = ms - root.prevRc6.ms;
-      const dWall = t - root.prevRc6.t;
-      if (dWall > 0)
-        root.pushSample(Math.min(100, Math.max(0, (1 - dRc6 / dWall) * 100)));
-    }
-    root.prevRc6 = { ms, t };
+    const val = Number(cols[root.intelCol]);
+    if (!Number.isNaN(val))
+      root.pushSample(val);
   }
 
   Process {
@@ -42,8 +40,9 @@ Monitor {
       `for p in /sys/class/drm/card[0-9]/device/gpu_busy_percent; do
          [ -r "$p" ] && { printf 'busy:%s' "$p"; exit 0; }
        done
-       for p in /sys/class/drm/card[0-9]/gt/gt0/rc6_residency_ms /sys/class/drm/card[0-9]/power/rc6_residency_ms; do
-         [ -r "$p" ] && { printf 'rc6:%s' "$p"; exit 0; }
+       for p in /sys/class/drm/card[0-9]/device/vendor; do
+         [ -r "$p" ] || continue
+         [ "$(cat "$p")" = "0x8086" ] && { printf intel; exit 0; }
        done
        printf nvidia`]
     running: true
@@ -55,7 +54,7 @@ Monitor {
           root.backend = out.slice(0, i);
           root.sysfsPath = out.slice(i + 1);
         } else {
-          root.backend = "nvidia";
+          root.backend = out || "nvidia";
           root.sysfsPath = "";
         }
       }
@@ -65,18 +64,22 @@ Monitor {
   FileView {
     id: sysfsFile
     path: root.sysfsPath
-    onLoaded: root.parseSysfs(text())
+    onLoaded: root.parseBusy(text())
+  }
+
+  Process {
+    running: root.backend === "intel"
+    command: ["stdbuf", "-oL", "intel_gpu_top", "-c", "-s", "1000", "-o", "-"]
+    stdout: SplitParser {
+      onRead: line => root.parseIntelCsv(line)
+    }
   }
 
   Process {
     id: nvidiaProc
     command: ["nvidia-smi", "--query-gpu=utilization.gpu", "--format=csv,noheader,nounits"]
     stdout: StdioCollector {
-      onStreamFinished: {
-        const val = Number(String(this.text.trim()).split("\n")[0]);
-        if (!Number.isNaN(val))
-          root.pushSample(val);
-      }
+      onStreamFinished: root.parseBusy(this.text)
     }
   }
 

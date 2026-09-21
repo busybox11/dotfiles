@@ -17,6 +17,8 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  hardware.intel-gpu-tools.enable = true;
+
   networking.useDHCP = lib.mkDefault true;
 
   users.users.root.openssh.authorizedKeys.keys = [

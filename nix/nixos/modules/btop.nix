@@ -3,7 +3,7 @@ let
   btop = import ../../common/btop-package.nix { inherit pkgs; };
 in
 {
-  # Intel iGPU (and CPU RAPL) metrics go through perf events.
+  # Intel iGPU / CPU RAPL via perf events.
   security.wrappers.btop = {
     owner = "root";
     group = "root";
