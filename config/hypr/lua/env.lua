@@ -66,9 +66,17 @@ local function amd_igpu_primary()
 	return profile
 end
 
+local function intel_igpu()
+	return {
+		LIBVA_DRIVER_NAME = "iHD",
+		GBM_BACKEND = "drm",
+	}
+end
+
 local gpu_profiles = {
 	chaeri = amd_igpu_primary(),
 	bitcrusher = amd_igpu_primary(),
+	voidroid = intel_igpu(),
 	default = {
 		LIBVA_DRIVER_NAME = "nvidia",
 		GBM_BACKEND = "nvidia-drm",
