@@ -21,6 +21,7 @@
 {
   imports = [
     ../modules/fonts.nix
+    ../modules/btop.nix
     (import ../modules/superbird.nix username)
     (import ../modules/docker.nix username)
   ]

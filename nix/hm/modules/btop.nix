@@ -2,14 +2,7 @@
 {
   programs.btop = {
     enable = true;
-    package =
-      if pkgs.stdenv.hostPlatform.isLinux then
-        pkgs.btop.override {
-          cudaSupport = true;
-          rocmSupport = true;
-        }
-      else
-        pkgs.btop;
+    package = import ../../common/btop-package.nix { inherit pkgs; };
     settings = {
       graph_symbol = "braille";
       gpu_mirror = true;
